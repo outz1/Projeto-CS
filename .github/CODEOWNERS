@@ -1,0 +1,6 @@
+# Regra global — qualquer PR precisa de aprovação de um líder
+* @usuario-lider-frontend @usuario-lider-backend
+
+# Ou por pasta, se quiser separar times:
+/frontend/  @usuario-lider-frontend
+/backend/   @usuario-lider-backend
