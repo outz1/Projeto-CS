@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deps          # Em dev, para na etapa de deps
+    volumes:
+      - .:/app              # Monta o código local no container
+      - /app/node_modules   # Preserva o node_modules do container
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
+  # Se precisar de banco futuramente, é só adicionar aqui
+  # db:
+  #   image: postgres:16-alpine
+  #   ...
