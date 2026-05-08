@@ -1,20 +1,26 @@
+import type { CSSProperties } from "react";
 import { matrixColumns } from "./config";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-[#0b2a67] to-[#0e3b8a] px-4 pb-12 pt-5 sm:px-6 md:px-8 md:pt-10 lg:px-12">
-      <div className="matrix-layer matrix-fade-mask pointer-events-none absolute inset-0 z-10 bg-blue-900/35" aria-hidden="true">
+    <section className="relative flex min-h-[100dvh] items-center overflow-hidden bg-linear-to-b from-[#0b2a67] to-[#0e3b8a] px-4 pb-12 pt-20 sm:px-6 sm:pt-24 md:px-8 md:pt-28 lg:px-12">
+      <div
+        className="matrix-layer matrix-fade-mask pointer-events-none absolute inset-0 z-10 bg-blue-900/35"
+        aria-hidden="true"
+      >
         <div className="matrix-rain">
           {matrixColumns.map((column) => (
             <span
               key={column.id}
               className="matrix-column"
-              style={{
-                left: `${column.left}%`,
-                animationDuration: `${column.duration}s`,
-                animationDelay: `-${column.delay}s`,
-                opacity: column.opacity,
-              }}
+              style={
+                {
+                  left: `${column.left}%`,
+                  animationDuration: `${column.duration}s`,
+                  animationDelay: `-${column.delay}s`,
+                  "--matrix-opacity": column.opacity,
+                } as CSSProperties
+              }
             >
               {column.stream}
             </span>
@@ -50,7 +56,7 @@ export function HeroSection() {
             <span className="block text-2xl sm:text-3xl md:text-4xl">VIDA COMEÇA AQUI!</span>
           </h1>
           <article className="max-w-[680px] rounded-xl border border-[#9ab9ff]/55 bg-[#d6e5ff]/90 p-4 text-sm leading-relaxed text-[#0b1d4d] shadow-lg shadow-[#0b1d4d]/20 sm:p-5 sm:text-base">
-            O EVENTO “ESPAÇO DAS PROFISSÕES” DA UFG OCORRE ANUALMENTE NO PRIMEIRO SEMESTRE E
+            O EVENTO ESPAÇO DAS PROFISSÕES DA UFG OCORRE ANUALMENTE NO PRIMEIRO SEMESTRE E
             OFERECE A ESTUDANTES DO ENSINO MÉDIO INFORMAÇÕES SOBRE CURSOS, FORMAS DE INGRESSO,
             APOIO ESTUDANTIL E POSSIBILIDADES DE CARREIRA, AUXILIANDO NA ESCOLHA DA GRADUAÇÃO E
             DA FUTURA PROFISSÃO.

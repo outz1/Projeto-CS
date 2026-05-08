@@ -33,7 +33,9 @@ function getFaceStyle(offset: number, isMobile: boolean) {
   const isActive = offset === 0;
   const direction = offset > 0 ? 1 : -1;
   const clampedDepth = Math.min(absOffset, 2);
-  const sideOffset = isMobile ? (absOffset === 1 ? 96 : 150) : absOffset === 1 ? 210 : 320;
+  const sideOffset = isMobile
+    ? absOffset === 1 ? 96 : 150
+    : absOffset === 1 ? 210 : 320;
 
   return {
     zIndex: isActive ? 30 : 20 - absOffset,
@@ -63,15 +65,22 @@ export function AreasCorrelatasCube() {
   return (
     <section
       id="areas-correlatas"
+      // overflow-x-hidden fica APENAS aqui na section — suficiente para conter
+      // o overflow no mobile sem cortar os cards 3D laterais no desktop.
       className="scroll-mt-24 mx-auto min-h-[85svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-14 sm:px-6 md:px-8 lg:px-12"
     >
       <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
         AREAS CORRELATAS
       </h2>
 
-      <div className="carousel-safe w-full overflow-x-hidden">
+      {/*
+        CORREÇÃO: removidos overflow-x-hidden do wrapper .carousel-safe e do div
+        relativo interno. Esses overflow intermediários cortavam os cards laterais
+        rotacionados no desktop. A section pai já limita o overflow no mobile.
+      */}
+      <div className="w-full">
         <div
-          className="relative mx-auto h-[470px] w-full max-w-[1200px] overflow-x-hidden md:h-[520px]"
+          className="relative mx-auto h-[470px] w-full max-w-[1200px] md:h-[520px]"
           style={{ perspective: "1600px", transformStyle: "preserve-3d" }}
         >
           <motion.div
@@ -79,7 +88,7 @@ export function AreasCorrelatasCube() {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.1}
             onDragEnd={onDragEnd}
-            className="relative h-full w-full cursor-grab overflow-x-hidden active:cursor-grabbing"
+            className="relative h-full w-full cursor-grab active:cursor-grabbing"
             style={{ transformStyle: "preserve-3d" }}
           >
             {visibleOrder.map(({ item, idx, offset }) => {
@@ -90,7 +99,7 @@ export function AreasCorrelatasCube() {
                   initial={false}
                   animate={face}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="absolute inset-y-0 left-0 right-0 my-auto h-[340px] w-full max-w-[min(100vw-2rem,28.75rem)] rounded-[2rem] border border-[#8eb1ff]/55 bg-[#d8e6ff]/92 p-6 backdrop-blur-sm sm:max-w-[28.75rem] sm:p-7"
+                  className="absolute inset-y-0 left-0 right-0 mx-auto my-auto h-[340px] w-full max-w-[min(100vw-2rem,28.75rem)] rounded-[2rem] border border-[#8eb1ff]/55 bg-[#d8e6ff]/92 p-6 backdrop-blur-sm sm:max-w-[28.75rem] sm:p-7"
                   style={{
                     transformStyle: "preserve-3d",
                     pointerEvents: offset === 0 ? "auto" : "none",

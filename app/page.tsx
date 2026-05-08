@@ -11,11 +11,11 @@ import {
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-linear-to-b from-[#dfe9ff] via-[#d0e1ff] to-[#c2d8ff] text-[#0b1d4d]">
+    <div className="relative min-h-screen bg-white text-[#0b1d4d]">
       <Header />
 
-      <main className="pb-16 pt-20">
         <HeroSection />
+      <main className="pb-16 pt-20">
         <InfSection />
         <CursoSection />
         <AreasSection />
