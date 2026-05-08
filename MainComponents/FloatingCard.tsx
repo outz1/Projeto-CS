@@ -30,7 +30,7 @@ export const FloatingCard = forwardRef<HTMLElement, FloatingCardProps>(
       <article
         ref={ref}
         aria-hidden="true"
-        className="floating-card pointer-events-none absolute left-1/2 top-1/2 h-[var(--card-height)] w-[var(--card-width)] overflow-hidden rounded-[28px] border border-cyan-200/25 bg-indigo-600/70 p-6 text-white shadow-[0_34px_120px_rgba(31,38,135,0.55)] backdrop-blur-xl sm:p-7"
+        className="floating-card pointer-events-none absolute left-1/2 top-1/2 h-[var(--card-height)] w-[var(--card-width)] overflow-hidden rounded-[28px] border border-[#9ec2ff]/40 bg-[#1e4db2]/72 p-6 text-white shadow-[0_34px_120px_rgba(15,45,120,0.6)] backdrop-blur-xl sm:p-7"
         style={{
           "--card-width": card.width,
           "--card-height": card.height,
@@ -39,11 +39,11 @@ export const FloatingCard = forwardRef<HTMLElement, FloatingCardProps>(
         <div
           className="absolute inset-0 opacity-90"
           style={{
-            background: `linear-gradient(135deg, ${card.accent}, rgba(79, 70, 229, 0.86) 52%, rgba(14, 165, 233, 0.72))`,
+            background: `linear-gradient(135deg, ${card.accent}, rgba(41, 85, 186, 0.88) 52%, rgba(54, 143, 236, 0.74))`,
           }}
         />
         <div className="absolute inset-x-4 top-3 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
-        <div className="card-glow absolute -right-10 -top-14 h-44 w-44 rounded-full bg-white/20 blur-3xl" />
+        <div className="card-glow absolute -right-10 -top-14 h-44 w-44 rounded-full bg-[#dbe9ff]/25 blur-3xl" />
         <div className="absolute bottom-5 left-6 right-6 h-px bg-gradient-to-r from-white/50 via-transparent to-white/25" />
 
         <div className="relative flex h-full flex-col justify-between">
@@ -51,7 +51,7 @@ export const FloatingCard = forwardRef<HTMLElement, FloatingCardProps>(
             <span className="text-4xl font-semibold tracking-tight sm:text-5xl">
               {card.index}
             </span>
-            <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_18px_rgba(255,255,255,0.9)]" />
+            <span className="h-2 w-2 rounded-full bg-[#dbe9ff] shadow-[0_0_18px_rgba(219,233,255,0.95)]" />
           </div>
 
           <div>

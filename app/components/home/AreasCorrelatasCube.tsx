@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CubeItem, useCubeCarousel } from "./useCubeCarousel";
@@ -27,37 +28,50 @@ const cubeItems: CubeItem[] = [
   },
 ];
 
-function getFaceStyle(offset: number) {
+function getFaceStyle(offset: number, isMobile: boolean) {
   const absOffset = Math.abs(offset);
   const isActive = offset === 0;
   const direction = offset > 0 ? 1 : -1;
   const clampedDepth = Math.min(absOffset, 2);
+  const sideOffset = isMobile ? (absOffset === 1 ? 96 : 150) : absOffset === 1 ? 210 : 320;
 
   return {
     zIndex: isActive ? 30 : 20 - absOffset,
     opacity: isActive ? 1 : absOffset === 1 ? 0.62 : 0.2,
     scale: isActive ? 1.03 : absOffset === 1 ? 0.86 : 0.72,
     rotateY: isActive ? 0 : direction * -44,
-    x: isActive ? 0 : direction * (absOffset === 1 ? 210 : 320),
+    x: isActive ? 0 : direction * sideOffset,
     z: isActive ? 140 : 60 - clampedDepth * 40,
   };
 }
 
 export function AreasCorrelatasCube() {
   const { activeIndex, goTo, goNext, goPrev, onDragEnd, visibleOrder } = useCubeCarousel(cubeItems);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 47.99rem)");
+    const syncMobileState = (event?: MediaQueryListEvent) => {
+      setIsMobile(event ? event.matches : mediaQuery.matches);
+    };
+
+    syncMobileState();
+    mediaQuery.addEventListener("change", syncMobileState);
+    return () => mediaQuery.removeEventListener("change", syncMobileState);
+  }, []);
 
   return (
     <section
       id="areas-correlatas"
-      className="scroll-mt-24 mx-auto min-h-[85svh] w-full max-w-[1500px] px-4 py-14 sm:px-6 md:px-8 lg:px-12"
+      className="scroll-mt-24 mx-auto min-h-[85svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-14 sm:px-6 md:px-8 lg:px-12"
     >
       <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
         AREAS CORRELATAS
       </h2>
 
-      <div className="w-full overflow-visible">
+      <div className="carousel-safe w-full overflow-x-hidden">
         <div
-          className="relative mx-auto h-[470px] w-[94vw] max-w-[1200px] overflow-visible md:h-[520px]"
+          className="relative mx-auto h-[470px] w-full max-w-[1200px] overflow-x-hidden md:h-[520px]"
           style={{ perspective: "1600px", transformStyle: "preserve-3d" }}
         >
           <motion.div
@@ -65,18 +79,18 @@ export function AreasCorrelatasCube() {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.1}
             onDragEnd={onDragEnd}
-            className="relative h-full w-full cursor-grab active:cursor-grabbing"
+            className="relative h-full w-full cursor-grab overflow-x-hidden active:cursor-grabbing"
             style={{ transformStyle: "preserve-3d" }}
           >
             {visibleOrder.map(({ item, idx, offset }) => {
-              const face = getFaceStyle(offset);
+              const face = getFaceStyle(offset, isMobile);
               return (
                 <motion.article
                   key={item.title}
                   initial={false}
                   animate={face}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="absolute left-1/2 top-1/2 h-[340px] w-[85vw] max-w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border border-[#0b1d4d]/15 bg-white/95 p-6 shadow-[0_20px_55px_rgba(11,29,77,0.18)] backdrop-blur-sm sm:p-7"
+                  className="absolute inset-y-0 left-0 right-0 my-auto h-[340px] w-full max-w-[min(100vw-2rem,28.75rem)] rounded-[2rem] border border-[#8eb1ff]/55 bg-[#d8e6ff]/92 p-6 backdrop-blur-sm sm:max-w-[28.75rem] sm:p-7"
                   style={{
                     transformStyle: "preserve-3d",
                     pointerEvents: offset === 0 ? "auto" : "none",
@@ -113,7 +127,7 @@ export function AreasCorrelatasCube() {
           type="button"
           aria-label="Card anterior"
           onClick={goPrev}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0b1d4d]/25 bg-white text-[#0b1d4d] shadow-sm"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#8eb1ff]/70 bg-[#dbe9ff] text-[#0b1d4d]"
         >
           <ChevronLeft size={18} />
         </button>
@@ -137,7 +151,7 @@ export function AreasCorrelatasCube() {
           type="button"
           aria-label="Proximo card"
           onClick={goNext}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0b1d4d]/25 bg-white text-[#0b1d4d] shadow-sm"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#8eb1ff]/70 bg-[#dbe9ff] text-[#0b1d4d]"
         >
           <ChevronRight size={18} />
         </button>

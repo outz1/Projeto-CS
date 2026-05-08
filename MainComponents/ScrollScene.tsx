@@ -156,11 +156,11 @@ export function ScrollScene() {
   );
 
   return (
-    <section ref={sectionRef} className="relative h-[320vh] bg-[#050713]">
+    <section ref={sectionRef} className="relative h-[320vh] bg-[#041239]">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(37,99,235,0.18),transparent_30%),radial-gradient(circle_at_50%_78%,rgba(239,68,68,0.16),transparent_34%),linear-gradient(180deg,#070817_0%,#0a0c1f_48%,#050713_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(37,99,235,0.24),transparent_30%),radial-gradient(circle_at_50%_78%,rgba(59,130,246,0.2),transparent_34%),linear-gradient(180deg,#061241_0%,#0a2568_48%,#041239_100%)]" />
         <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.7)_1px,transparent_1px)] [background-size:72px_72px]" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 z-[11] h-[88vh] w-[min(96vw,1040px)] -translate-x-1/2 -translate-y-1/2 rounded-[38px] border border-white/6 bg-white/[0.025] shadow-[inset_0_0_80px_rgba(255,255,255,0.03)]" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 z-[11] h-[88vh] w-[min(96vw,1040px)] -translate-x-1/2 -translate-y-1/2 rounded-[38px] border border-[#9ec2ff]/20 bg-[#dbe9ff]/5 shadow-[inset_0_0_80px_rgba(158,194,255,0.08)]" />
 
         <svg
           className="pointer-events-none absolute inset-0 z-[13] hidden h-full w-full opacity-55 md:block"

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #dfe9ff;
   --foreground: #0b1d4d;
 }
 
@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ffffff;
+    --background: #dfe9ff;
     --foreground: #0b1d4d;
   }
 }
@@ -30,9 +30,29 @@ html {
   scroll-behavior: smooth;
 }
 
+.carousel-safe,
+.carousel-safe * {
+  box-sizing: border-box;
+}
+
 .matrix-fade-mask {
   -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72%, rgba(0, 0, 0, 0) 100%);
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72%, rgba(0, 0, 0, 0) 100%);
+}
+
+.matrix-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.matrix-rain {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  max-width: 1500px;
+  overflow: hidden;
 }
 
 .matrix-column {
@@ -42,8 +62,8 @@ html {
   font-size: 18px;
   line-height: 1.2;
   white-space: pre;
-  color: #0f2d7f;
-  text-shadow: 0 0 8px rgba(22, 54, 127, 0.35);
+  color: #b8d1ff;
+  text-shadow: 0 0 10px rgba(98, 141, 235, 0.5);
   animation-name: matrix-fall;
   animation-timing-function: linear;
   animation-iteration-count: infinite;

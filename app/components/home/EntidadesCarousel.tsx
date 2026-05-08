@@ -47,16 +47,16 @@ export function EntidadesCarousel() {
   const goNext = () => setActiveIndex((prev) => Math.min(entities.length - 1, prev + 1));
 
   return (
-    <div className="mx-auto w-full max-w-[920px]">
-      <div className="overflow-hidden rounded-xl">
+    <div className="carousel-safe mx-auto w-full max-w-[920px] overflow-x-hidden">
+      <div className="max-w-full overflow-x-hidden rounded-xl">
         <div
-          className="flex transition-transform duration-500 ease-out"
+          className="flex max-w-full overflow-x-hidden transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
         >
           {entities.map((entity) => (
             <article
               key={entity.name}
-              className="w-full shrink-0 rounded-xl border border-[#0b1d4d]/20 bg-white/85 p-5 sm:p-6"
+              className="min-w-full max-w-full shrink-0 rounded-xl border border-[#8eb1ff]/55 bg-[#d9e7ff]/90 p-5 sm:p-6"
             >
               <div className="mb-5 flex items-center gap-4 sm:mb-6 sm:gap-5">
                 <ImagePlaceholder className="h-20 w-20 rounded-full sm:h-24 sm:w-24" />
