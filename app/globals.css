@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020617;
+  --foreground: #f8fafc;
 }
 
 @theme inline {
@@ -12,15 +12,50 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.28);
+  color: #ffffff;
+}
+
+.floating-card,
+.main-panel {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: layout paint style;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 767px), (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .floating-card {
+    box-shadow: 0 18px 52px rgba(31, 38, 135, 0.35);
+    backdrop-filter: none;
+  }
+
+  .main-panel {
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.55);
+    backdrop-filter: none;
+  }
+
+  .card-glow {
+    display: none;
+  }
 }
