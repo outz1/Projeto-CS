@@ -8,7 +8,7 @@ services:
       - .:/app              # Monta o código local no container
       - /app/node_modules   # Preserva o node_modules do container
     ports:
-      - "3001:3000"
+      - "3004:3000"
     environment:
       - NODE_ENV=development
     command: npm run dev

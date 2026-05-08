@@ -1,61 +1,59 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --background: #ffffff;
+  --foreground: #0b1d4d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-minecraft);
+  --font-mono: var(--font-minecraft);
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--background);
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #0b1d4d;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-minecraft);
+  margin: 0;
 }
 
-* {
-  box-sizing: border-box;
+html {
+  scroll-behavior: smooth;
 }
 
-::selection {
-  background: rgba(34, 211, 238, 0.28);
-  color: #ffffff;
+.matrix-fade-mask {
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72%, rgba(0, 0, 0, 0) 100%);
 }
 
-.floating-card,
-.main-panel {
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  contain: layout paint style;
-  will-change: transform, opacity;
+.matrix-column {
+  position: absolute;
+  top: -110%;
+  font-family: var(--font-minecraft);
+  font-size: 18px;
+  line-height: 1.2;
+  white-space: pre;
+  color: #0f2d7f;
+  text-shadow: 0 0 8px rgba(22, 54, 127, 0.35);
+  animation-name: matrix-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-@media (max-width: 767px), (pointer: coarse) {
-  html {
-    scroll-behavior: auto;
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-2%);
   }
-
-  .floating-card {
-    box-shadow: 0 18px 52px rgba(31, 38, 135, 0.35);
-    backdrop-filter: none;
-  }
-
-  .main-panel {
-    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.55);
-    backdrop-filter: none;
-  }
-
-  .card-glow {
-    display: none;
+  100% {
+    transform: translateY(220%);
   }
 }
