@@ -7,22 +7,22 @@ import { CubeItem, useCubeCarousel } from "./useCubeCarousel";
 const cubeItems: CubeItem[] = [
   {
     title: "Ciencia da Computacao",
-    description: "Uso de algoritmos, logica e estruturas de dados para resolver problemas complexos.",
+    description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     accent: "from-[#1f3f91] to-[#2a56c6]",
   },
   {
     title: "Engenharia de Software",
-    description: "Desenvolvimento de sistemas e aplicacoes com foco em arquitetura e boas praticas.",
+    description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     accent: "from-[#16427d] to-[#2471b9]",
   },
   {
-    title: "Seguranca e Qualidade",
-    description: "Foco em qualidade, seguranca e eficiencia em todo o ciclo de vida dos produtos.",
+    title: "Sistemas da Informacao",
+    description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     accent: "from-[#1f4f73] to-[#2f7ca8]",
   },
   {
-    title: "Gestao da Informacao",
-    description: "Uso da tecnologia para gestao de informacoes e otimizacao de processos organizacionais.",
+    title: "Inteligencia Artificial",
+    description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     accent: "from-[#2e3f88] to-[#445fc5]",
   },
 ];

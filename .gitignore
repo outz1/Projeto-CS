@@ -28,3 +28,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+/mnt/dev-disk/cs-proj/.next_perm_blocked_backup
+.next_perm_blocked_backup

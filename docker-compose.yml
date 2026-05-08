@@ -16,4 +16,5 @@ services:
   # Se precisar de banco futuramente, é só adicionar aqui
   # db:
   #   image: postgres:16-alpine
-  #   ...
+  #   ...cl
+  
