@@ -81,7 +81,7 @@ export function CursoSection() {
         </p>
       </div>
       <div className="order-first p-4 md:order-last">
-        <AnimatedNeonImage src="/FotoLaboratorio153.jfif" alt="NOSSO CURSO" />
+        <AnimatedNeonImage src="/FotoLaboratorio153.png" alt="NOSSO CURSO" />
       </div>
     </section>
   );

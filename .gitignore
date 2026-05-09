@@ -31,3 +31,5 @@ Thumbs.db
 
 /mnt/dev-disk/cs-proj/.next_perm_blocked_backup
 .next_perm_blocked_backup
+.vercel
+.env*.local
