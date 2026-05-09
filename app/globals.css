@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  --background: #dfe9ff;
+  --foreground: #0b1d4d;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-inter);
+  /* ADICIONE A LINHA ABAIXO */
+  --font-minecraft: var(--font-minecraft);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #dfe9ff;
+    --foreground: #0b1d4d;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-minecraft);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.carousel-safe,
+.carousel-safe * {
+  box-sizing: border-box;
+}
+
+.matrix-fade-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 58%,
+    rgba(0, 0, 0, 0.85) 72%,
+    rgba(0, 0, 0, 0.5) 86%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 58%,
+    rgba(0, 0, 0, 0.85) 72%,
+    rgba(0, 0, 0, 0.5) 86%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.matrix-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.matrix-rain {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  max-width: 1500px;
+  overflow: hidden;
+}
+
+.matrix-column {
+  position: absolute;
+  top: -110%;
+  font-family: var(--font-minecraft);
+  font-size: 18px;
+  line-height: 1.2;
+  white-space: pre;
+  color: #b8d1ff;
+  text-shadow: 0 0 10px rgba(98, 141, 235, 0.5);
+  opacity: var(--matrix-opacity, 0.25);
+  animation-name: matrix-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes matrix-fall {
+  0% {
+    opacity: calc(var(--matrix-opacity, 0.25) * 0.05);
+    transform: translateY(-2%);
+  }
+  12% {
+    opacity: var(--matrix-opacity, 0.25);
+  }
+  78% {
+    opacity: var(--matrix-opacity, 0.25);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(220%);
+  }
+}
+/* Oculta o botão flutuante padrão do VLibras */
+/* Oculta o botão flutuante padrão do VLibras para podermos usar um botão customizado */
+/* Oculta o botão flutuante padrão do VLibras de forma segura para cliques via JS */
+div[vw] [vw-access-button] {
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
