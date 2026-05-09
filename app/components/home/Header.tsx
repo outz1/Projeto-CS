@@ -27,7 +27,7 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed left-1/2 top-3 z-40 w-full max-w-[min(100%,70rem)] -translate-x-1/2 px-2 [font-family:var(--font-minecraft)]">
+      <header className="fixed left-1/2 top-3 z-40 w-full max-w-[min(100%,70rem)] -translate-x-1/2 px-2">
         <div className="w-full rounded-2xl border border-[#8eb1ff]/45 bg-[#d8e6ff]/92 shadow-lg shadow-[#0b1d4d]/20 backdrop-blur">
           <div className="flex h-14 w-full items-center justify-between gap-2 px-3 sm:h-16 sm:px-5">
             <div className="flex min-w-0 items-center gap-3">
@@ -92,7 +92,7 @@ export function Header() {
         aria-modal="true"
         aria-label="Menu lateral"
         // Adicionado 'flex flex-col' na linha abaixo
-        className={`fixed right-0 top-0 z-85 flex h-full w-[min(84%,26rem)] flex-col border-l border-[#8eb1ff]/60 bg-[#d2e2ff] p-6 shadow-2xl shadow-[#0b1d4d]/25 transition-transform duration-200 md:hidden [font-family:var(--font-minecraft)] ${
+        className={`fixed right-0 top-0 z-85 flex h-full w-[min(84%,26rem)] flex-col border-l border-[#8eb1ff]/60 bg-[#d2e2ff] p-6 shadow-2xl shadow-[#0b1d4d]/25 transition-transform duration-200 md:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

@@ -95,7 +95,7 @@ export function EntidadesSection() {
   return (
     <section
       id="entidades"
-      className="scroll-mt-24 mx-auto min-h-[85svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-14 sm:px-6 md:px-8 lg:px-12"
+      className="scroll-mt-24 mx-auto min-h-[68svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-10 sm:px-6 sm:py-12 md:px-8 lg:px-12"
     >
       <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
         ENTIDADES
@@ -111,7 +111,7 @@ export function GaleriaSection() {
   return (
     <section
       id="galeria"
-      className="scroll-mt-24 mx-auto min-h-[75svh] w-full max-w-[1500px] px-4 py-14 sm:px-6 md:px-8 lg:px-12"
+      className="scroll-mt-24 mx-auto min-h-[70svh] w-full max-w-[1500px] px-4 pb-14 pt-6 sm:px-6 sm:pb-16 sm:pt-8 md:px-8 lg:px-12"
     >
       <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
         GALERIA
