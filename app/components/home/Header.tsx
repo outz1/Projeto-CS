@@ -36,7 +36,7 @@ export function Header() {
                 alt="Instituto de Informática"
                 width={300}
                 height={120}
-                className="h-14 w-auto shrink-0 sm:h-16 md:h-26"
+                className="h-22 w-auto shrink-0 sm:h-16 md:h-26"
                 priority
               />
             </div>
@@ -91,7 +91,8 @@ export function Header() {
         role="dialog"
         aria-modal="true"
         aria-label="Menu lateral"
-        className={`fixed right-0 top-0 z-85 h-full w-[min(84%,26rem)] border-l border-[#8eb1ff]/60 bg-[#d2e2ff] p-6 shadow-2xl shadow-[#0b1d4d]/25 transition-transform duration-200 md:hidden [font-family:var(--font-minecraft)] ${
+        // Adicionado 'flex flex-col' na linha abaixo
+        className={`fixed right-0 top-0 z-85 flex h-full w-[min(84%,26rem)] flex-col border-l border-[#8eb1ff]/60 bg-[#d2e2ff] p-6 shadow-2xl shadow-[#0b1d4d]/25 transition-transform duration-200 md:hidden [font-family:var(--font-minecraft)] ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -100,6 +101,7 @@ export function Header() {
             Menu
           </span>
         </div>
+        
         <nav className="flex flex-col gap-4 text-sm font-semibold text-[#0b1d4d]">
           {navItems.map((item) => (
             <a
@@ -112,6 +114,26 @@ export function Header() {
             </a>
           ))}
         </nav>
+
+        {/* Novo Bloco: mt-auto empurra este container para o final da tela */}
+          {/* Mock da imagem com borda tracejada para visualização */}
+        <div className="mt-auto pt-8 pb-4 w-full">
+          <div className="flex h-24 w-full items-center justify-center rounded-xl border-2 border-dashed border-[#0b1d4d]/40 bg-[#0b1d4d]/10">
+            <span className="text-xs font-semibold tracking-wide text-[#0b1d4d]/60">
+              (SUA IMAGEM AQUI)
+            </span>
+          </div>
+          
+          {/* Quando for usar a imagem real, comente a div acima e use a tag do Next.js abaixo:
+          <Image
+            src="/caminho-da-sua-logo.png"
+            alt="Logo Footer"
+            width={200}
+            height={80}
+            className="w-full h-auto object-contain opacity-80" 
+          /> 
+          */}
+        </div>
       </aside>
     </>
   );
