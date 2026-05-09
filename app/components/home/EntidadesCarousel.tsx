@@ -2,38 +2,50 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ImagePlaceholder } from "./ImagePlaceholder";
-
-type EntityItem = {
-  name: string;
-  description: string;
-};
+import { EntityCard, type EntityItem } from "./EntityCards";
 
 const entities: EntityItem[] = [
   {
     name: "DrACo",
+    logo: "/draco.png",
     description:
-      "O DrACo (Diretorio Academico da Computacao) representa os discentes de graduacao do INF, promovendo integracao, discussoes e melhorias na jornada academica.",
+      "O DrACo (Diretório Acadêmico da Computação) representa os estudantes do INF-UFG. Atua na defesa dos direitos dos discentes, promovendo integração, discussões e melhorias na jornada acadêmica e infraestrutura.",
+  },
+  {
+    name: "Unificada",
+    logo: "/unificada.png",
+    description:
+      "A Atlética Unificada é a Associação Atlética Acadêmica da Computação. É responsável por promover a prática esportiva, organizar equipes, participar de campeonatos universitários e realizar eventos de integração.",
+  },
+  {
+    name: "CEIA",
+    logo: "/ceia.jpg",
+    description:
+      "O CEIA (Centro de Excelência em Inteligência Artificial) é um hub de pesquisa e inovação focado em IA. Conecta a academia ao mercado desenvolvendo projetos de ponta, soluções tecnológicas e pesquisas aplicadas.",
+  },
+  {
+    name: "AKCIT",
+    logo: "/akcit.png",
+    description:
+      "O AKCIT atua como um laboratório/projeto voltado à inovação e capacitação técnica, promovendo o engajamento dos alunos em projetos práticos, estudo de novas metodologias e desenvolvimento de soluções.",
   },
   {
     name: "WMDG",
+    logo: "/wmdg.jpeg",
     description:
-      "A We Make Digital Games (WMDG) e um projeto de extensao com foco em vitrine dos projetos, conexao com o mercado e fortalecimento da comunidade de desenvolvimento.",
+      "A We Make Digital Games (WMDG) é um projeto de extensão do INF focado no estudo, design e desenvolvimento de jogos digitais, fortalecendo a comunidade gamedev e conectando estudantes à indústria.",
   },
   {
-    name: "PETComp",
+    name: "Level 5 Junior",
+    logo: "/level5.png",
     description:
-      "O PETComp desenvolve atividades de ensino, pesquisa e extensao para complementar a formacao dos estudantes, incentivando protagonismo e impacto academico.",
+      "A Level 5 Junior é a Empresa Júnior do Instituto de Informática. Aproxima os estudantes do mercado de trabalho por meio da execução de projetos reais de software, consultoria e vivência empresarial.",
   },
   {
-    name: "CJR",
+    name: "Dex Hub",
+    logo: "/dexhub.jpeg",
     description:
-      "A CJR e a empresa junior da Computacao, aproximando estudantes de projetos reais, clientes e desafios de mercado para desenvolvimento tecnico e profissional.",
-  },
-  {
-    name: "INFO Jr",
-    description:
-      "A INFO Jr conecta inovacao e empreendedorismo, promovendo experiencias praticas em produtos digitais, colaboracao multidisciplinar e cultura de aprendizado continuo.",
+      "O Dex Hub é um espaço de inovação focado em conectar estudantes, tecnologias e o ecossistema empreendedor, proporcionando experiências práticas no desenvolvimento de produtos digitais e networking.",
   },
 ];
 
@@ -47,30 +59,16 @@ export function EntidadesCarousel() {
   const goNext = () => setActiveIndex((prev) => Math.min(entities.length - 1, prev + 1));
 
   return (
-    <div className="carousel-safe mx-auto w-full max-w-[920px] overflow-x-hidden">
-      <div className="max-w-full overflow-x-hidden rounded-xl">
+    <div className="carousel-safe mx-auto w-full max-w-[920px]">
+      <div className="w-full overflow-hidden rounded-xl py-2">
         <div
-          className="flex max-w-full overflow-x-hidden transition-transform duration-500 ease-out"
+          className="flex items-start transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
         >
           {entities.map((entity) => (
-            <article
-              key={entity.name}
-              className="min-w-full max-w-full shrink-0 rounded-xl border border-[#8eb1ff]/55 bg-[#d9e7ff]/90 p-5 sm:p-6"
-            >
-              <div className="mb-5 flex items-center gap-4 sm:mb-6 sm:gap-5">
-                <ImagePlaceholder className="h-20 w-20 rounded-full sm:h-24 sm:w-24" />
-                <div>
-                  <h3 className="text-xl font-black uppercase tracking-wide text-[#0b1d4d] sm:text-2xl">
-                    {entity.name}
-                  </h3>
-                  <ImagePlaceholder className="mt-2 h-2 w-28 rounded-md sm:w-40" />
-                </div>
-              </div>
-              <p className="text-base leading-relaxed text-[#0b1d4d]/90 sm:text-lg">
-                {entity.description}
-              </p>
-            </article>
+            <div key={entity.name} className="w-full flex-[0_0_100%] px-1">
+              <EntityCard entity={entity} />
+            </div>
           ))}
         </div>
       </div>

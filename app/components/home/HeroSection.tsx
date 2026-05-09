@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { matrixColumns } from "./config";
 
 export function HeroSection() {
@@ -30,10 +31,15 @@ export function HeroSection() {
 
       <div className="relative z-20 mx-auto grid w-full max-w-[1500px] gap-8 md:grid-cols-[56%_44%] md:items-center">
         <div className="mt-4 mx-auto md:mx-0 flex flex-col overflow-hidden rounded-2xl border border-[#93b4ff]/45 bg-[#d9e7ff]/92 shadow-xl shadow-[#0b1d4d]/20">
-          <img
+          <Image
             src="/IMG_1490.PNG"
             alt="Instituto de Informática - UFG"
+            width={1920}
+            height={1080}
             className="h-[35vh] min-h-[250px] md:h-[55vh] w-full object-cover object-[10%_50%] md:object-center"
+            priority
+            quality={90}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 40vw"
           />
           <div className="flex flex-col justify-center p-6 sm:p-8">
             <h3 className="text-xl font-bold uppercase tracking-wide text-[#0b1d4d] sm:text-2xl">

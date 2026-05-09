@@ -7,19 +7,14 @@ import { CubeItem, useCubeCarousel } from "./useCubeCarousel";
 
 const cubeItems: CubeItem[] = [
   {
-    title: "Ciencia da Computacao",
+    title: "Sistemas da Informacao",
     description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    accent: "from-[#1f3f91] to-[#2a56c6]",
+    accent: "from-[#1f4f73] to-[#2f7ca8]",
   },
   {
     title: "Engenharia de Software",
     description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     accent: "from-[#16427d] to-[#2471b9]",
-  },
-  {
-    title: "Sistemas da Informacao",
-    description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    accent: "from-[#1f4f73] to-[#2f7ca8]",
   },
   {
     title: "Inteligencia Artificial",
@@ -65,22 +60,16 @@ export function AreasCorrelatasCube() {
   return (
     <section
       id="areas-correlatas"
-      // overflow-x-hidden fica APENAS aqui na section — suficiente para conter
-      // o overflow no mobile sem cortar os cards 3D laterais no desktop.
       className="scroll-mt-24 mx-auto min-h-[85svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-14 sm:px-6 md:px-8 lg:px-12"
     >
       <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
         AREAS CORRELATAS
       </h2>
 
-      {/*
-        CORREÇÃO: removidos overflow-x-hidden do wrapper .carousel-safe e do div
-        relativo interno. Esses overflow intermediários cortavam os cards laterais
-        rotacionados no desktop. A section pai já limita o overflow no mobile.
-      */}
       <div className="w-full">
         <div
-          className="relative mx-auto h-[470px] w-full max-w-[1200px] md:h-[520px]"
+          /* Altura do container reduzida no mobile (380px) e restaurada no sm/md */
+          className="relative mx-auto h-[380px] w-full max-w-[1200px] sm:h-[470px] md:h-[520px]"
           style={{ perspective: "1600px", transformStyle: "preserve-3d" }}
         >
           <motion.div
@@ -99,7 +88,11 @@ export function AreasCorrelatasCube() {
                   initial={false}
                   animate={face}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="absolute inset-y-0 left-0 right-0 mx-auto my-auto h-[340px] w-full max-w-[min(100vw-2rem,28.75rem)] rounded-[2rem] border border-[#8eb1ff]/55 bg-[#d8e6ff]/92 p-6 backdrop-blur-sm sm:max-w-[28.75rem] sm:p-7"
+                  /* 
+                    "Zoom out" aplicado: Altura reduzida para 280px, 
+                    largura limitada em 82vw e max-w 22rem no mobile.
+                  */
+                  className="absolute inset-y-0 left-0 right-0 mx-auto my-auto h-[280px] w-[82vw] max-w-[22rem] rounded-[1.5rem] border border-[#8eb1ff]/55 bg-[#d8e6ff]/92 p-5 backdrop-blur-sm sm:h-[340px] sm:w-full sm:max-w-[28.75rem] sm:rounded-[2rem] sm:p-7"
                   style={{
                     transformStyle: "preserve-3d",
                     pointerEvents: offset === 0 ? "auto" : "none",
@@ -107,13 +100,14 @@ export function AreasCorrelatasCube() {
                   aria-hidden={offset !== 0}
                 >
                   <div
-                    className={`mb-5 h-2.5 w-24 rounded-full bg-gradient-to-r ${item.accent}`}
+                    className={`mb-4 h-2.5 w-24 rounded-full bg-gradient-to-r sm:mb-5 ${item.accent}`}
                     aria-hidden="true"
                   />
-                  <h3 className="mb-4 text-2xl font-black uppercase leading-tight tracking-wide text-[#0b1d4d] sm:text-[1.9rem]">
+                  {/* Tamanho da fonte e espaçamento adaptados para o novo tamanho do card */}
+                  <h3 className="mb-3 text-xl font-black uppercase leading-tight tracking-wide text-[#0b1d4d] sm:mb-4 sm:text-[1.9rem]">
                     {item.title}
                   </h3>
-                  <p className="text-base leading-relaxed text-[#0b1d4d]/90 sm:text-lg">
+                  <p className="text-sm leading-relaxed text-[#0b1d4d]/90 sm:text-lg">
                     {item.description}
                   </p>
                   <button
