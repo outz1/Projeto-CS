@@ -6,12 +6,15 @@ services:
       target: deps          # Em dev, para na etapa de deps
     volumes:
       - .:/app              # Monta o código local no container
-      - /app/node_modules   # Preserva o node_modules do container
+      - app_node_modules:/app/node_modules   # Volume nomeado para deps do container
     ports:
       - "3004:3000"
     environment:
       - NODE_ENV=development
     command: npm run dev
+
+volumes:
+  app_node_modules:
 
   # Se precisar de banco futuramente, é só adicionar aqui
   # db:

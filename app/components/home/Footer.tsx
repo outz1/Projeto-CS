@@ -21,9 +21,8 @@ export function Footer() {
         </nav>
       </div>
 
-      {/* Container "Badge" colado no final da tela */}
       <div className="flex w-full justify-center">
-        <div className="flex w-fit items-center rounded-t-xl bg-[#005b9f] px-6 py-2 text-sm font-semibold text-white shadow-md">
+        <div className="flex w-fit items-center rounded-t-xl bg-[#005b9f] px-4 py-2 text-sm font-semibold text-white shadow-md">
           <span>
             {" "}
             <a

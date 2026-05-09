@@ -44,7 +44,7 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
       {/* Game over + score */}
       <div className="text-center">
         <p className="text-xs text-zinc-500 tracking-widest font-mono uppercase">Game Over</p>
-        <p className="text-4xl font-bold text-green-400 font-mono mt-1">{lastScore}</p>
+        <p className="text-4xl font-bold text-blue-400 font-mono mt-1">{lastScore}</p>
         <p className="text-xs text-zinc-500 font-mono tracking-widest">
           PONTOS · {playerName} · <span className="text-blue-400">#{playerId}</span>
         </p>
@@ -74,7 +74,7 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
               ${i === 1 ? 'border-l-2 border-zinc-400' : ''}
               ${i === 2 ? 'border-l-2 border-orange-700' : ''}
               ${i > 2 ? 'border-l-2 border-transparent' : ''}
-              ${entry.id === playerId ? 'ring-1 ring-green-800' : ''}
+              ${entry.id === playerId ? 'ring-1 ring-blue-800' : ''}
             `}
           >
             <span className="text-zinc-600 w-6 text-xs">
@@ -84,14 +84,14 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
               {entry.name}
               <span className="text-zinc-700 text-xs ml-1">#{entry.id}</span>
             </span>
-            <span className="text-green-400 font-bold">{entry.score}</span>
+            <span className="text-blue-400 font-bold">{entry.score}</span>
           </div>
         ))}
       </div>
 
       <button
         onClick={onReplay}
-        className="w-full bg-green-700 hover:bg-green-600 active:scale-95
+        className="w-full bg-blue-700 hover:bg-blue-600 active:scale-95
                   text-white font-mono font-bold text-sm tracking-widest
                   py-3 rounded-md transition-all"
       >

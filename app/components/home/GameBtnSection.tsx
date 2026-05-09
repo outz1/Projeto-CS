@@ -46,7 +46,6 @@ export function SnakeSection() {
 
   function handleClose() {
     setGameOpen(false);
-    // atualiza o placar assim que o modal fecha (score já foi salvo)
     fetchScores();
   }
 
@@ -56,7 +55,7 @@ export function SnakeSection() {
 
   return (
     <section className="w-full bg-[#d2e2ff]/40">
-      <div className="mx-auto flex w-full max-w-375 flex-col gap-8 px-4 py-16 sm:px-6 md:px-8 lg:px-12">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-4 py-16 sm:px-6 md:px-8 lg:px-12">
 
         <div className="flex flex-col gap-2">
           <h2 className="font-minecraft text-3xl uppercase tracking-wide text-[#0b1d4d] sm:text-4xl">
@@ -91,14 +90,15 @@ export function SnakeSection() {
             </div>
           </div>
 
-          {/* Painel de Scoreboard */}
-          <div className="flex flex-col rounded-3xl border border-white/50 bg-[#0b1d4d] p-6 text-white shadow-2xl">
+          {/* Painel de Scoreboard - TUDO COM FONT-MINECRAFT */}
+          <div className="font-minecraft flex flex-col rounded-3xl border border-white/50 bg-[#0b1d4d] p-12 text-white shadow-2xl">
             <div className="mb-1 flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
                 <Trophy className="text-yellow-400" size={24} />
-                <span className="font-minecraft text-xl tracking-wider">RANKING</span>
+                <span className="text-xl tracking-wider">RANKING</span>
               </div>
-              <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">
+              {/* Removido font-mono para manter minecraftia */}
+              <span className="pl-2 text-[9px] text-white/40 uppercase tracking-widest">
                 {monthLabel}
               </span>
             </div>
@@ -107,9 +107,9 @@ export function SnakeSection() {
               {loadingScores && (
                 Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} className="flex items-center justify-between gap-4 animate-pulse">
-                    <span className="font-mono text-[#005b9f]">0{i + 1}.</span>
+                    <span className="text-[#005b9f] text-xs">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="font-mono text-white/20">----</span>
+                    <span className="text-white/20 text-xs">----</span>
                   </div>
                 ))
               )}
@@ -117,22 +117,22 @@ export function SnakeSection() {
               {!loadingScores && scores.length === 0 && (
                 Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} className="flex items-center justify-between gap-4">
-                    <span className="font-mono text-[#005b9f]">0{i + 1}.</span>
+                    <span className="text-[#005b9f] text-xs">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="font-mono text-white/40">----</span>
+                    <span className="text-white/40 text-xs">----</span>
                   </div>
                 ))
               )}
 
               {!loadingScores && scores.map((entry, i) => (
                 <div key={i} className="flex items-center justify-between gap-3">
-                  <span className="text-sm w-5 text-center">
-                    {MEDALS[i] ?? <span className="font-mono text-[#005b9f]">0{i + 1}.</span>}
+                  <span className="text-[11px] w-5 text-center">
+                    {MEDALS[i] ?? <span className="text-[#005b9f]">0{i + 1}.</span>}
                   </span>
-                  <span className="font-mono text-sm text-white/80 flex-1 truncate">
+                  <span className="text-[11px] text-white/80 flex-1 truncate uppercase">
                     {entry.name}
                   </span>
-                  <span className="font-mono text-sm font-bold text-[#4d9fff]">
+                  <span className="text-[11px] font-bold text-[#4d9fff]">
                     {entry.score}
                   </span>
                 </div>
@@ -142,11 +142,11 @@ export function SnakeSection() {
               {!loadingScores && scores.length > 0 && scores.length < 5 && (
                 Array.from({ length: 5 - scores.length }).map((_, i) => (
                   <div key={i} className="flex items-center justify-between gap-4">
-                    <span className="font-mono text-[#005b9f] text-sm">
+                    <span className="text-[#005b9f] text-[11px]">
                       0{scores.length + i + 1}.
                     </span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="font-mono text-white/40 text-sm">----</span>
+                    <span className="text-white/40 text-[11px]">----</span>
                   </div>
                 ))
               )}
@@ -154,10 +154,10 @@ export function SnakeSection() {
 
             <div className="mt-auto pt-6">
               <div className="rounded-xl bg-white/5 p-4 text-center">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">
+                <p className="text-[10px] uppercase tracking-[0.1em] text-white/70 mb-1">
                   Sua melhor pontuação
                 </p>
-                <p className="font-minecraft text-2xl text-[#005b9f]">
+                <p className="text-2xl text-[#005b9f]">
                   {bestScore !== null ? bestScore : "--"}
                 </p>
               </div>
