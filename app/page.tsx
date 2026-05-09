@@ -1,6 +1,7 @@
 import { Footer } from "./components/home/Footer";
 import { Header } from "./components/home/Header";
 import { HeroSection } from "./components/home/HeroSection";
+import { SnakeSection } from "./components/home/GameBtnSection";
 
 import {
   AreasSection,
@@ -21,6 +22,7 @@ export default function Home() {
         <CursoSection />
         <AreasSection />
         <EntidadesSection />
+        <SnakeSection />
         <GaleriaSection />
       </main>
 
