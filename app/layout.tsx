@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { defaultMetadata } from "@/lib/seo";
 import { VLibrasWidget } from "./components/home/VlibrasWidgget";
 import "./globals.css";
 
@@ -14,10 +15,7 @@ const minecraft = localFont({
   variable: "--font-minecraft",
 });
 
-export const metadata: Metadata = {
-  title: "Espaço das Profissões",
-  description: "Espaço das Profissões - Instituto de Informática",
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
