@@ -79,7 +79,7 @@ export function EntidadesCarousel() {
           onClick={goPrev}
           disabled={!canGoPrev}
           aria-label="Entidade anterior"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0b1d4d]/25 text-[#0b1d4d] disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0b1d4d]/25 text-[#0b1d4d] disabled:opacity-40"
         >
           <ChevronLeft size={18} />
         </button>

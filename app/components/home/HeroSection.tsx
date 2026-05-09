@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import { matrixColumns } from "./config";
 
 export function HeroSection() {
@@ -30,25 +29,35 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-20 mx-auto grid w-full max-w-[1500px] gap-8 md:grid-cols-[56%_44%] md:items-center">
-        <div className="mt-4 mx-auto md:mx-0 flex flex-col overflow-hidden rounded-2xl border border-[#93b4ff]/45 bg-[#d9e7ff]/92 shadow-xl shadow-[#0b1d4d]/20">
-          <Image
-            src="/IMG_1490.PNG"
-            alt="Instituto de Informática - UFG"
-            width={1920}
-            height={1080}
-            className="h-[35vh] min-h-[250px] md:h-[55vh] w-full object-cover object-[10%_50%] md:object-center"
-            priority
-            quality={90}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 40vw"
-          />
-          <div className="flex flex-col justify-center p-6 sm:p-8">
-            <h3 className="text-xl font-bold uppercase tracking-wide text-[#0b1d4d] sm:text-2xl">
-              Instituto de Informática
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#0b1d4d]/80 sm:text-base">
-              Venha conhecer nossos espaços de aprendizado e inovação. A sua
-              jornada na tecnologia ganha vida aqui!
-            </p>
+        
+        {/* Card Envelopado com Animação de Borda e Hover */}
+        <div className="group relative mx-auto mt-4 flex overflow-hidden rounded-[18px] p-[3px] shadow-2xl shadow-[#0b1d4d]/40 transition-transform duration-500 ease-out hover:-translate-y-2 md:mx-0">
+          
+          {/* Luz neon giratória (linha principal) */}
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[250%] -translate-x-1/2 -translate-y-1/2 animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_75%,#60a5fa_100%)] opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+          
+          {/* Luz neon com blur (brilho difuso) */}
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[250%] -translate-x-1/2 -translate-y-1/2 animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_75%,#60a5fa_100%)] blur-lg opacity-40 transition-opacity duration-500 group-hover:opacity-80" />
+
+          {/* Container interno (O Card Real) */}
+          <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[#d9e7ff]/95">
+            <div className="overflow-hidden">
+              <img
+                src="/IMG_1490.PNG"
+                alt="Instituto de Informática - UFG"
+                className="h-[35vh] min-h-[250px] w-full object-cover object-[10%_50%] transition-transform duration-700 ease-out group-hover:scale-105 md:h-[55vh] md:object-center"
+              />
+            </div>
+            
+            <div className="relative z-10 flex flex-col justify-center bg-[#d9e7ff] p-6 sm:p-8">
+              <h3 className="text-xl font-bold uppercase tracking-wide text-[#0b1d4d] sm:text-2xl">
+                Instituto de Informática
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#0b1d4d]/80 sm:text-base">
+                Venha conhecer nossos espaços de aprendizado e inovação. A sua
+                jornada na tecnologia ganha vida aqui!
+              </p>
+            </div>
           </div>
         </div>
 
