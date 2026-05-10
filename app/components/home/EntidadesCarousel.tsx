@@ -13,7 +13,7 @@ const entities: EntityItem[] = [
   },
   {
     name: "Unificada",
-    logo: "/unificada.png",
+    logo: "/entidades/unificada.png",
     description:
     "A Atlética Unificada é a Associação Atlética Acadêmica da Computação. É responsável por promover a prática esportiva, organizar equipes, participar de campeonatos universitários e realizar eventos de integração.",
   },
@@ -43,7 +43,7 @@ const entities: EntityItem[] = [
   },
   {
     name: "Level 5 Junior",
-    logo: "/level5.png",
+    logo: "/entidades/level5.png",
     description:
       "A Level 5 é a Empresa Júnior do Instituto de Informática da UFG, fundada em 5 de maio de 2015. Desde sua criação, a EJ atua no desenvolvimento de sites e soluções web, sempre guiada por três pilares: tecnologia, colaboração e aprendizado contínuo.",
   },
