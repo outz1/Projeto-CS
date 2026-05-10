@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Trophy, Gamepad2 } from "lucide-react";
 import GameModal from "../../../game/GameModal";
 
@@ -22,31 +22,53 @@ export function SnakeSection() {
   const [scores, setScores] = useState<ScoreEntry[]>([]);
   const [loadingScores, setLoadingScores] = useState(true);
   const [bestScore, setBestScore] = useState<number | null>(null);
+  const isMountedRef = useRef(false);
 
   const now = new Date();
   const monthLabel = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
 
-  const fetchScores = useCallback(async () => {
-    try {
-      const res = await fetch("/api/scores");
-      const data = await res.json();
-      setScores(data.slice(0, 5));
-    } catch {
-      // silencia erro de rede
-    } finally {
-      setLoadingScores(false);
-    }
+  const fetchTopScores = useCallback(async (signal?: AbortSignal) => {
+    const res = await fetch("/api/scores", { signal });
+    const data = await res.json();
+    return data.slice(0, 5) as ScoreEntry[];
   }, []);
 
   useEffect(() => {
+    isMountedRef.current = true;
+    const controller = new AbortController();
     void (async () => {
-      await fetchScores();
+      try {
+        const topScores = await fetchTopScores(controller.signal);
+        if (!isMountedRef.current || controller.signal.aborted) return;
+        setScores(topScores);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        console.error("Erro ao buscar ranking:", error);
+      } finally {
+        if (!isMountedRef.current || controller.signal.aborted) return;
+        setLoadingScores(false);
+      }
     })();
-  }, [fetchScores]);
+
+    return () => {
+      isMountedRef.current = false;
+      controller.abort();
+    };
+  }, [fetchTopScores]);
+
+  const refreshScores = useCallback(async () => {
+    try {
+      const topScores = await fetchTopScores();
+      if (!isMountedRef.current) return;
+      setScores(topScores);
+    } catch (error) {
+      console.error("Erro ao atualizar ranking:", error);
+    }
+  }, [fetchTopScores]);
 
   function handleClose() {
     setGameOpen(false);
-    fetchScores();
+    void refreshScores();
   }
 
   function handleGameOver(score: number) {

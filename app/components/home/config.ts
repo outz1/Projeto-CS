@@ -9,11 +9,16 @@ export const navItems = [
 const MATRIX_COLUMN_COUNT = 22;
 const MATRIX_STREAM_LENGTH = 40;
 
-const buildBinaryStream = (length: number) =>
-  Array.from({ length }, () => (Math.random() < 0.5 ? "0" : "1")).join("\n");
+function seededBit(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value) < 0.5 ? "0" : "1";
+}
+
+const buildBinaryStream = (length: number, seedBase: number) =>
+  Array.from({ length }, (_, row) => seededBit(seedBase + row)).join("\n");
 
 export const matrixColumns = Array.from({ length: MATRIX_COLUMN_COUNT }, (_, index) => {
-  const stream = buildBinaryStream(MATRIX_STREAM_LENGTH);
+  const stream = buildBinaryStream(MATRIX_STREAM_LENGTH, index * 97 + 13);
 
   return {
     id: index,

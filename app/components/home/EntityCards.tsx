@@ -14,7 +14,7 @@ export function EntityCard({ entity }: { entity: EntityItem }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <article className="flex w-full flex-col overflow-hidden rounded-xl border border-[#8eb1ff]/55 bg-[#d9e7ff]/80 p-5 transition-all sm:p-6">
+    <article className="flex w-full flex-col overflow-hidden rounded-xl border border-[#8eb1ff]/55 bg-[#d9e7ff]/80 p-8 transition-all sm:p-8">
       <div className="flex items-center gap-4 sm:gap-5">
         {/* Renderiza a logo real */}
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full sm:h-24 sm:w-24">
