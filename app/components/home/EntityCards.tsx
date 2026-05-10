@@ -28,7 +28,7 @@ export function EntityCard({ entity }: { entity: EntityItem }) {
         </div>
         
         <div className="min-w-0 flex-1">
-          <h3 className="truncate pt-1 text-xl font-black uppercase tracking-wide text-[#0b1d4d] sm:pt-0 sm:text-2xl">
+          <h3 className="truncate pt-1 text-xl font-black uppercase tracking-wide text-[#0b1d4d] sm:px-2 sm:py-1 sm:text-2xl">
             {entity.name}
           </h3>
           {/* Linha decorativa abaixo do título */}
