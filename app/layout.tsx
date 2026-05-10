@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { defaultMetadata } from "@/lib/seo";
 import { VLibrasWidget } from "./components/home/VlibrasWidgget";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         {children}
         <VLibrasWidget />
+        <Analytics/>
       </body>
     </html>
   );
