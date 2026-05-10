@@ -71,7 +71,7 @@ export default function NameForm({ onStart, onViewScores }: Props) {
                   text-white font-mono font-bold text-sm tracking-widest
                   py-3 rounded-md transition-all"
       >
-        ▶ JOGAR
+        JOGAR
       </button>
 
       <button

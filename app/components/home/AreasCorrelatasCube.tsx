@@ -5,6 +5,37 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CubeItem, useCubeCarousel } from "./useCubeCarousel";
 
+const starField = [
+  { top: "8%", left: "6%", size: 2, opacity: 0.9 },
+  { top: "14%", left: "20%", size: 2, opacity: 0.7 },
+  { top: "10%", left: "38%", size: 1, opacity: 0.8 },
+  { top: "18%", left: "55%", size: 2, opacity: 0.75 },
+  { top: "9%", left: "72%", size: 1, opacity: 0.85 },
+  { top: "16%", left: "88%", size: 2, opacity: 0.7 },
+  { top: "28%", left: "12%", size: 1, opacity: 0.7 },
+  { top: "24%", left: "30%", size: 2, opacity: 0.8 },
+  { top: "32%", left: "48%", size: 1, opacity: 0.9 },
+  { top: "26%", left: "66%", size: 2, opacity: 0.8 },
+  { top: "34%", left: "82%", size: 1, opacity: 0.75 },
+  { top: "45%", left: "7%", size: 2, opacity: 0.75 },
+  { top: "40%", left: "24%", size: 1, opacity: 0.85 },
+  { top: "48%", left: "41%", size: 2, opacity: 0.9 },
+  { top: "42%", left: "58%", size: 1, opacity: 0.75 },
+  { top: "50%", left: "74%", size: 2, opacity: 0.85 },
+  { top: "44%", left: "91%", size: 1, opacity: 0.8 },
+  { top: "61%", left: "15%", size: 1, opacity: 0.75 },
+  { top: "66%", left: "33%", size: 2, opacity: 0.8 },
+  { top: "60%", left: "50%", size: 1, opacity: 0.9 },
+  { top: "68%", left: "67%", size: 2, opacity: 0.7 },
+  { top: "62%", left: "84%", size: 1, opacity: 0.8 },
+  { top: "78%", left: "10%", size: 2, opacity: 0.75 },
+  { top: "82%", left: "27%", size: 1, opacity: 0.85 },
+  { top: "76%", left: "44%", size: 2, opacity: 0.8 },
+  { top: "84%", left: "60%", size: 1, opacity: 0.9 },
+  { top: "80%", left: "77%", size: 2, opacity: 0.75 },
+  { top: "86%", left: "92%", size: 1, opacity: 0.8 },
+];
+
 const cubeItems: CubeItem[] = [
   {
     title: "Sistemas da Informacao",
@@ -60,9 +91,28 @@ export function AreasCorrelatasCube() {
   return (
     <section
       id="areas-correlatas"
-      className="w-full bg-blue-900/90"
+      className="relative w-full overflow-hidden bg-linear-to-b from-[#0b2a67] to-[#0e3b8a]"
     >
-      <div className="scroll-mt-24 mx-auto min-h-[85svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-14 sm:px-6 md:px-8 lg:px-12">
+      <div className="pointer-events-none absolute inset-0">
+        {starField.map((star, index) => (
+          <span
+            key={index}
+            className="absolute rounded-full bg-white"
+            style={{
+              top: star.top,
+              left: star.left,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+              boxShadow: "0 0 8px rgba(255, 255, 255, 0.8)",
+              animation: `star-twinkle ${1.8 + (index % 5) * 0.35}s ease-in-out -${(index % 7) * 0.4}s infinite`,
+            }}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+
+      <div className="scroll-mt-24 relative z-10 mx-auto min-h-[85svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-14 sm:px-6 md:px-8 lg:px-12">
         
         {/* CORREÇÃO: Título alterado para text-white para contrastar com o fundo azul */}
         <h2 className="mb-6 text-3xl font-black uppercase tracking-wide text-white sm:mb-8 sm:text-4xl">

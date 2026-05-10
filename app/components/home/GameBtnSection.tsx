@@ -84,7 +84,7 @@ export function SnakeSection() {
             DESAFIO <span className="text-[#005b9f]">SNAKE</span>
           </h2>
           <p className="text-sm font-medium text-[#0b1d4d]/70">
-            Dê uma pausa nos estudos e teste seus reflexos!
+            Será que você consegue chegar ao topo do ranking? Jogue, desafie seus amigos e mostre quem é o mestre do jogo da cobrinha
           </p>
         </div>
 
@@ -97,14 +97,14 @@ export function SnakeSection() {
                 <Gamepad2 size={48} />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-[#0b1d4d]">PRONTO PARA JOGAR?</h3>
+                <h3 className="text-2xl font-black text-[#0b1d4d] focus:scale-120">PRONTO PARA JOGAR?</h3>
                 <p className="max-w-md text-[#0b1d4d]/80">
                   Ajude a cobrinha a comer os algoritmos e crescer sua pontuação no ranking do INF.
                 </p>
               </div>
               <button
                 onClick={() => setGameOpen(true)}
-                className="group relative flex items-center gap-3 overflow-hidden rounded-xl bg-[#005b9f] px-10 py-4 font-bold text-white shadow-lg transition-all hover:bg-[#16367f] hover:shadow-[#005b9f]/40 active:scale-95"
+                className="group relative flex items-center gap-3 overflow-hidden rounded-xl bg-[#005b9f] px-10 py-4 font-bold text-white shadow-lg transition-all hover:bg-[#16367f] hover:shadow-[#005b9f]/40 active:scale-95 cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#005b9f]/50"
               >
                 <span className="relative z-10">INICIAR JOGO</span>
                 <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-1000 group-hover:translate-x-full" />
