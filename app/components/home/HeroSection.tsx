@@ -85,6 +85,7 @@ export function HeroSection() {
           </article>
         </div>
       </div>
+
     </section>
   );
 }

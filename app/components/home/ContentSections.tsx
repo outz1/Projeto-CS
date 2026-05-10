@@ -1,6 +1,6 @@
 import { AreasCorrelatasCube } from "./AreasCorrelatasCube";
-import { EntidadesCarousel } from "./EntidadesCarousel";
 import Image from "next/image";
+import { EntidadesCarouselClient } from "./EntidadesCarouselClient";
 
 // Componente isolado para o efeito de borda Neon Animada
 function AnimatedNeonImage({ src, alt }: { src: string; alt: string }) {
@@ -97,10 +97,10 @@ export function EntidadesSection() {
       id="entidades"
       className="scroll-mt-24 mx-auto min-h-[68svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-10 sm:px-6 sm:py-12 md:px-8 lg:px-12"
     >
-      <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
+      <h2 className="mb-6 pt-2 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:pt-0 sm:text-4xl">
         ENTIDADES
       </h2>
-      <EntidadesCarousel />
+      <EntidadesCarouselClient />
     </section>
   );
 }
