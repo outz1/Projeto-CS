@@ -63,18 +63,18 @@ export function HeroSection() {
 
         <div className="flex flex-col items-start justify-center gap-5 md:gap-8 md:pl-3 lg:pl-8">
           <p className="text-sm font-semibold tracking-[0.18em] text-[#dbe9ff] sm:text-base md:text-lg">
-            ^ DÊ O PLAY NO SEU FUTURO:
+            {'>'} DÊ O PLAY NO SEU FUTURO NO ESPAÇO DAS PROFISSÕES UFG
           </p>
           <h1 className="space-y-1 font-black uppercase leading-[0.95] tracking-[0.16em] text-[#eff5ff] [text-shadow:0_6px_22px_rgba(8,22,60,0.65)] sm:tracking-[0.2em]">
-            <span className="block text-4xl sm:text-5xl md:text-6xl">2026</span>
+            <span className="block text-4xl sm:text-5xl md:text-6xl pb-6">2026</span>
             <span className="block text-2xl sm:text-3xl md:text-4xl">
-              A PRÓXIMA
+              A DECISÃO
             </span>
             <span className="block text-2xl sm:text-3xl md:text-4xl">
-              TEMPORADA DA SUA
+              DO SEU FUTURO
             </span>
             <span className="block text-2xl sm:text-3xl md:text-4xl">
-              VIDA COMEÇA AQUI!
+              COMEÇA AQUI!
             </span>
           </h1>
           <article className="max-w-[680px] rounded-xl border border-[#9ab9ff]/55 bg-[#d6e5ff]/90 p-4 text-sm leading-relaxed text-[#0b1d4d] shadow-lg shadow-[#0b1d4d]/20 sm:p-5 sm:text-base">

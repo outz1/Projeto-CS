@@ -13,10 +13,37 @@ interface Props {
   onGameOver: (score: number) => void
 }
 
+// Chave do localStorage para guardar até quando o cooldown dura
+function cooldownKey(id: string) {
+  return `snake:cooldown:${id}`
+}
+
+// Retorna os segundos restantes de cooldown (0 se liberado)
+function getCooldownSeconds(id: string): number {
+  try {
+    const val = localStorage.getItem(cooldownKey(id))
+    if (!val) return 0
+    const endsAt = parseInt(val, 10)
+    const remaining = Math.ceil((endsAt - Date.now()) / 1000)
+    if (remaining <= 0) {
+      localStorage.removeItem(cooldownKey(id))
+      return 0
+    }
+    return remaining
+  } catch {
+    return 0
+  }
+}
+
+function setCooldown(id: string, seconds: number) {
+  try {
+    localStorage.setItem(cooldownKey(id), String(Date.now() + seconds * 1000))
+  } catch {}
+}
+
 export default function SnakeGame({ player, playerId, onGameOver }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // refs para estado do jogo (evita re-renders desnecessários)
   const stateRef = useRef({
     snake: [] as Point[],
     dir: { x: 1, y: 0 },
@@ -56,7 +83,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     ctx.fillStyle = '#0d1117'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // grade sutil
     ctx.strokeStyle = '#161b22'
     ctx.lineWidth = 0.5
     for (let i = 0; i <= GRID; i++) {
@@ -64,13 +90,11 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       ctx.beginPath(); ctx.moveTo(0, i * C); ctx.lineTo(canvas.width, i * C); ctx.stroke()
     }
 
-    // cobra
     snake.forEach((seg, i) => {
       const alpha = i === 0 ? 1 : Math.max(0.25, 1 - i * 0.05)
       ctx.fillStyle = i === 0 ? '#3fb950' : `rgba(35,134,54,${alpha})`
       ctx.fillRect(seg.x * C + 1, seg.y * C + 1, C - 2, C - 2)
 
-      // olhos na cabeça
       if (i === 0) {
         const ex = dir.x, ey = dir.y, ex2 = -ey, ey2 = ex
         const cx = seg.x * C + C / 2, cy = seg.y * C + C / 2
@@ -84,19 +108,34 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       }
     })
 
-    // comida
     const fw = C * 0.6, fo = (C - fw) / 2
     ctx.fillStyle = '#f0b429'
     ctx.fillRect(food.x * C + fo, food.y * C + fo, fw, fw)
   }, [cellSize])
 
   const saveScore = useCallback(async (score: number) => {
+    // --- Camada cliente: bloqueia antes de chamar a API ---
+    const remaining = getCooldownSeconds(playerId)
+    if (remaining > 0) {
+      console.info(`[snake] cooldown ativo: ${remaining}s restantes`)
+      return // não faz a requisição
+    }
+    // ------------------------------------------------------
+
     try {
-      await fetch('/api/scores', {
+      const res = await fetch('/api/scores', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: player, id: playerId, score }),
       })
+
+      if (res.status === 429) {
+        const data = await res.json()
+        // Salva o cooldown no localStorage para as próximas partidas
+        setCooldown(playerId, data.retryAfter ?? 600)
+        console.warn(`[snake] rate limited pelo servidor: ${data.retryAfter}s`)
+        return
+      }
     } catch (e) {
       console.error('Erro ao salvar score:', e)
     }
@@ -106,7 +145,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    // ajusta tamanho ao container
     const size = Math.min(canvas.parentElement?.clientWidth ?? 400, 400)
     canvas.width = size
     canvas.height = size
@@ -121,7 +159,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     placeFood()
     draw()
 
-    // game loop
     const loop = setInterval(() => {
       s.dir = s.nextDir
       const head = { x: s.snake[0].x + s.dir.x, y: s.snake[0].y + s.dir.y }
@@ -149,7 +186,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       draw()
     }, TICK_MS)
 
-    // teclado
     const handleKey = (e: KeyboardEvent) => {
       if (!s.running) return
       const map: Record<string, Point> = {
@@ -166,7 +202,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     }
     window.addEventListener('keydown', handleKey)
 
-    // swipe touch
     let touchX = 0, touchY = 0
     const onTouchStart = (e: TouchEvent) => {
       touchX = e.touches[0].clientX

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Trophy, Gamepad2 } from "lucide-react";
-import GameModal from "../../../game/GameModal";
+import GameModal from "@/game/GameModal";
 
 interface ScoreEntry {
   name: string;

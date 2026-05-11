@@ -142,11 +142,13 @@ export function Header() {
         </nav>
 
         <div className="mt-auto pt-8 pb-4 w-full">
-          <div className="flex h-24 w-full items-center justify-center rounded-xl border-2 border-dashed border-[#0b1d4d]/40 bg-[#0b1d4d]/10">
-            <span className="text-xs font-semibold tracking-wide text-[#0b1d4d]/60">
-              (SUA IMAGEM AQUI)
-            </span>
-          </div>
+          <Image
+            src="/logoespaco.png"
+            alt="Logo Espaço"
+            width={400}
+            height={200}
+            className="mx-auto h-32 w-auto rounded-xl object-contain"
+          />
         </div>
       </aside>
     </>
