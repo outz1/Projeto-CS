@@ -22,14 +22,14 @@ export function Footer() {
       </div>
 
       <div className="flex w-full justify-center">
-        <div className="flex w-fit items-center rounded-t-xl bg-[#005b9f] px-4 py-2 text-sm font-semibold text-white shadow-md">
+        <div className="flex w-fit items-center rounded-t-xl bg-[#005b9f] px-4 py-2 text-sm font-semibold text-white shadow-md underline underline-offset-4 transition-all duration-300 hover:bg-[#005b9f]/90 hover:underline hover:decoration-[#005b9f]/90 hover:scale-110">
           <span>
             {" "}
             <a
               href="https://www.linkedin.com/in/duebrits-dev/"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-all duration-300 hover:text-white/70 hover:underline hover:decoration-white/70 hover:underline-offset-2"
+              className="transition-all duration-300 hover:text-white/70 hover:underline hover:decoration-white/70"
             >
               desenvolvido por outz.dev
             </a>

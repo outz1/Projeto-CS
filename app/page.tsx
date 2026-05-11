@@ -15,9 +15,9 @@ import {
 } from "./components/home/ContentSections";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Início",
+  title: "Espaço das Profissões - Computação e Sociedade",
   description:
-    "Conheça cursos, áreas correlatas, entidades estudantis e atividades do Instituto de Informática.",
+    "Conheça cursos, áreas correlatas, entidades estudantis e atividades do Instituto de Informática, projeto da matéria de Computação e Sociedade da UFG",
   path: "/",
 });
 
