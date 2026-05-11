@@ -79,7 +79,7 @@ export default function GameModal({ onClose, onGameOver }: Props) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="relative w-full max-w-sm bg-[#0d1117] border border-blue-900 rounded-xl p-6 shadow-xl">
+      <div className="relative w-full max-w-sm max-h-[92dvh] overflow-y-auto bg-[#0d1117] border border-blue-900 rounded-xl p-5 sm:p-6 shadow-xl">
         {/* botão fechar */}
         <button
           onClick={onClose}
