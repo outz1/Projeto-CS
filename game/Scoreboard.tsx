@@ -69,7 +69,7 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
         {!loading && scores.map((entry, i) => (
           <div
             key={i}
-            className={`flex items-center gap-2 px-3 py-2 rounded-md mb-1.5 bg-zinc-900 font-mono text-sm
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-md mb-1.5 bg-zinc-900 font-mono text-sm
               ${i === 0 ? 'border-l-2 border-yellow-500' : ''}
               ${i === 1 ? 'border-l-2 border-zinc-400' : ''}
               ${i === 2 ? 'border-l-2 border-orange-700' : ''}

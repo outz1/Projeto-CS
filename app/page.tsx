@@ -9,6 +9,7 @@ import {
   AreasSection,
   CursoSection,
   EntidadesSection,
+  FAQSection,
   GaleriaSection,
   InfSection,
 } from "./components/home/ContentSections";
@@ -33,6 +34,7 @@ export default function Home() {
         <EntidadesSection />
         <SnakeSection />
         <GaleriaSection />
+        <FAQSection />
       </main>
 
       <Footer />

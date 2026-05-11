@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import NameForm from './NameForm'
 import SnakeGame from './SnakeGame'
 import Scoreboard from './Scoreboard'
@@ -17,6 +17,49 @@ export default function GameModal({ onClose, onGameOver }: Props) {
   const [playerName, setPlayerName] = useState('')
   const [playerId, setPlayerId] = useState('')
   const [lastScore, setLastScore] = useState(0)
+
+  useEffect(() => {
+    const scrollY = window.scrollY
+    const body = document.body
+    const html = document.documentElement
+
+    const previousBodyStyles = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+      overscrollBehavior: body.style.overscrollBehavior,
+    }
+    const previousHtmlStyles = {
+      overflow: html.style.overflow,
+      overscrollBehavior: html.style.overscrollBehavior,
+    }
+
+    body.style.position = 'fixed'
+    body.style.top = `-${scrollY}px`
+    body.style.left = '0'
+    body.style.right = '0'
+    body.style.width = '100%'
+    body.style.overflow = 'hidden'
+    body.style.overscrollBehavior = 'none'
+    html.style.overflow = 'hidden'
+    html.style.overscrollBehavior = 'none'
+
+    return () => {
+      body.style.position = previousBodyStyles.position
+      body.style.top = previousBodyStyles.top
+      body.style.left = previousBodyStyles.left
+      body.style.right = previousBodyStyles.right
+      body.style.width = previousBodyStyles.width
+      body.style.overflow = previousBodyStyles.overflow
+      body.style.overscrollBehavior = previousBodyStyles.overscrollBehavior
+      html.style.overflow = previousHtmlStyles.overflow
+      html.style.overscrollBehavior = previousHtmlStyles.overscrollBehavior
+      window.scrollTo(0, scrollY)
+    }
+  }, [])
 
   function handleStart(name: string, id: string) {
     setPlayerName(name)
