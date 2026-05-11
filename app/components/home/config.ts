@@ -4,6 +4,7 @@ export const navItems = [
   { href: "#areas-correlatas", label: "ÁREAS CORRELATAS" },
   { href: "#entidades", label: "ENTIDADES" },
   { href: "#galeria", label: "GALERIA" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 const MATRIX_COLUMN_COUNT = 22;

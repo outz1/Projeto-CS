@@ -1,6 +1,7 @@
 import { AreasCorrelatasCube } from "./AreasCorrelatasCube";
 import Image from "next/image";
 import { EntidadesCarouselClient } from "./EntidadesCarouselClient";
+import FAQ from "./FAQ";
 
 // Componente isolado para o efeito de borda Neon Animada
 function AnimatedNeonImage({ src, alt }: { src: string; alt: string }) {
@@ -138,6 +139,20 @@ export function GaleriaSection() {
           </div>
         ))}
       </div>
+    </section>
+  );
+}
+
+export function FAQSection() {
+  return (
+    <section
+      id="faq"
+      className="scroll-mt-24 mx-auto min-h-[70svh] w-full max-w-[1500px] px-4 pb-14 pt-6 sm:px-6 sm:pb-16 sm:pt-8 md:px-8 lg:px-12 bg-[#d9e7ff]/80"
+    >
+      <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
+        FAQ
+      </h2>
+      <FAQ />
     </section>
   );
 }
