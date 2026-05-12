@@ -114,13 +114,11 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
   }, [cellSize])
 
   const saveScore = useCallback(async (score: number) => {
-    // --- Camada cliente: bloqueia antes de chamar a API ---
     const remaining = getCooldownSeconds(playerId)
     if (remaining > 0) {
       console.info(`[snake] cooldown ativo: ${remaining}s restantes`)
-      return // não faz a requisição
+      return 
     }
-    // ------------------------------------------------------
 
     try {
       const res = await fetch('/api/scores', {
@@ -131,7 +129,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
 
       if (res.status === 429) {
         const data = await res.json()
-        // Salva o cooldown no localStorage para as próximas partidas
         setCooldown(playerId, data.retryAfter ?? 600)
         console.warn(`[snake] rate limited pelo servidor: ${data.retryAfter}s`)
         return
@@ -145,7 +142,9 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const size = Math.min(canvas.parentElement?.clientWidth ?? 400, 400)
+    const parentWidth = canvas.parentElement?.clientWidth ?? 400
+    const viewportLimit = window.innerWidth < 640 ? 280 : 400
+    const size = Math.min(parentWidth, viewportLimit, 400)
     canvas.width = size
     canvas.height = size
 
@@ -230,20 +229,63 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     }
   }, [draw, placeFood, saveScore, onGameOver])
 
+  function handleDpad(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
+    const s = stateRef.current
+    if (!s.running) return
+    const map = {
+      UP:    { x: 0,  y: -1 },
+      DOWN:  { x: 0,  y:  1 },
+      LEFT:  { x: -1, y:  0 },
+      RIGHT: { x: 1,  y:  0 },
+    }
+    const nd = map[direction]
+    if (!(nd.x === -s.dir.x && nd.y === -s.dir.y)) {
+      s.nextDir = nd
+    }
+  }
+
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="flex justify-between w-full font-mono text-xs tracking-widest text-zinc-500">
-        <span>SCORE <span ref={scoreDisplayRef} className="text-green-400 font-bold">0</span></span>
-        <span className="text-zinc-600">{player} · #{playerId}</span>
+      <div className="flex w-full items-center justify-between gap-2 font-mono text-[11px] sm:text-xs tracking-widest text-zinc-500">
+        <span>SCORE <span ref={scoreDisplayRef} className="text-blue-400 font-bold">0</span></span>
+        <span className="min-w-0 truncate text-right text-zinc-600">{player} · #{playerId}</span>
       </div>
+
       <canvas
         ref={canvasRef}
-        className="rounded-lg border border-green-900 touch-none block w-full max-w-[400px]"
+        className="block w-full max-w-[280px] touch-none rounded-lg border border-blue-900 sm:max-w-[400px]"
         style={{ imageRendering: 'pixelated' }}
       />
-      <p className="text-xs text-zinc-700 font-mono tracking-wide">
-        ARRASTE · WASD · SETAS
-      </p>
+
+      {/* D-pad */}
+      <div className="grid grid-cols-3 gap-1.5 mt-1" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
+        {/* linha 1: só o botão cima no centro */}
+        <div />
+        <DpadBtn onPress={() => handleDpad('UP')}>▲</DpadBtn>
+        <div />
+        {/* linha 2: esquerda, baixo, direita */}
+        <DpadBtn onPress={() => handleDpad('LEFT')}>◀</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('DOWN')}>▼</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('RIGHT')}>▶</DpadBtn>
+      </div>
     </div>
+  )
+}
+
+function DpadBtn({ onPress, children }: { onPress: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onPointerDown={(e) => {
+        e.preventDefault()
+        onPress()
+      }}
+      className="w-14 h-14 flex items-center justify-center
+                bg-zinc-900 border border-zinc-700 rounded-xl
+                text-zinc-400 text-lg font-bold
+                active:bg-blue-900 active:border-blue-700 active:text-white
+                select-none touch-none transition-colors"
+    >
+      {children}
+    </button>
   )
 }

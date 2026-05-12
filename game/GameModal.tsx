@@ -73,17 +73,23 @@ export default function GameModal({ onClose, onGameOver }: Props) {
     setScreen('scores')
   }
 
+  const isGameScreen = screen === 'game'
+
   return (
     // fundo escuro semi-transparente — fecha ao clicar fora
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="relative w-full max-w-sm max-h-[92dvh] overflow-y-auto bg-[#0d1117] border border-blue-900 rounded-xl p-5 sm:p-6 shadow-xl">
+      <div
+        className={`relative w-full overflow-y-auto rounded-xl border border-blue-900 bg-[#0d1117] px-4 pb-4 pt-10 shadow-xl sm:px-6 sm:pt-11 ${
+          isGameScreen ? 'max-w-[min(92vw,22rem)] max-h-[85dvh]' : 'max-w-[min(92vw,24rem)] max-h-[90dvh]'
+        }`}
+      >
         {/* botão fechar */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-zinc-600 hover:text-zinc-400
+          className="absolute right-3 top-3 z-10 rounded-md bg-[#0d1117]/90 px-2 text-zinc-500 hover:text-zinc-300
                     font-mono text-lg leading-none transition-colors"
           aria-label="Fechar"
         >

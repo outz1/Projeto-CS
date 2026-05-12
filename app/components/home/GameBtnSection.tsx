@@ -113,48 +113,47 @@ export function SnakeSection() {
           </div>
 
           {/* Painel de Scoreboard - TUDO COM FONT-MINECRAFT */}
-          <div className="font-minecraft flex flex-col rounded-3xl border border-white/50 bg-[#0b1d4d] p-12 text-white shadow-2xl">
-            <div className="mb-1 flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-3">
+          <div className="font-minecraft flex flex-col rounded-3xl border border-white/50 bg-[#0b1d4d] px-5 py-7 text-white shadow-2xl sm:p-8 lg:p-10">
+            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-white/10 pb-5 sm:pb-4">
+              <div className="flex min-w-0 items-center gap-2.5">
                 <Trophy className="text-yellow-400" size={24} />
-                <span className="text-xl tracking-wider">RANKING</span>
+                <span className="text-base leading-none tracking-wider sm:text-xl">RANKING</span>
               </div>
-              {/* Removido font-mono para manter minecraftia */}
-              <span className="pl-2 text-[9px] text-white/40 uppercase tracking-widest">
+              <span className="shrink-0 pl-2 text-[9px] leading-none text-white/40 uppercase tracking-widest sm:text-[10px]">
                 {monthLabel}
               </span>
             </div>
 
-            <div className="flex flex-col gap-3 mt-4">
+            <div className="mt-5 flex flex-col gap-4 sm:mt-4 sm:gap-3">
               {loadingScores && (
                 Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex items-center justify-between gap-4 animate-pulse">
-                    <span className="text-[#005b9f] text-xs">0{i + 1}.</span>
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 animate-pulse sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-none text-[#005b9f]">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="text-white/20 text-xs">----</span>
+                    <span className="shrink-0 text-xs leading-none text-white/20">----</span>
                   </div>
                 ))
               )}
 
               {!loadingScores && scores.length === 0 && (
                 Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex items-center justify-between gap-4">
-                    <span className="text-[#005b9f] text-xs">0{i + 1}.</span>
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-none text-[#005b9f]">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="text-white/40 text-xs">----</span>
+                    <span className="shrink-0 text-xs leading-none text-white/40">----</span>
                   </div>
                 ))
               )}
 
               {!loadingScores && scores.map((entry, i) => (
-                <div key={i} className="flex items-center justify-between gap-3">
-                  <span className="text-[11px] w-5 text-center">
+                <div key={i} className="flex min-w-0 items-center justify-between gap-2.5 px-1 py-1.5 sm:px-0 sm:py-0">
+                  <span className="w-6 shrink-0 text-center text-[11px] leading-none">
                     {MEDALS[i] ?? <span className="text-[#005b9f]">0{i + 1}.</span>}
                   </span>
-                  <span className="text-[11px] text-white/80 flex-1 truncate uppercase">
+                  <span className="min-w-0 flex-1 truncate text-[11px] leading-none text-white/80 uppercase">
                     {entry.name}
                   </span>
-                  <span className="text-[11px] font-bold text-[#4d9fff]">
+                  <span className="shrink-0 text-[11px] font-bold leading-none text-[#4d9fff]">
                     {entry.score}
                   </span>
                 </div>
@@ -163,19 +162,19 @@ export function SnakeSection() {
               {/* preenche linhas vazias se tiver menos de 5 */}
               {!loadingScores && scores.length > 0 && scores.length < 5 && (
                 Array.from({ length: 5 - scores.length }).map((_, i) => (
-                  <div key={i} className="flex items-center justify-between gap-4">
-                    <span className="text-[#005b9f] text-[11px]">
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-[11px] leading-none text-[#005b9f]">
                       0{scores.length + i + 1}.
                     </span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="text-white/40 text-[11px]">----</span>
+                    <span className="shrink-0 text-[11px] leading-none text-white/40">----</span>
                   </div>
                 ))
               )}
             </div>
 
-            <div className="mt-auto pt-6">
-              <div className="rounded-xl bg-white/5 p-4 text-center">
+            <div className="mt-auto pt-7 sm:pt-6">
+              <div className="rounded-xl bg-white/5 px-4 py-5 text-center sm:p-4">
                 <p className="text-[10px] uppercase tracking-[0.1em] text-white/70 mb-1">
                   Sua melhor pontuação
                 </p>
