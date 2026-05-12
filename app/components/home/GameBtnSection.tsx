@@ -110,47 +110,47 @@ export function SnakeSection() {
           </div>
 
           {/* Painel de Scoreboard - TUDO COM FONT-MINECRAFT */}
-          <div className="font-minecraft flex flex-col rounded-3xl border border-white/50 bg-[#0b1d4d] px-5 py-7 text-white shadow-2xl sm:p-8 lg:p-10">
-            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-white/10 pb-5 sm:pb-4">
+          <div className="font-minecraft flex min-h-[31rem] flex-col rounded-3xl border border-white/50 bg-[#0b1d4d] px-6 py-8 text-white shadow-2xl sm:min-h-0 sm:p-8 lg:p-10">
+            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-white/10 pb-6 sm:pb-4">
               <div className="flex min-w-0 items-center gap-2.5">
                 <Trophy className="text-yellow-400" size={24} />
-                <span className="text-base leading-none tracking-wider sm:text-xl">RANKING</span>
+                <span className="text-base leading-[1.2] tracking-wider sm:text-xl">RANKING</span>
               </div>
-              <span className="shrink-0 pl-2 text-[9px] leading-none text-white/40 uppercase tracking-widest sm:text-[10px]">
+              <span className="shrink-0 pl-2 text-[10px] leading-[1.2] text-white/40 uppercase tracking-widest sm:text-[10px]">
                 {monthLabel}
               </span>
             </div>
 
-            <div className="mt-5 flex flex-col gap-4 sm:mt-4 sm:gap-3">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-4 sm:gap-3">
               {loadingScores && (
                 Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 animate-pulse sm:px-0 sm:py-0">
-                    <span className="shrink-0 text-xs leading-none text-[#005b9f]">0{i + 1}.</span>
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-2.5 animate-pulse sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-[1.2] text-[#005b9f]">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="shrink-0 text-xs leading-none text-white/20">----</span>
+                    <span className="shrink-0 text-xs leading-[1.2] text-white/20">----</span>
                   </div>
                 ))
               )}
 
               {!loadingScores && scores.length === 0 && (
                 Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
-                    <span className="shrink-0 text-xs leading-none text-[#005b9f]">0{i + 1}.</span>
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-2.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-[1.2] text-[#005b9f]">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="shrink-0 text-xs leading-none text-white/40">----</span>
+                    <span className="shrink-0 text-xs leading-[1.2] text-white/40">----</span>
                   </div>
                 ))
               )}
 
               {!loadingScores && scores.map((entry, i) => (
-                <div key={i} className="flex min-w-0 items-center justify-between gap-2.5 px-1 py-1.5 sm:px-0 sm:py-0">
-                  <span className="w-6 shrink-0 text-center text-[11px] leading-none">
+                <div key={i} className="flex min-w-0 items-center justify-between gap-2.5 px-1 py-2.5 sm:px-0 sm:py-0">
+                  <span className="w-6 shrink-0 text-center text-xs leading-[1.2]">
                     {MEDALS[i] ?? <span className="text-[#005b9f]">0{i + 1}.</span>}
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-[11px] leading-none text-white/80 uppercase">
+                  <span className="min-w-0 flex-1 truncate text-xs leading-[1.25] text-white/80 uppercase">
                     {entry.name}
                   </span>
-                  <span className="shrink-0 text-[11px] font-bold leading-none text-[#4d9fff]">
+                  <span className="shrink-0 text-xs font-bold leading-[1.2] text-[#4d9fff]">
                     {entry.score}
                   </span>
                 </div>
@@ -159,12 +159,12 @@ export function SnakeSection() {
               {/* preenche linhas vazias se tiver menos de 5 */}
               {!loadingScores && scores.length > 0 && scores.length < 5 && (
                 Array.from({ length: 5 - scores.length }).map((_, i) => (
-                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
-                    <span className="shrink-0 text-[11px] leading-none text-[#005b9f]">
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-2.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-[1.2] text-[#005b9f]">
                       0{scores.length + i + 1}.
                     </span>
                     <div className="h-px flex-1 border-b border-dashed border-white/20" />
-                    <span className="shrink-0 text-[11px] leading-none text-white/40">----</span>
+                    <span className="shrink-0 text-xs leading-[1.2] text-white/40">----</span>
                   </div>
                 ))
               )}
@@ -273,47 +273,47 @@ export function HardSnakeSection() {
             </div>
           </div>
 
-          <div className="font-minecraft flex flex-col rounded-3xl border border-violet-400/40 bg-[#130a26] px-5 py-7 text-white shadow-2xl sm:p-8 lg:p-10">
-            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-violet-300/20 pb-5 sm:pb-4">
+          <div className="font-minecraft flex min-h-[31rem] flex-col rounded-3xl border border-violet-400/40 bg-[#130a26] px-6 py-8 text-white shadow-2xl sm:min-h-0 sm:p-8 lg:p-10">
+            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-violet-300/20 pb-6 sm:pb-4">
               <div className="flex min-w-0 items-center gap-2.5">
                 <Trophy className="text-violet-300" size={24} />
-                <span className="text-base leading-none tracking-wider text-violet-200 sm:text-xl">ARCADE RANKING</span>
+                <span className="text-base leading-[1.2] tracking-wider text-violet-200 sm:text-xl">ARCADE RANKING</span>
               </div>
-              <span className="shrink-0 pl-2 text-[9px] leading-none text-violet-200/50 uppercase tracking-widest sm:text-[10px]">
+              <span className="shrink-0 pl-2 text-[10px] leading-[1.2] text-violet-200/50 uppercase tracking-widest sm:text-[10px]">
                 {monthLabel}
               </span>
             </div>
 
-            <div className="mt-5 flex flex-col gap-4 sm:mt-4 sm:gap-3">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-4 sm:gap-3">
               {loadingHardScores && (
                 Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 animate-pulse sm:px-0 sm:py-0">
-                    <span className="shrink-0 text-xs leading-none text-violet-400">0{i + 1}.</span>
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-2.5 animate-pulse sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-[1.2] text-violet-400">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-violet-300/20" />
-                    <span className="shrink-0 text-xs leading-none text-violet-200/20">----</span>
+                    <span className="shrink-0 text-xs leading-[1.2] text-violet-200/20">----</span>
                   </div>
                 ))
               )}
 
               {!loadingHardScores && hardScores.length === 0 && (
                 Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
-                    <span className="shrink-0 text-xs leading-none text-violet-400">0{i + 1}.</span>
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-2.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-[1.2] text-violet-400">0{i + 1}.</span>
                     <div className="h-px flex-1 border-b border-dashed border-violet-300/20" />
-                    <span className="shrink-0 text-xs leading-none text-violet-200/40">----</span>
+                    <span className="shrink-0 text-xs leading-[1.2] text-violet-200/40">----</span>
                   </div>
                 ))
               )}
 
               {!loadingHardScores && hardScores.map((entry, i) => (
-                <div key={i} className="flex min-w-0 items-center justify-between gap-2.5 px-1 py-1.5 sm:px-0 sm:py-0">
-                  <span className="w-6 shrink-0 text-center text-[11px] leading-none">
+                <div key={i} className="flex min-w-0 items-center justify-between gap-2.5 px-1 py-2.5 sm:px-0 sm:py-0">
+                  <span className="w-6 shrink-0 text-center text-xs leading-[1.2]">
                     {MEDALS[i] ?? <span className="text-violet-400">0{i + 1}.</span>}
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-[11px] leading-none text-violet-100/80 uppercase">
+                  <span className="min-w-0 flex-1 truncate text-xs leading-[1.25] text-violet-100/80 uppercase">
                     {entry.name}
                   </span>
-                  <span className="shrink-0 text-[11px] font-bold leading-none text-fuchsia-300">
+                  <span className="shrink-0 text-xs font-bold leading-[1.2] text-fuchsia-300">
                     {entry.score}
                   </span>
                 </div>
@@ -321,12 +321,12 @@ export function HardSnakeSection() {
 
               {!loadingHardScores && hardScores.length > 0 && hardScores.length < 5 && (
                 Array.from({ length: 5 - hardScores.length }).map((_, i) => (
-                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
-                    <span className="shrink-0 text-[11px] leading-none text-violet-400">
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-2.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-[1.2] text-violet-400">
                       0{hardScores.length + i + 1}.
                     </span>
                     <div className="h-px flex-1 border-b border-dashed border-violet-300/20" />
-                    <span className="shrink-0 text-[11px] leading-none text-violet-200/40">----</span>
+                    <span className="shrink-0 text-xs leading-[1.2] text-violet-200/40">----</span>
                   </div>
                 ))
               )}

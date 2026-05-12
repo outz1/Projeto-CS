@@ -51,7 +51,14 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
   const [paused, setPaused] = useState(false);
   const [restartSignal, setRestartSignal] = useState(0);
   const [dashSignal, setDashSignal] = useState(0);
-  const [mobileInput, setMobileInput] = useState({ up: false, down: false, left: false, right: false, shoot: false });
+  const [mobileInput, setMobileInput] = useState({
+    moveX: 0,
+    moveY: 0,
+    aimX: 0,
+    aimY: -1,
+    aiming: false,
+    autoShoot: false,
+  });
   const [selectedUpgradeId, setSelectedUpgradeId] = useState<ArcadeUpgradeId | null>(null);
   const [upgradeOptions, setUpgradeOptions] = useState<ArcadeUpgradeId[]>([]);
   const [gameOverStats, setGameOverStats] = useState<ArcadeRunStats | null>(null);
@@ -86,6 +93,16 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
     }, 70);
     return () => clearInterval(interval);
   }, [loading, restartSignal]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(hover: none), (pointer: coarse)");
+    const updateAutoShoot = () => {
+      setMobileInput((prev) => ({ ...prev, autoShoot: media.matches }));
+    };
+    updateAutoShoot();
+    media.addEventListener("change", updateAutoShoot);
+    return () => media.removeEventListener("change", updateAutoShoot);
+  }, []);
 
   const fetchArcadeScores = useCallback(async () => {
     setLoadingScores(true);
@@ -149,7 +166,7 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
   const loadingMessage = useMemo(() => LOADING_MESSAGES[loadingMessageIndex], [loadingMessageIndex]);
 
   return (
-    <div className="relative mx-auto w-full max-w-5xl">
+    <div className="arcade-mobile-no-select relative mx-auto w-full max-w-5xl">
       <div className="mb-3 flex items-center justify-between">
         <p className="font-mono text-xs tracking-widest text-violet-200/80">
           ARCADE MODE · <span className="text-fuchsia-300">#{playerId}</span>
@@ -235,8 +252,15 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
       </div>
 
       <MobileControls
-        onMoveChange={(next) => setMobileInput((prev) => ({ ...prev, ...next }))}
-        onShootChange={(shooting) => setMobileInput((prev) => ({ ...prev, shoot: shooting }))}
+        onMoveChange={({ x, y }) => setMobileInput((prev) => ({ ...prev, moveX: x, moveY: y }))}
+        onAimChange={({ x, y, active }) =>
+          setMobileInput((prev) => ({
+            ...prev,
+            aimX: active ? x : prev.aimX,
+            aimY: active ? y : prev.aimY,
+            aiming: active,
+          }))
+        }
         onDash={() => setDashSignal((v) => v + 1)}
       />
     </div>

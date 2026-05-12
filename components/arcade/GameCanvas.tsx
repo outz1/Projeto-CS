@@ -26,7 +26,14 @@ interface Props {
   paused: boolean;
   restartSignal: number;
   selectedUpgradeId: ArcadeUpgradeId | null;
-  mobileInput: { up: boolean; down: boolean; left: boolean; right: boolean; shoot: boolean };
+  mobileInput: {
+    moveX: number;
+    moveY: number;
+    aimX: number;
+    aimY: number;
+    aiming: boolean;
+    autoShoot: boolean;
+  };
   dashSignal: number;
   onUpgradeConsumed: () => void;
   onHudUpdate: (snapshot: ArcadeHudSnapshot) => void;
@@ -201,11 +208,18 @@ export default function GameCanvas({
   useEffect(() => {
     const state = stateRef.current;
     if (!state) return;
-    state.input.up = mobileInput.up;
-    state.input.down = mobileInput.down;
-    state.input.left = mobileInput.left;
-    state.input.right = mobileInput.right;
-    state.input.shoot = state.input.shoot || mobileInput.shoot;
+    const moveDeadzone = 0.2;
+    state.input.up = mobileInput.moveY < -moveDeadzone;
+    state.input.down = mobileInput.moveY > moveDeadzone;
+    state.input.left = mobileInput.moveX < -moveDeadzone;
+    state.input.right = mobileInput.moveX > moveDeadzone;
+    state.input.shoot = mobileInput.autoShoot;
+    if (mobileInput.aiming) {
+      const len = Math.hypot(mobileInput.aimX, mobileInput.aimY) || 1;
+      const aimDistance = 220;
+      state.pointer.x = state.player.x + (mobileInput.aimX / len) * aimDistance;
+      state.pointer.y = state.player.y + (mobileInput.aimY / len) * aimDistance;
+    }
   }, [mobileInput]);
 
   useEffect(() => {

@@ -29,7 +29,7 @@ export default function ArcadePage() {
   const safeId = sanitizePlayerId(playerId);
 
   return (
-    <div className="min-h-screen bg-radial-[at_20%_20%] from-violet-950 via-[#090513] to-indigo-950 px-4 py-6 text-violet-100">
+    <div className="arcade-mobile-no-select min-h-screen bg-radial-[at_20%_20%] from-violet-950 via-[#090513] to-indigo-950 px-4 py-6 text-violet-100">
       <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6 flex items-center justify-between">
           <Link href="/" className="font-mono text-xs tracking-widest text-violet-300 hover:text-violet-100">

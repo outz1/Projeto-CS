@@ -95,6 +95,23 @@ html {
   animation-iteration-count: infinite;
 }
 
+@media (hover: none), (pointer: coarse) {
+  .arcade-mobile-no-select,
+  .arcade-mobile-no-select * {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .arcade-mobile-no-select input,
+  .arcade-mobile-no-select textarea {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+  }
+}
+
 @keyframes matrix-fall {
   0% {
     opacity: calc(var(--matrix-opacity, 0.25) * 0.05);
