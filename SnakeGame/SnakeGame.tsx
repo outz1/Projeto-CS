@@ -282,12 +282,12 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       <div className="grid grid-cols-3 gap-1.5 mt-1" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
         {/* linha 1: só o botão cima no centro */}
         <div />
-        <DpadBtn onPress={() => handleDpad('UP')}>▲</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('UP')}>↑</DpadBtn>
         <div />
         {/* linha 2: esquerda, baixo, direita */}
-        <DpadBtn onPress={() => handleDpad('LEFT')}>◀</DpadBtn>
-        <DpadBtn onPress={() => handleDpad('DOWN')}>▼</DpadBtn>
-        <DpadBtn onPress={() => handleDpad('RIGHT')}>▶</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('LEFT')}>←</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('DOWN')}>↓</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('RIGHT')}>→</DpadBtn>
       </div>
     </div>
   )
@@ -302,7 +302,7 @@ function DpadBtn({ onPress, children }: { onPress: () => void; children: React.R
       }}
       className="w-14 h-14 flex items-center justify-center
                 bg-zinc-900 border border-zinc-700 rounded-xl
-                text-zinc-400 text-lg font-bold
+                text-zinc-400 text-xl font-bold font-sans leading-none
                 active:bg-blue-900 active:border-blue-700 active:text-white
                 select-none touch-none transition-colors"
     >

@@ -147,7 +147,7 @@ export function SnakeSection() {
                   <span className="w-6 shrink-0 text-center text-xs leading-[1.2]">
                     {MEDALS[i] ?? <span className="text-[#005b9f]">0{i + 1}.</span>}
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-xs leading-[1.25] text-white/80 uppercase">
+                  <span className="min-w-0 flex-1 truncate text-xs leading-normal py-1 text-white/80 uppercase">
                     {entry.name}
                   </span>
                   <span className="shrink-0 text-xs font-bold leading-[1.2] text-[#4d9fff]">
@@ -310,7 +310,7 @@ export function HardSnakeSection() {
                   <span className="w-6 shrink-0 text-center text-xs leading-[1.2]">
                     {MEDALS[i] ?? <span className="text-violet-400">0{i + 1}.</span>}
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-xs leading-[1.25] text-violet-100/80 uppercase">
+                  <span className="min-w-0 flex-1 truncate text-xs leading-normal py-1 text-violet-100/80 uppercase">
                     {entry.name}
                   </span>
                   <span className="shrink-0 text-xs font-bold leading-[1.2] text-fuchsia-300">
