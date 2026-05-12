@@ -24,18 +24,20 @@ export const metadata: Metadata = buildPageMetadata({
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-white text-[#0b1d4d]">
-      <Header />
+      <Header readerTargetId="page-content" />
 
+      <div id="page-content">
         <HeroSection />
-      <main className="pb-16 pt-20">
-        <InfSection />
-        <CursoSection />
-        <AreasSection />
-        <EntidadesSection />
-        <SnakeSection />
-        <GaleriaSection />
-        <FAQSection />
-      </main>
+        <main className="pb-16 pt-20">
+          <InfSection />
+          <CursoSection />
+          <AreasSection />
+          <EntidadesSection />
+          <SnakeSection />
+          <GaleriaSection />
+          <FAQSection />
+        </main>
+      </div>
 
       <Footer />
     </div>
