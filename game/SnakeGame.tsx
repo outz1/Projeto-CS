@@ -1,6 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useCallback } from 'react'
+import {
+  extractRetryAfterSeconds,
+  normalizePlayerName,
+  sanitizePlayerId,
+} from '@/lib/leaderboardSecurity'
 
 const GRID = 20
 const TICK_MS = 130
@@ -13,10 +18,38 @@ interface Props {
   onGameOver: (score: number) => void
 }
 
+// Chave do localStorage para guardar até quando o cooldown dura
+function cooldownKey(id: string) {
+  return `snake:cooldown:${id}`
+}
+
+// Retorna os segundos restantes de cooldown (0 se liberado)
+function getCooldownSeconds(id: string): number {
+  try {
+    const val = localStorage.getItem(cooldownKey(id))
+    if (!val) return 0
+    const endsAt = parseInt(val, 10)
+    const remaining = Math.ceil((endsAt - Date.now()) / 1000)
+    if (remaining <= 0) {
+      localStorage.removeItem(cooldownKey(id))
+      return 0
+    }
+    return remaining
+  } catch {
+    return 0
+  }
+}
+
+function setCooldown(id: string, seconds: number) {
+  try {
+    localStorage.setItem(cooldownKey(id), String(Date.now() + seconds * 1000))
+  } catch {}
+}
+
 export default function SnakeGame({ player, playerId, onGameOver }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const gameStartedAtRef = useRef<number>(0)
 
-  // refs para estado do jogo (evita re-renders desnecessários)
   const stateRef = useRef({
     snake: [] as Point[],
     dir: { x: 1, y: 0 },
@@ -56,7 +89,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     ctx.fillStyle = '#0d1117'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // grade sutil
     ctx.strokeStyle = '#161b22'
     ctx.lineWidth = 0.5
     for (let i = 0; i <= GRID; i++) {
@@ -64,13 +96,11 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       ctx.beginPath(); ctx.moveTo(0, i * C); ctx.lineTo(canvas.width, i * C); ctx.stroke()
     }
 
-    // cobra
     snake.forEach((seg, i) => {
       const alpha = i === 0 ? 1 : Math.max(0.25, 1 - i * 0.05)
       ctx.fillStyle = i === 0 ? '#3fb950' : `rgba(35,134,54,${alpha})`
       ctx.fillRect(seg.x * C + 1, seg.y * C + 1, C - 2, C - 2)
 
-      // olhos na cabeça
       if (i === 0) {
         const ex = dir.x, ey = dir.y, ex2 = -ey, ey2 = ex
         const cx = seg.x * C + C / 2, cy = seg.y * C + C / 2
@@ -84,19 +114,44 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       }
     })
 
-    // comida
     const fw = C * 0.6, fo = (C - fw) / 2
     ctx.fillStyle = '#f0b429'
     ctx.fillRect(food.x * C + fo, food.y * C + fo, fw, fw)
   }, [cellSize])
 
-  const saveScore = useCallback(async (score: number) => {
+  const saveScore = useCallback(async (score: number, durationMs: number) => {
+    const safeId = sanitizePlayerId(playerId)
+    const safeName = normalizePlayerName(player)
+    const remaining = getCooldownSeconds(safeId)
+    if (remaining > 0) {
+      console.info(`[snake] cooldown ativo: ${remaining}s restantes`)
+      return 
+    }
+
     try {
-      await fetch('/api/scores', {
+      const res = await fetch('/api/scores', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: player, id: playerId, score }),
+        body: JSON.stringify({
+          name: safeName,
+          id: safeId,
+          score,
+          durationMs,
+        }),
       })
+
+      const payload: unknown = await res.json().catch(() => null)
+
+      if (res.status === 429) {
+        const retryAfter = extractRetryAfterSeconds(payload) ?? 600
+        setCooldown(safeId, retryAfter)
+        console.warn(`[snake] rate limited pelo servidor: ${retryAfter}s`)
+        return
+      }
+
+      if (!res.ok) {
+        console.warn('[snake] score rejeitado pelo servidor')
+      }
     } catch (e) {
       console.error('Erro ao salvar score:', e)
     }
@@ -106,8 +161,9 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    // ajusta tamanho ao container
-    const size = Math.min(canvas.parentElement?.clientWidth ?? 400, 400)
+    const parentWidth = canvas.parentElement?.clientWidth ?? 400
+    const viewportLimit = window.innerWidth < 640 ? 280 : 400
+    const size = Math.min(parentWidth, viewportLimit, 400)
     canvas.width = size
     canvas.height = size
 
@@ -118,10 +174,10 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     s.nextDir = { x: 1, y: 0 }
     s.score = 0
     s.running = true
+    gameStartedAtRef.current = Date.now()
     placeFood()
     draw()
 
-    // game loop
     const loop = setInterval(() => {
       s.dir = s.nextDir
       const head = { x: s.snake[0].x + s.dir.x, y: s.snake[0].y + s.dir.y }
@@ -132,7 +188,8 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       if (hitWall || hitSelf) {
         clearInterval(loop)
         s.running = false
-        saveScore(s.score)
+        const durationMs = Date.now() - gameStartedAtRef.current
+        saveScore(s.score, durationMs)
         setTimeout(() => onGameOver(s.score), 250)
         return
       }
@@ -149,7 +206,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       draw()
     }, TICK_MS)
 
-    // teclado
     const handleKey = (e: KeyboardEvent) => {
       if (!s.running) return
       const map: Record<string, Point> = {
@@ -166,7 +222,6 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     }
     window.addEventListener('keydown', handleKey)
 
-    // swipe touch
     let touchX = 0, touchY = 0
     const onTouchStart = (e: TouchEvent) => {
       touchX = e.touches[0].clientX
@@ -195,20 +250,63 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     }
   }, [draw, placeFood, saveScore, onGameOver])
 
+  function handleDpad(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
+    const s = stateRef.current
+    if (!s.running) return
+    const map = {
+      UP:    { x: 0,  y: -1 },
+      DOWN:  { x: 0,  y:  1 },
+      LEFT:  { x: -1, y:  0 },
+      RIGHT: { x: 1,  y:  0 },
+    }
+    const nd = map[direction]
+    if (!(nd.x === -s.dir.x && nd.y === -s.dir.y)) {
+      s.nextDir = nd
+    }
+  }
+
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="flex justify-between w-full font-mono text-xs tracking-widest text-zinc-500">
-        <span>SCORE <span ref={scoreDisplayRef} className="text-green-400 font-bold">0</span></span>
-        <span className="text-zinc-600">{player} · #{playerId}</span>
+      <div className="flex w-full items-center justify-between gap-2 font-mono text-[11px] sm:text-xs tracking-widest text-zinc-500">
+        <span>SCORE <span ref={scoreDisplayRef} className="text-blue-400 font-bold">0</span></span>
+        <span className="min-w-0 truncate text-right text-zinc-600">{player} · #{playerId}</span>
       </div>
+
       <canvas
         ref={canvasRef}
-        className="rounded-lg border border-green-900 touch-none block w-full max-w-[400px]"
+        className="block w-full max-w-[280px] touch-none rounded-lg border border-blue-900 sm:max-w-[400px]"
         style={{ imageRendering: 'pixelated' }}
       />
-      <p className="text-xs text-zinc-700 font-mono tracking-wide">
-        ARRASTE · WASD · SETAS
-      </p>
+
+      {/* D-pad */}
+      <div className="grid grid-cols-3 gap-1.5 mt-1" style={{ gridTemplateRows: 'repeat(2, 1fr)' }}>
+        {/* linha 1: só o botão cima no centro */}
+        <div />
+        <DpadBtn onPress={() => handleDpad('UP')}>▲</DpadBtn>
+        <div />
+        {/* linha 2: esquerda, baixo, direita */}
+        <DpadBtn onPress={() => handleDpad('LEFT')}>◀</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('DOWN')}>▼</DpadBtn>
+        <DpadBtn onPress={() => handleDpad('RIGHT')}>▶</DpadBtn>
+      </div>
     </div>
+  )
+}
+
+function DpadBtn({ onPress, children }: { onPress: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onPointerDown={(e) => {
+        e.preventDefault()
+        onPress()
+      }}
+      className="w-14 h-14 flex items-center justify-center
+                bg-zinc-900 border border-zinc-700 rounded-xl
+                text-zinc-400 text-lg font-bold
+                active:bg-blue-900 active:border-blue-700 active:text-white
+                select-none touch-none transition-colors"
+    >
+      {children}
+    </button>
   )
 }

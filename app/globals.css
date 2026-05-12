@@ -125,14 +125,3 @@ html {
     filter: blur(0.4px);
   }
 }
-/* Oculta o botão flutuante padrão do VLibras */
-/* Oculta o botão flutuante padrão do VLibras para podermos usar um botão customizado */
-/* Oculta o botão flutuante padrão do VLibras de forma segura para cliques via JS */
-div[vw] [vw-access-button] {
-  position: absolute !important;
-  left: -9999px !important;
-  opacity: 0 !important;
-  width: 1px !important;
-  height: 1px !important;
-  overflow: hidden !important;
-}

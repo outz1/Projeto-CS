@@ -1,22 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState } from "react"; 
 import Image from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 export type EntityItem = {
   name: string;
   description: string;
-  logo: string; // Nova propriedade de imagem
+  logo: string;
 };
 
-export function EntityCard({ entity }: { entity: EntityItem }) {
+export function EntityCard({ entity, isActive = true }: { entity: EntityItem; isActive?: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Estado auxiliar para rastrear a mudança da prop isActive
+  const [prevIsActive, setPrevIsActive] = useState(isActive);
+
+  // Se a prop isActive mudou desde a última renderização
+  if (isActive !== prevIsActive) {
+    setPrevIsActive(isActive); // Atualiza o rastreador
+    
+    // Se o card deixou de ser o ativo, recolhemos o conteúdo
+    if (!isActive) {
+      setIsExpanded(false);
+    }
+  }
 
   return (
     <article className="flex w-full flex-col overflow-hidden rounded-xl border border-[#8eb1ff]/55 bg-[#d9e7ff]/80 p-8 transition-all sm:p-8">
       <div className="flex items-center gap-4 sm:gap-5">
-        {/* Renderiza a logo real */}
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full sm:h-24 sm:w-24">
           <Image 
             src={entity.logo} 
@@ -31,7 +43,6 @@ export function EntityCard({ entity }: { entity: EntityItem }) {
           <h3 className="truncate pt-1 text-xl font-black uppercase tracking-wide text-[#0b1d4d] sm:px-2 sm:py-1 sm:text-2xl">
             {entity.name}
           </h3>
-          {/* Linha decorativa abaixo do título */}
           <div className="mt-2 h-2 w-28 rounded-md bg-blue-800/70 sm:w-40" />
         </div>
       </div>

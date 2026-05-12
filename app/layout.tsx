@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import { defaultMetadata } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/react";
-import { VLibrasWidget } from "./components/home/VlibrasWidgget";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +26,6 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${minecraft.variable} ${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         {children}
-        <VLibrasWidget />
         <Analytics />
       </body>
     </html>

@@ -15,7 +15,7 @@ const entities: EntityItem[] = [
     name: "Unificada",
     logo: "/entidades/unificada.png",
     description:
-    "A Atlética Unificada é a Associação Atlética Acadêmica da Computação. É responsável por promover a prática esportiva, organizar equipes, participar de campeonatos universitários e realizar eventos de integração.",
+      "A Atlética Unificada é a Associação Atlética Acadêmica da Computação. É responsável por promover a prática esportiva, organizar equipes, participar de campeonatos universitários e realizar eventos de integração.",
   },
   {
     name: "ADAS",
@@ -68,7 +68,8 @@ export function EntidadesCarousel() {
   const canGoNext = activeIndex < entities.length - 1;
 
   const goPrev = () => setActiveIndex((prev) => Math.max(0, prev - 1));
-  const goNext = () => setActiveIndex((prev) => Math.min(entities.length - 1, prev + 1));
+  const goNext = () =>
+    setActiveIndex((prev) => Math.min(entities.length - 1, prev + 1));
 
   return (
     <div className="carousel-safe mx-auto w-full max-w-[920px]">
@@ -77,9 +78,10 @@ export function EntidadesCarousel() {
           className="flex items-start transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
         >
-          {entities.map((entity) => (
+          {entities.map((entity, index) => (
             <div key={entity.name} className="w-full flex-[0_0_100%] px-1">
-              <EntityCard entity={entity} />
+              {/* Passando a prop isActive com a lógica de comparação */}
+              <EntityCard entity={entity} isActive={activeIndex === index} />
             </div>
           ))}
         </div>
@@ -105,7 +107,9 @@ export function EntidadesCarousel() {
               aria-label={`Ir para ${entity.name}`}
               aria-current={activeIndex === index}
               className={`h-2.5 rounded-full transition-all ${
-                activeIndex === index ? "w-7 bg-[#0b1d4d]" : "w-2.5 bg-[#0b1d4d]/30"
+                activeIndex === index
+                  ? "w-7 bg-[#0b1d4d]"
+                  : "w-2.5 bg-[#0b1d4d]/30"
               }`}
             />
           ))}
