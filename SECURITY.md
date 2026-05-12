@@ -18,7 +18,7 @@ A arquitetura utiliza múltiplas camadas de validação e proteção tanto no fr
 
 # Fluxo Geral da Segurança
 
-```txt
+```
 Usuário digita nome
         ↓
 Sanitização do input

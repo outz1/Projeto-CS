@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Footer } from "./components/home/Footer";
 import { Header } from "./components/home/Header";
 import { HeroSection } from "./components/home/HeroSection";
-import { SnakeSection } from "./components/home/GameBtnSection";
+import { HardSnakeSection, SnakeSection } from "./components/home/GameBtnSection";
 import { CareerMindMapSection } from "./components/home/CareerMindMapSection";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -36,6 +36,7 @@ export default function Home() {
           <EntidadesSection />
           <CareerMindMapSection />
           <SnakeSection />
+          <HardSnakeSection />
           <GaleriaSection />
           <FAQSection />
         </main>

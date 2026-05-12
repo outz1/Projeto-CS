@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { Trophy, Gamepad2 } from "lucide-react";
-import GameModal from "@/game/GameModal";
+import { Trophy, Gamepad2, Flame } from "lucide-react";
+import GameModal from "@/SnakeGame/GameModal";
 import { parseScoresApiResponse, type ScoreEntry } from "@/lib/leaderboardSecurity";
+import Link from "next/link";
 
 const MEDALS = ["🥇", "🥈", "🥉"];
 
@@ -191,6 +192,78 @@ export function SnakeSection() {
           onGameOver={handleGameOver}
         />
       )}
+    </section>
+  );
+}
+
+export function HardSnakeSection() {
+  return (
+    <section className="w-full bg-[#d2e2ff]/40">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-4 py-12 sm:px-6 md:px-8 lg:px-12">
+        <div className="flex flex-col gap-2">
+          <h2 className="font-minecraft text-3xl uppercase tracking-wide text-[#0b1d4d] sm:text-4xl">
+            DESAFIO <span className="text-red-700 ">DOOM</span>
+          </h2>
+          <p className="text-sm font-medium text-[#0b1d4d]/70">
+            Achou o jogo da cobrinha muito easy? Experimente o clássico FPS em modo showcase arcade, com visual retrô e carregamento instantâneo.
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-[1fr_300px] md:items-stretch">
+          <div className="group relative overflow-hidden rounded-3xl border border-white/50 bg-white/60 p-8 shadow-xl backdrop-blur-md transition-all duration-500 hover:bg-white/80">
+            <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
+              <div className="rounded-full bg-red-600/15 p-5 text-red-600 transition-transform duration-500 group-hover:scale-110">
+                <Flame size={48} />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black text-[#0b1d4d]">PRONTO PARA ENCARAR DOOM?</h3>
+                <p className="max-w-md text-[#0b1d4d]/80">
+                  A proposta aqui é arcade/showcase: sem placar competitivo, com foco em diversão e nostalgia.
+                </p>
+              </div>
+              
+              {/* O botão foi substituído pelo Link aqui */}
+              <Link
+                href="/doom"
+                className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-xl bg-red-600 px-10 py-4 font-bold text-white shadow-lg transition-all hover:bg-red-700 hover:shadow-red-600/40 active:scale-95 cursor-pointer focus:outline-none focus:ring-4 focus:ring-red-600/50"
+              >
+                <span className="relative z-10">INICIAR DOOM</span>
+                <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-1000 group-hover:translate-x-full" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="font-minecraft flex flex-col rounded-3xl border border-[#B22222]/40 bg-[#080808] px-5 py-7 text-white shadow-2xl sm:p-8 lg:p-10">
+            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-[#B22222]/20 pb-5 sm:pb-4">
+              <div className="flex min-w-0 items-center gap-2.5">
+                <Flame className="text-[#FF0000]" size={24} />
+                <span className="text-base leading-none tracking-wider text-[#FF0000] sm:text-xl">DOOM SHOWCASE</span>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-col gap-3 text-[11px] leading-relaxed text-[#CCCCCC]">
+              <p>
+                • Carregamento visual rápido com iframe externo estável.
+              </p>
+              <p>
+                • Visual retrô integrado ao site com suporte a fullscreen.
+              </p>
+              <p>
+                • Sem leaderboard: o competitivo oficial permanece no Snake.
+              </p>
+            </div>
+
+            <div className="mt-auto pt-7 sm:pt-6">
+              <div className="rounded-xl bg-[#1A0000] px-4 py-5 text-center sm:p-4">
+                <p className="text-[10px] uppercase tracking-[0.1em] text-[#555555] mb-1">
+                  Modo atual
+                </p>
+                <p className="text-2xl text-[#FF4500]">ARCADE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

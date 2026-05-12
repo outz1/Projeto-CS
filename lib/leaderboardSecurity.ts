@@ -1,3 +1,5 @@
+export type GameType = "snake";
+
 export interface ScoreEntry {
   name: string;
   id: string;
@@ -11,11 +13,13 @@ export interface ScoreSubmitPayload extends ScoreEntry {
 const FALLBACK_PLAYER_NAME = "ANONIMO";
 const NAME_MAX_LENGTH = 18;
 const PLAYER_ID_LENGTH = 6;
+
 const SCORE_MIN = 0;
-const SCORE_MAX = 5000;
-const SCORE_STEP = 10;
-const MIN_MS_PER_FOOD = 70;
-const MAX_GAME_DURATION_MS = 1000 * 60 * 60;
+const MAX_GAME_DURATION_MS = 1000 * 60 * 60; // 1 hora
+
+const SNAKE_SCORE_MAX = 5000;
+const SNAKE_SCORE_STEP = 10;
+const SNAKE_MIN_MS_PER_FOOD = 70;
 
 const CONTROL_CHARS_REGEX = /[\u0000-\u001F\u007F-\u009F]/g;
 const INVISIBLE_CHARS_REGEX = /[\u200B-\u200D\uFEFF\u2060]/g;
@@ -68,14 +72,20 @@ export function isValidPlayerId(raw: unknown): raw is string {
   return typeof raw === "string" && PLAYER_ID_FORMAT.test(raw);
 }
 
-export function isValidScore(raw: unknown): raw is number {
-  return (
-    typeof raw === "number" &&
-    Number.isInteger(raw) &&
-    raw >= SCORE_MIN &&
-    raw <= SCORE_MAX &&
-    raw % SCORE_STEP === 0
-  );
+export function isValidGame(raw: unknown): raw is GameType {
+  return raw === "snake";
+}
+
+export function isValidScore(raw: unknown, game: GameType = "snake"): raw is number {
+  if (typeof raw !== "number" || !Number.isInteger(raw) || raw < SCORE_MIN) {
+    return false;
+  }
+
+  if (game === "snake") {
+    return raw <= SNAKE_SCORE_MAX && raw % SNAKE_SCORE_STEP === 0;
+  }
+
+  return false;
 }
 
 export function isValidDurationMs(raw: unknown): raw is number {
@@ -87,11 +97,16 @@ export function isValidDurationMs(raw: unknown): raw is number {
   );
 }
 
-export function isSuspiciousDuration(score: number, durationMs: number): boolean {
+export function isSuspiciousDuration(score: number, durationMs: number, game: GameType = "snake"): boolean {
   if (score <= 0) return false;
-  const foodsEaten = score / SCORE_STEP;
-  const minDurationMs = Math.max(900, foodsEaten * MIN_MS_PER_FOOD);
-  return durationMs < minDurationMs;
+
+  if (game === "snake") {
+    const foodsEaten = score / SNAKE_SCORE_STEP;
+    const minDurationMs = Math.max(900, foodsEaten * SNAKE_MIN_MS_PER_FOOD);
+    return durationMs < minDurationMs;
+  }
+
+  return false;
 }
 
 function asObject(value: unknown): Record<string, unknown> | null {
@@ -105,15 +120,18 @@ export function parseScoreEntry(value: unknown): ScoreEntry | null {
 
   const name = sanitizePlayerNameInput(obj.name);
   const id = sanitizePlayerId(obj.id);
+  
   const score = obj.score;
 
   if (!name || !isValidPlayerId(id) || !isValidScore(score)) return null;
 
-  return {
+  const entry: ScoreEntry = {
     name: name.toUpperCase(),
     id,
     score,
   };
+
+  return entry;
 }
 
 export function parseScoreSubmitPayload(value: unknown): ScoreSubmitPayload | null {
@@ -122,6 +140,7 @@ export function parseScoreSubmitPayload(value: unknown): ScoreSubmitPayload | nu
 
   const normalizedName = normalizePlayerName(obj.name);
   const id = sanitizePlayerId(obj.id);
+  
   const score = obj.score;
   const durationMs = obj.durationMs;
 
@@ -180,7 +199,7 @@ export const leaderboardSecurityConfig = {
   NAME_MAX_LENGTH,
   PLAYER_ID_LENGTH,
   SCORE_MIN,
-  SCORE_MAX,
-  SCORE_STEP,
+  SNAKE_SCORE_MAX,
+  SNAKE_SCORE_STEP,
   MAX_GAME_DURATION_MS,
 } as const;
