@@ -3,6 +3,7 @@ import { Footer } from "./components/home/Footer";
 import { Header } from "./components/home/Header";
 import { HeroSection } from "./components/home/HeroSection";
 import { SnakeSection } from "./components/home/GameBtnSection";
+import { CareerMindMapSection } from "./components/home/CareerMindMapSection";
 import { buildPageMetadata } from "@/lib/seo";
 
 import {
@@ -33,6 +34,7 @@ export default function Home() {
           <CursoSection />
           <AreasSection />
           <EntidadesSection />
+          <CareerMindMapSection />
           <SnakeSection />
           <GaleriaSection />
           <FAQSection />
