@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis, monthKey } from "@/lib/redis";
-import { parseScoreEntry, parseScoreSubmitPayload } from "@/lib/leaderboardSecurity";
+import { parseArcadeScorePayload } from "@/lib/arcadeSecurity";
+import { isValidGame, parseScoreEntry, parseScoreSubmitPayload, type GameType } from "@/lib/leaderboardSecurity";
 
 const TTL_SECONDS = 60 * 60 * 24 * 35; // 35 dias
 const TOP_LIMIT = 10;
@@ -25,8 +26,12 @@ interface StoredScore {
   name: string;
   id: string;
   score: number;
+  game: GameType;
   updatedAt: number;
   durationMs: number;
+  kills?: number;
+  wave?: number;
+  upgrades?: string[];
 }
 
 function getClientIp(req: NextRequest): string {
@@ -42,8 +47,14 @@ function getClientIp(req: NextRequest): string {
   return "unknown";
 }
 
-function playerKey(id: string): string {
-  return `${monthKey()}:player:${id}`;
+function scoresPattern(game: GameType): string {
+  if (game === "snake") return `${monthKey()}:player:*`;
+  return `${monthKey()}:${game}:player:*`;
+}
+
+function playerKey(game: GameType, id: string): string {
+  if (game === "snake") return `${monthKey()}:player:${id}`;
+  return `${monthKey()}:${game}:player:${id}`;
 }
 
 function jsonError(status: number, error: ApiError) {
@@ -56,9 +67,7 @@ function jsonSuccess<T>(data: T, status = 200) {
 
 async function applyRateLimit(key: string, limit: number, windowSec: number) {
   const attempts = await redis.incr(key);
-  if (attempts === 1) {
-    await redis.expire(key, windowSec);
-  }
+  if (attempts === 1) await redis.expire(key, windowSec);
 
   if (attempts > limit) {
     const ttl = await redis.ttl(key);
@@ -74,16 +83,24 @@ async function applyRateLimit(key: string, limit: number, windowSec: number) {
   };
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const keys = await redis.keys(`${monthKey()}:player:*`);
+    const gameRaw = req.nextUrl.searchParams.get("game") ?? "snake";
+    if (!isValidGame(gameRaw)) {
+      return jsonError(400, {
+        code: "invalid_payload",
+        message: "Jogo inválido.",
+      });
+    }
 
+    const keys = await redis.keys(scoresPattern(gameRaw));
     if (!keys.length) return jsonSuccess([]);
 
     const entries = await Promise.all(keys.map((k) => redis.get(k)));
     const scores = entries
       .map(parseScoreEntry)
       .filter((entry): entry is NonNullable<ReturnType<typeof parseScoreEntry>> => entry !== null)
+      .filter((entry) => (entry.game ?? "snake") === gameRaw)
       .sort((a, b) => b.score - a.score)
       .slice(0, TOP_LIMIT);
 
@@ -102,8 +119,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const rawBody = await req.json();
+    const gameRaw: GameType = rawBody?.game === "arcade" ? "arcade" : "snake";
 
-    const ipRate = await applyRateLimit(`snake:ratelimit:ip:${ip}`, IP_RATE_LIMIT, RATE_WINDOW_SECONDS);
+    const ipRate = await applyRateLimit(`${gameRaw}:ratelimit:ip:${ip}`, IP_RATE_LIMIT, RATE_WINDOW_SECONDS);
     if (!ipRate.allowed) {
       return jsonError(429, {
         code: "rate_limited",
@@ -112,19 +130,18 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const payload = parseScoreSubmitPayload(rawBody);
-    if (!payload) {
+    const parsedPayloadSnake = gameRaw === "snake" ? parseScoreSubmitPayload(rawBody) : null;
+    const parsedPayloadArcade = gameRaw === "arcade" ? parseArcadeScorePayload(rawBody) : null;
+    const parsedPayload = parsedPayloadSnake ?? parsedPayloadArcade;
+
+    if (parsedPayload === null) {
       return jsonError(400, {
         code: "invalid_payload",
         message: "Dados inválidos para submissão de score.",
       });
     }
 
-    const playerRate = await applyRateLimit(
-      `snake:ratelimit:player:${payload.id}`,
-      PLAYER_RATE_LIMIT,
-      RATE_WINDOW_SECONDS,
-    );
+    const playerRate = await applyRateLimit(`${gameRaw}:ratelimit:player:${parsedPayload.id}`, PLAYER_RATE_LIMIT, RATE_WINDOW_SECONDS);
     if (!playerRate.allowed) {
       return jsonError(429, {
         code: "rate_limited",
@@ -133,11 +150,11 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const key = playerKey(payload.id);
+    const key = playerKey(gameRaw, parsedPayload.id);
     const existingRaw = await redis.get(key);
     const existing = parseScoreEntry(existingRaw);
 
-    if (existing && payload.score <= existing.score) {
+    if (existing && parsedPayload.score <= existing.score) {
       return jsonSuccess({
         accepted: false,
         bestScore: existing.score,
@@ -145,19 +162,36 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const toStore: StoredScore = {
-      name: payload.name,
-      id: payload.id,
-      score: payload.score,
-      updatedAt: Date.now(),
-      durationMs: payload.durationMs,
-    };
+    let toStore: StoredScore;
+    if (gameRaw === "arcade" && parsedPayloadArcade) {
+      toStore = {
+        name: parsedPayloadArcade.name,
+        id: parsedPayloadArcade.id,
+        score: parsedPayloadArcade.score,
+        game: "arcade",
+        updatedAt: Date.now(),
+        durationMs: parsedPayloadArcade.durationMs,
+        kills: parsedPayloadArcade.kills,
+        wave: parsedPayloadArcade.wave,
+        upgrades: parsedPayloadArcade.upgrades,
+      };
+    } else {
+      const snakePayload = parsedPayloadSnake ?? parsedPayload;
+      toStore = {
+        name: snakePayload.name,
+        id: snakePayload.id,
+        score: snakePayload.score,
+        game: "snake",
+        updatedAt: Date.now(),
+        durationMs: snakePayload.durationMs,
+      };
+    }
 
     await redis.set(key, toStore, { ex: TTL_SECONDS });
 
     return jsonSuccess({
       accepted: true,
-      bestScore: payload.score,
+      bestScore: parsedPayload.score,
       rankingUpdated: true,
     });
   } catch (error) {

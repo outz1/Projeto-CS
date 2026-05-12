@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { Trophy, Gamepad2, Flame } from "lucide-react";
+import { Trophy, Gamepad2, Rocket } from "lucide-react";
 import GameModal from "@/SnakeGame/GameModal";
 import { parseScoresApiResponse, type ScoreEntry } from "@/lib/leaderboardSecurity";
 import Link from "next/link";
@@ -197,68 +197,149 @@ export function SnakeSection() {
 }
 
 export function HardSnakeSection() {
+  const [hardScores, setHardScores] = useState<ScoreEntry[]>([]);
+  const [loadingHardScores, setLoadingHardScores] = useState(true);
+  const isMountedRef = useRef(false);
+  const now = new Date();
+  const monthLabel = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  const hardBestScore: number | null = null;
+
+  const fetchArcadeScores = useCallback(async (signal?: AbortSignal) => {
+    const res = await fetch("/api/scores?game=arcade", { signal });
+    const payload: unknown = await res.json().catch(() => null);
+    const parsedScores = parseScoresApiResponse(payload);
+    return parsedScores.slice(0, 5) as ScoreEntry[];
+  }, []);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    const controller = new AbortController();
+
+    void (async () => {
+      try {
+        const topScores = await fetchArcadeScores(controller.signal);
+        if (!isMountedRef.current || controller.signal.aborted) return;
+        setHardScores(topScores);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        console.error("Erro ao buscar ranking do arcade:", error);
+      } finally {
+        if (!isMountedRef.current || controller.signal.aborted) return;
+        setLoadingHardScores(false);
+      }
+    })();
+
+    return () => {
+      isMountedRef.current = false;
+      controller.abort();
+    };
+  }, [fetchArcadeScores]);
+
   return (
-    <section className="w-full bg-[#d2e2ff]/40">
+    <section className="w-full bg-radial-[at_20%_20%] from-violet-300/30 via-fuchsia-300/15 to-cyan-300/20">
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-4 py-12 sm:px-6 md:px-8 lg:px-12">
         <div className="flex flex-col gap-2">
-          <h2 className="font-minecraft text-3xl uppercase tracking-wide text-[#0b1d4d] sm:text-4xl">
-            DESAFIO <span className="text-red-700 ">DOOM</span>
+          <h2 className="font-minecraft text-3xl uppercase tracking-wide text-violet-950 sm:text-4xl">
+            DESAFIO <span className="text-fuchsia-600 drop-shadow-[0_0_6px_rgba(217,70,239,0.4)]">SPACE ARCADE</span>
           </h2>
-          <p className="text-sm font-medium text-[#0b1d4d]/70">
-            Achou o jogo da cobrinha muito easy? Experimente o clássico FPS em modo showcase arcade, com visual retrô e carregamento instantâneo.
+          <p className="text-sm font-medium text-violet-950/75">
+            Entrou na zona cósmica: visual espacial em roxo e neon para a vitrine do próximo jogo, agora com um pouco de desafio extra para os jogadores mais experientes.
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-[1fr_300px] md:items-stretch">
-          <div className="group relative overflow-hidden rounded-3xl border border-white/50 bg-white/60 p-8 shadow-xl backdrop-blur-md transition-all duration-500 hover:bg-white/80">
+          <div className="group relative overflow-hidden rounded-3xl border border-violet-300/50 bg-linear-to-br from-violet-950/90 via-fuchsia-900/60 to-indigo-950/90 p-8 shadow-[0_0_24px_rgba(147,51,234,0.22)] backdrop-blur-md transition-all duration-500 hover:shadow-[0_0_30px_rgba(217,70,239,0.3)]">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(217,70,239,0.35),transparent_45%),radial-gradient(circle_at_80%_85%,rgba(34,211,238,0.25),transparent_40%)]" />
             <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
-              <div className="rounded-full bg-red-600/15 p-5 text-red-600 transition-transform duration-500 group-hover:scale-110">
-                <Flame size={48} />
+              <div className="rounded-full bg-fuchsia-400/20 p-5 text-fuchsia-300 shadow-[0_0_14px_rgba(217,70,239,0.32)] transition-transform duration-500 group-hover:scale-110">
+                <Rocket size={48} />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-[#0b1d4d]">PRONTO PARA ENCARAR DOOM?</h3>
-                <p className="max-w-md text-[#0b1d4d]/80">
-                  A proposta aqui é arcade/showcase: sem placar competitivo, com foco em diversão e nostalgia.
+                <h3 className="text-2xl font-black text-fuchsia-100 drop-shadow-[0_0_6px_rgba(217,70,239,0.35)]">PRONTO PARA A ÓRBITA ARCADE?</h3>
+                <p className="max-w-md text-fuchsia-100/80">
+                  Space Invaders roguelike com ondas progressivas, upgrades e ranking competitivo.
                 </p>
               </div>
-              
-              {/* O botão foi substituído pelo Link aqui */}
+
               <Link
-                href="/doom"
-                className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-xl bg-red-600 px-10 py-4 font-bold text-white shadow-lg transition-all hover:bg-red-700 hover:shadow-red-600/40 active:scale-95 cursor-pointer focus:outline-none focus:ring-4 focus:ring-red-600/50"
+                href="/arcade"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-fuchsia-300/50 bg-fuchsia-500/75 px-10 py-4 font-bold text-white shadow-[0_0_16px_rgba(217,70,239,0.4)] transition-all hover:bg-fuchsia-500 hover:shadow-[0_0_22px_rgba(217,70,239,0.55)] active:scale-95 cursor-pointer focus:outline-none focus:ring-4 focus:ring-fuchsia-400/50"
               >
-                <span className="relative z-10">INICIAR DOOM</span>
-                <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-1000 group-hover:translate-x-full" />
+                <span className="relative z-10">ABRIR ARCADE MODE</span>
+                <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-cyan-200/30 to-transparent -translate-x-full transition-transform duration-1000 group-hover:translate-x-full" />
               </Link>
             </div>
           </div>
 
-          <div className="font-minecraft flex flex-col rounded-3xl border border-[#B22222]/40 bg-[#080808] px-5 py-7 text-white shadow-2xl sm:p-8 lg:p-10">
-            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-[#B22222]/20 pb-5 sm:pb-4">
+          <div className="font-minecraft flex flex-col rounded-3xl border border-violet-400/40 bg-[#130a26] px-5 py-7 text-white shadow-2xl sm:p-8 lg:p-10">
+            <div className="mb-1 flex min-w-0 items-center justify-between gap-3 border-b border-violet-300/20 pb-5 sm:pb-4">
               <div className="flex min-w-0 items-center gap-2.5">
-                <Flame className="text-[#FF0000]" size={24} />
-                <span className="text-base leading-none tracking-wider text-[#FF0000] sm:text-xl">DOOM SHOWCASE</span>
+                <Trophy className="text-violet-300" size={24} />
+                <span className="text-base leading-none tracking-wider text-violet-200 sm:text-xl">ARCADE RANKING</span>
               </div>
+              <span className="shrink-0 pl-2 text-[9px] leading-none text-violet-200/50 uppercase tracking-widest sm:text-[10px]">
+                {monthLabel}
+              </span>
             </div>
 
-            <div className="mt-5 flex flex-col gap-3 text-[11px] leading-relaxed text-[#CCCCCC]">
-              <p>
-                • Carregamento visual rápido com iframe externo estável.
-              </p>
-              <p>
-                • Visual retrô integrado ao site com suporte a fullscreen.
-              </p>
-              <p>
-                • Sem leaderboard: o competitivo oficial permanece no Snake.
-              </p>
+            <div className="mt-5 flex flex-col gap-4 sm:mt-4 sm:gap-3">
+              {loadingHardScores && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 animate-pulse sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-none text-violet-400">0{i + 1}.</span>
+                    <div className="h-px flex-1 border-b border-dashed border-violet-300/20" />
+                    <span className="shrink-0 text-xs leading-none text-violet-200/20">----</span>
+                  </div>
+                ))
+              )}
+
+              {!loadingHardScores && hardScores.length === 0 && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-xs leading-none text-violet-400">0{i + 1}.</span>
+                    <div className="h-px flex-1 border-b border-dashed border-violet-300/20" />
+                    <span className="shrink-0 text-xs leading-none text-violet-200/40">----</span>
+                  </div>
+                ))
+              )}
+
+              {!loadingHardScores && hardScores.map((entry, i) => (
+                <div key={i} className="flex min-w-0 items-center justify-between gap-2.5 px-1 py-1.5 sm:px-0 sm:py-0">
+                  <span className="w-6 shrink-0 text-center text-[11px] leading-none">
+                    {MEDALS[i] ?? <span className="text-violet-400">0{i + 1}.</span>}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate text-[11px] leading-none text-violet-100/80 uppercase">
+                    {entry.name}
+                  </span>
+                  <span className="shrink-0 text-[11px] font-bold leading-none text-fuchsia-300">
+                    {entry.score}
+                  </span>
+                </div>
+              ))}
+
+              {!loadingHardScores && hardScores.length > 0 && hardScores.length < 5 && (
+                Array.from({ length: 5 - hardScores.length }).map((_, i) => (
+                  <div key={i} className="flex min-w-0 items-center justify-between gap-3 px-1 py-1.5 sm:px-0 sm:py-0">
+                    <span className="shrink-0 text-[11px] leading-none text-violet-400">
+                      0{hardScores.length + i + 1}.
+                    </span>
+                    <div className="h-px flex-1 border-b border-dashed border-violet-300/20" />
+                    <span className="shrink-0 text-[11px] leading-none text-violet-200/40">----</span>
+                  </div>
+                ))
+              )}
             </div>
 
             <div className="mt-auto pt-7 sm:pt-6">
-              <div className="rounded-xl bg-[#1A0000] px-4 py-5 text-center sm:p-4">
-                <p className="text-[10px] uppercase tracking-[0.1em] text-[#555555] mb-1">
-                  Modo atual
+              <div className="rounded-xl bg-white/5 px-4 py-5 text-center sm:p-4">
+                <p className="text-[10px] uppercase tracking-[0.1em] text-violet-200/70 mb-1">
+                  Sua melhor pontuação
                 </p>
-                <p className="text-2xl text-[#FF4500]">ARCADE</p>
+                <p className="text-2xl text-violet-300">
+                  {hardBestScore !== null ? hardBestScore : "--"}
+                </p>
               </div>
             </div>
           </div>
