@@ -22,6 +22,7 @@ export default function ArcadePage() {
   const [playerId, setPlayerId] = useState("");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPlayerId(generateId());
   }, []);
 

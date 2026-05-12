@@ -236,7 +236,7 @@ export function HardSnakeSection() {
   }, [fetchArcadeScores]);
 
   return (
-    <section className="w-full bg-radial-[at_20%_20%] from-violet-300/30 via-fuchsia-300/15 to-cyan-300/20">
+    <section className="w-full bg-radial-[at_20%_20%] bg-[#d2e2ff]/40">
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-4 py-12 sm:px-6 md:px-8 lg:px-12">
         <div className="flex flex-col gap-2">
           <h2 className="font-minecraft text-3xl uppercase tracking-wide text-violet-950 sm:text-4xl">
