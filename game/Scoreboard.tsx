@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-interface ScoreEntry {
-  name: string
-  id: string
-  score: number
-}
+import {
+  parseScoresApiResponse,
+  type ScoreEntry,
+  normalizePlayerName,
+  sanitizePlayerId,
+} from '@/lib/leaderboardSecurity'
 
 interface Props {
   lastScore: number
@@ -45,13 +45,15 @@ function formatCountdown(seconds: number): string {
 }
 
 export default function Scoreboard({ lastScore, playerName, playerId, onReplay, onBack }: Props) {
+  const safePlayerName = normalizePlayerName(playerName)
+  const safePlayerId = sanitizePlayerId(playerId)
   const [scores, setScores] = useState<ScoreEntry[]>([])
   const [loading, setLoading] = useState(true)
 
   // Lazy initializer — lê o localStorage só no cliente, sem chamar setState no corpo do efeito
   const [cooldown, setCooldown] = useState<number>(() => {
     if (typeof window === 'undefined') return 0
-    return getCooldownSeconds(playerId)
+    return getCooldownSeconds(safePlayerId)
   })
 
   const now = new Date()
@@ -59,26 +61,33 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
 
   // Busca o placar
   useEffect(() => {
-    fetch('/api/scores')
-      .then((r) => r.json())
-      .then(setScores)
+    const controller = new AbortController()
+
+    fetch('/api/scores', { signal: controller.signal })
+      .then(async (response) => {
+        const payload: unknown = await response.json().catch(() => null)
+        return parseScoresApiResponse(payload)
+      })
+      .then((parsedScores) => setScores(parsedScores))
       .catch(() => {})
       .finally(() => setLoading(false))
+
+    return () => controller.abort()
   }, [])
 
   // Countdown — setCooldown só é chamado dentro do setInterval (callback), não sincronamente
   useEffect(() => {
-    const initial = getCooldownSeconds(playerId)
+    const initial = getCooldownSeconds(safePlayerId)
     if (initial <= 0) return
 
     const interval = setInterval(() => {
-      const remaining = getCooldownSeconds(playerId)
+      const remaining = getCooldownSeconds(safePlayerId)
       setCooldown(remaining)
       if (remaining <= 0) clearInterval(interval)
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [playerId])
+  }, [safePlayerId])
 
   const isBlocked = cooldown > 0
 
@@ -89,7 +98,7 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
         <p className="text-xs text-zinc-500 tracking-widest font-mono uppercase">Game Over</p>
         <p className="text-4xl font-bold text-blue-400 font-mono mt-1">{lastScore}</p>
         <p className="text-xs text-zinc-500 font-mono tracking-widest">
-          PONTOS · {playerName} · <span className="text-blue-400">#{playerId}</span>
+          PONTOS · {safePlayerName} · <span className="text-blue-400">#{safePlayerId}</span>
         </p>
 
         {/* Aviso de cooldown */}
@@ -136,7 +145,7 @@ export default function Scoreboard({ lastScore, playerName, playerId, onReplay, 
               ${i === 1 ? 'border-l-2 border-zinc-400' : ''}
               ${i === 2 ? 'border-l-2 border-orange-700' : ''}
               ${i > 2 ? 'border-l-2 border-transparent' : ''}
-              ${entry.id === playerId ? 'ring-1 ring-blue-800' : ''}
+              ${entry.id === safePlayerId ? 'ring-1 ring-blue-800' : ''}
             `}
           >
             <span className="text-zinc-600 w-6 text-xs">{MEDALS[i] ?? `#${i + 1}`}</span>

@@ -3,12 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Trophy, Gamepad2 } from "lucide-react";
 import GameModal from "@/game/GameModal";
-
-interface ScoreEntry {
-  name: string;
-  id: string;
-  score: number;
-}
+import { parseScoresApiResponse, type ScoreEntry } from "@/lib/leaderboardSecurity";
 
 const MEDALS = ["🥇", "🥈", "🥉"];
 
@@ -29,8 +24,9 @@ export function SnakeSection() {
 
   const fetchTopScores = useCallback(async (signal?: AbortSignal) => {
     const res = await fetch("/api/scores", { signal });
-    const data = await res.json();
-    return data.slice(0, 5) as ScoreEntry[];
+    const payload: unknown = await res.json().catch(() => null);
+    const scores = parseScoresApiResponse(payload);
+    return scores.slice(0, 5) as ScoreEntry[];
   }, []);
 
   useEffect(() => {

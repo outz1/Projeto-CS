@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import NameForm from './NameForm'
 import SnakeGame from './SnakeGame'
 import Scoreboard from './Scoreboard'
+import { normalizePlayerName, sanitizePlayerId } from '@/lib/leaderboardSecurity'
 
 type Screen = 'name' | 'game' | 'scores'
 
@@ -62,8 +63,8 @@ export default function GameModal({ onClose, onGameOver }: Props) {
   }, [])
 
   function handleStart(name: string, id: string) {
-    setPlayerName(name)
-    setPlayerId(id)
+    setPlayerName(normalizePlayerName(name))
+    setPlayerId(sanitizePlayerId(id))
     setScreen('game')
   }
 

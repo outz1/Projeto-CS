@@ -1,6 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useCallback } from 'react'
+import {
+  extractRetryAfterSeconds,
+  normalizePlayerName,
+  sanitizePlayerId,
+} from '@/lib/leaderboardSecurity'
 
 const GRID = 20
 const TICK_MS = 130
@@ -43,6 +48,7 @@ function setCooldown(id: string, seconds: number) {
 
 export default function SnakeGame({ player, playerId, onGameOver }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const gameStartedAtRef = useRef<number>(0)
 
   const stateRef = useRef({
     snake: [] as Point[],
@@ -113,8 +119,10 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     ctx.fillRect(food.x * C + fo, food.y * C + fo, fw, fw)
   }, [cellSize])
 
-  const saveScore = useCallback(async (score: number) => {
-    const remaining = getCooldownSeconds(playerId)
+  const saveScore = useCallback(async (score: number, durationMs: number) => {
+    const safeId = sanitizePlayerId(playerId)
+    const safeName = normalizePlayerName(player)
+    const remaining = getCooldownSeconds(safeId)
     if (remaining > 0) {
       console.info(`[snake] cooldown ativo: ${remaining}s restantes`)
       return 
@@ -124,14 +132,25 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       const res = await fetch('/api/scores', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: player, id: playerId, score }),
+        body: JSON.stringify({
+          name: safeName,
+          id: safeId,
+          score,
+          durationMs,
+        }),
       })
 
+      const payload: unknown = await res.json().catch(() => null)
+
       if (res.status === 429) {
-        const data = await res.json()
-        setCooldown(playerId, data.retryAfter ?? 600)
-        console.warn(`[snake] rate limited pelo servidor: ${data.retryAfter}s`)
+        const retryAfter = extractRetryAfterSeconds(payload) ?? 600
+        setCooldown(safeId, retryAfter)
+        console.warn(`[snake] rate limited pelo servidor: ${retryAfter}s`)
         return
+      }
+
+      if (!res.ok) {
+        console.warn('[snake] score rejeitado pelo servidor')
       }
     } catch (e) {
       console.error('Erro ao salvar score:', e)
@@ -155,6 +174,7 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     s.nextDir = { x: 1, y: 0 }
     s.score = 0
     s.running = true
+    gameStartedAtRef.current = Date.now()
     placeFood()
     draw()
 
@@ -168,7 +188,8 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       if (hitWall || hitSelf) {
         clearInterval(loop)
         s.running = false
-        saveScore(s.score)
+        const durationMs = Date.now() - gameStartedAtRef.current
+        saveScore(s.score, durationMs)
         setTimeout(() => onGameOver(s.score), 250)
         return
       }
