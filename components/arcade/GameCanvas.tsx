@@ -411,7 +411,10 @@ export default function GameCanvas({
           state.player.hp = Math.min(state.player.maxHp, state.player.hp + state.player.regenPerSecond * dt);
         }
 
-        if (state.input.shoot && now - state.player.lastFireAt >= state.player.fireRateMs) {
+        // Auto-fire: enable continuous shooting on all platforms (mobile already sets state.input.shoot)
+        // The loop is gated by paused/isDead/awaitingUpgrade, so this will only fire during active play.
+        const autoFireEnabled = true; // always on (no toggle) per requirement
+        if ((state.input.shoot || autoFireEnabled) && now - state.player.lastFireAt >= state.player.fireRateMs) {
           state.player.lastFireAt = now;
           const bullets = createPlayerBullets(state.player, state.pointer, now);
           state.bullets.push(...bullets);
