@@ -69,7 +69,7 @@ export async function validateGameSession(
   ipAddress: string
 ): Promise<GameSession | null> {
   const key = `game:session:${sessionId}`;
-  const raw = await redis.get(key);
+  const raw = await redis.get<string>(key);
 
   if (!raw) return null;
 
@@ -197,7 +197,7 @@ export async function detectAnomalies(playerId: string, score: number, durationM
 
   // Verificar histórico de scores
   const playerKey = `anomaly:player:${playerId}`;
-  const historyRaw = await redis.get(playerKey);
+  const historyRaw = await redis.get<string>(playerKey);
   
   if (historyRaw) {
     const history = JSON.parse(historyRaw) as Array<{ score: number; timestamp: number }>;
