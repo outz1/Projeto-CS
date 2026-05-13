@@ -385,7 +385,7 @@ export function NeutralGameCard() {
               href={NEUTRAL_GAME_CARD_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-slate-800   px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-slate-600 focus:outline-none focus:ring-4 focus:ring-slate-300 hover:scale-105 active:scale-95"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-slate-800   px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-slate-600 focus:outline-none focus:ring-4 focudnf list installed | grep codes:ring-slate-300 hover:scale-105 active:scale-95"
             >
               <span className="relative z-10">{NEUTRAL_GAME_CARD_BUTTON_LABEL}</span>
               <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full" />
