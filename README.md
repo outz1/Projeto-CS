@@ -1,168 +1,111 @@
-# 📦 TRABALHO DE COMPUTAÇÃO E SOCIEDADE
+# Espaço das Profissões
 
-> GITFLOW E ESQUEMATIZAÇÃO SOBRE COMO CONSTRUIR A APLICAÇÃO - ATENÇÃO GRUPOS COM DETERMINADOS CARGOS LER O README E ATUALIZAR DE MANEIRA CORRETA A SUA PARTE
+Aplicação desenvolvida para a disciplina de Computação e Sociedade da UFG. O projeto apresenta cursos, áreas correlatas, entidades estudantis e experiências interativas em uma interface web construída com Next.js.
 
-> O README SERÁ ATUALIZADO CONFORME O PROJETO ANDAR PARA DEIXAR CLARO AS TECNOLOGIAS USADAS, ESSE É SOMENTE O PROTÓTIPO, O TIME RESPONSÁVEL PELA INICIALIZAÇÃO PODE JÁ COMEÇAR
----
+## Visão geral
 
-## 📋 Sumário
-
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Tecnologias](#tecnologias)
-- [Fluxo de Trabalho Git (Gitflow)](#fluxo-de-trabalho-git-gitflow)
-  - [Branches Principais](#branches-principais)
-  - [Diagrama do Fluxo](#diagrama-do-fluxo)
-  - [Convenções de Commit](#convenções-de-commit)
-  - [Passo a Passo para Contribuir](#passo-a-passo-para-contribuir)
-- [Como Rodar o Projeto](#como-rodar-o-projeto)
-- [Time](#time)
-
----
-
-## Sobre o Projeto
-
-Aplicação de Computação e Sociedade para a semana das profissões na UFG
-
----
+O aplicativo usa a arquitetura do App Router do Next.js, páginas server/client components, SEO centralizado e uma API de scores com validação e persistência em Redis. Também inclui animações, elementos gráficos e um minigame em estilo arcade/snake para engajamento da experiência.
 
 ## Tecnologias
 
-> CADA GRUPO IRÁ ATUALIZAR A SUA PARTE
+| Camada | Tecnologia |
+| --- | --- |
+| Front-end | Next.js 16, React 19, TypeScript 5 |
+| Estilo | Tailwind CSS 4, CSS global |
+| Animações | Framer Motion, GSAP, @gsap/react |
+| Ícones | Lucide React |
+| Backend/API | Next.js Route Handlers |
+| Dados/Leaderboard | Upstash Redis |
+| Telemetria | Vercel Analytics |
+| Containerização | Docker, Docker Compose |
 
-| Camada      | Tecnologia         |
-|-------------|--------------------|
-| Front-end   | (ex: React, Vue)   |
-| Back-end    | (ex: Node, Django) |
-| Banco de Dados | (ex: PostgreSQL) |
-| Hospedagem  | Vercel |
+## Estrutura principal
 
----
+| Caminho | Responsabilidade |
+| --- | --- |
+| app/ | Rotas, layout, metadata e API do Next.js |
+| app/components/home/ | Seções da landing page e componentes da home |
+| components/arcade/ | Componentes do jogo arcade |
+| SnakeGame/ | Implementação do minigame Snake |
+| systems/ | Sistemas de jogo, spawn, colisão, partículas e upgrades |
+| lib/ | Redis, segurança, SEO e utilitários de score |
 
-## Fluxo de Trabalho Git (Gitflow)
+## Pré-requisitos
 
-Este projeto adota um modelo simplificado de Gitflow com **duas branches principais**, garantindo organização e rastreabilidade do desenvolvimento.
+- Node.js 20 ou superior
+- npm
+- Conta no Upstash Redis se quiser usar a API de scores fora do ambiente local de desenvolvimento
 
-### Branches Principais
+## Configuração local
 
-| Branch      | Finalidade                                                                 |
-|-------------|----------------------------------------------------------------------------|
-| `dev`       | Branch de desenvolvimento e integração. Todo trabalho deve entrar primeiro aqui. |
-| `prod`      | Branch estável e pronta para produção. Nunca recebe commits diretos.      |
+1. Clone o repositório.
+2. Instale as dependências com `npm ci`.
+3. Crie um arquivo `.env.local` na raiz com as variáveis necessárias.
 
-> ⚠️ **Regra fundamental:** nenhum desenvolvedor deve fazer `push` ou `commit` diretamente em `prod`. Todo código entra via Pull Request e é validado primeiro em `dev`. Somente os líderes de cada grupo devem fazer o merge para a produção
-
----
-
-### Diagrama do Fluxo
-
-```mermaid
-gitGraph
-   commit id: "init"
-
-  branch dev
-  checkout dev
-   commit id: "setup base"
-
-  commit id: "add features"
-  commit id: "fix bugs"
-
-  checkout prod
-  merge dev id: "release v1.0"
-```
-
----
-
-### Convenções de Commit
-
-Seguimos o padrão **Conventional Commits** para manter o histórico legível:
-
-```
-<tipo>: <descrição curta no imperativo>
-```
-
-| Tipo       | Quando usar                                      |
-|------------|--------------------------------------------------|
-| `feat`     | Nova funcionalidade                              |
-| `fix`      | Correção de bug                                  |
-| `docs`     | Alterações em documentação                       |
-| `style`    | Formatação, espaçamento (sem mudança de lógica)  |
-| `refactor` | Refatoração sem adição de feature ou fix         |
-| `test`     | Adição ou correção de testes                     |
-| `chore`    | Tarefas de build, configs, dependências          |
-
-**Exemplos:**
-```
-feat: adicionar tela de cadastro de usuário
-fix: corrigir validação de e-mail no login
-docs: atualizar README com instruções de setup
-```
-
----
-
-### Passo a Passo para Contribuir
-
-Siga esse fluxo sempre que for desenvolver algo novo:
-
-**1. Atualize a branch `dev` local antes de começar:**
-```bash
-git checkout dev
-git pull origin dev
-```
-
-**2. Faça suas alterações diretamente na branch `dev`:**
-```bash
-git checkout dev
-```
-
-**3. Desenvolva e faça commits seguindo a convenção:**
-```bash
-git add .
-git commit -m "feat: descrição do que foi feito"
-```
-
-**4. Suba as alterações para o repositório remoto:**
-```bash
-git push origin dev
-```
-
-**5. Abra um Pull Request no GitHub:**
-- Base: `prod`
-- Compare: `dev`
-- Adicione descrição clara do que foi feito
-- Solicite revisão de ao menos um colega
-
-**6. Após aprovação e merge, sincronize a `dev` localmente:**
-```bash
-git pull origin prod
-```
-
-> 🔁 O merge de `dev` → `prod` é feito pelo responsável de DevOps ao final de cada entrega.
-
----
-
-## Como Rodar o Projeto
+Exemplo:
 
 ```bash
-# Clone o repositório
-git clone https://github.com/usuario/nome-do-projeto.git
-cd nome-do-projeto
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+SNAKEGAME_KV_REST_API_URL=https://<seu-endpoint-upstash>
+SNAKEGAME_KV_REST_API_TOKEN=<seu-token-upstash>
+SIGNING_SECRET=<uma-chave-secreta-forte>
+```
 
-# Instale as dependências
-# (ajuste conforme a stack do projeto)
-npm install
+`NEXT_PUBLIC_SITE_URL` ajusta os metadados e URLs canônicas. `SNAKEGAME_KV_REST_API_URL` e `SNAKEGAME_KV_REST_API_TOKEN` são usados pela camada de Redis. `SIGNING_SECRET` é usado pelo fluxo seguro de sessão e assinatura dos scores.
 
-# Rode o projeto
+## Scripts disponíveis
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` | Inicia o servidor de desenvolvimento do Next.js |
+| `npm run build` | Gera o build de produção em modo standalone |
+| `npm run start` | Executa o build de produção |
+| `npm run lint` | Executa o ESLint no projeto |
+
+## Como executar
+
+### Desenvolvimento
+
+```bash
+npm ci
 npm run dev
 ```
 
----
+O app fica disponível em `http://localhost:3000`.
 
-- Adicionar o seu grupo e a sua função:
-## Time
+### Produção local
 
+```bash
+npm ci
+npm run build
+npm run start
+```
 
-| Nome | Papel |
-|------|-------|
-| GRUPO 8 - DevOps     | Colocar para rodar o projeto 👍​ |
-|      |       |
-|      |       |
+### Docker
+
+O projeto também possui suporte via Docker.
+
+```bash
+docker compose up --build
+```
+
+No ambiente de desenvolvimento com Compose, a aplicação é exposta em `http://localhost:3004`.
+
+## API e segurança de scores
+
+A rota `app/api/scores/route.ts` usa Redis para persistência dos rankings e a biblioteca `lib/scoreSecurity.ts` para sessões, validação de IP, rate limiting e assinatura dos envios. Por isso, o projeto depende das variáveis de ambiente citadas acima para o fluxo completo de leaderboard funcionar corretamente.
+
+## Deploy
+
+O projeto foi preparado para deploy em ambientes compatíveis com Next.js standalone, como Vercel ou containers baseados no `Dockerfile` do repositório.
+
+## Contribuição
+
+Antes de abrir um pull request, rode ao menos:
+
+```bash
+npm run lint
+npm run build
+```
+
+Se você for alterar a experiência visual ou os minigames, valide também a navegação entre as seções da home e o fluxo da API de scores.
