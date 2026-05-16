@@ -1,6 +1,7 @@
 import { AreasCorrelatasCube } from "./AreasCorrelatasCube";
 import Image from "next/image";
 import { EntidadesCarouselClient } from "./EntidadesCarouselClient";
+import { GaleriaClient } from "./GaleriaClient";
 import FAQ from "./FAQ";
 
 // Componente isolado para o efeito de borda Neon Animada
