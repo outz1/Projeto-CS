@@ -1,4 +1,4 @@
-import { navItems } from "@/features/home/content";
+import { navItems } from "../../features/home/content";
 
 export function Footer() {
   const year = new Date().getFullYear();
