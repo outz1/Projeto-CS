@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { generateId } from "@/utils/generateId";
+import { generateId } from "@/lib/generateId";
 import {
   isValidPlayerId,
   leaderboardSecurityConfig,
