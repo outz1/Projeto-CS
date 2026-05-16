@@ -148,13 +148,13 @@ export function Header({ readerTargetId }: HeaderProps) {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[length:22px_22px] opacity-20" />
         </div>
 
-        <div className="relative flex min-h-[4.75rem] items-start border-b border-white/10 px-5 pb-3 pr-28 pt-5">
+        <div className="relative h-20 shrink-0 border-b border-white/10 px-5 pr-28">
           <Image
             src="/INF-02.png"
             alt="Instituto de Informática"
             width={300}
             height={120}
-            className="h-auto w-36 -translate-y-8 brightness-0 invert"
+            className="absolute left-5 top-5 h-auto w-36 -translate-y-8 brightness-0 invert"
             priority
           />
         </div>
