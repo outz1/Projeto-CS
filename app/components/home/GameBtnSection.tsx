@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useState } from "react";
 import { Trophy, Gamepad2, Rocket } from "lucide-react";
 import GameModal from "@/SnakeGame/GameModal";
-import { parseScoresApiResponse, type ScoreEntry } from "@/lib/leaderboardSecurity";
+import { useLeaderboardScores } from "@/features/leaderboard/hooks/useLeaderboardScores";
 import Link from "next/link";
 
 const MEDALS = ["🥇", "🥈", "🥉"];
@@ -15,53 +15,11 @@ const MONTHS = [
 
 export function SnakeSection() {
   const [gameOpen, setGameOpen] = useState(false);
-  const [scores, setScores] = useState<ScoreEntry[]>([]);
-  const [loadingScores, setLoadingScores] = useState(true);
   const [bestScore, setBestScore] = useState<number | null>(null);
-  const isMountedRef = useRef(false);
+  const { scores, loading: loadingScores, refresh: refreshScores } = useLeaderboardScores("snake", 5);
 
   const now = new Date();
   const monthLabel = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
-
-  const fetchTopScores = useCallback(async (signal?: AbortSignal) => {
-    const res = await fetch("/api/scores", { signal });
-    const payload: unknown = await res.json().catch(() => null);
-    const scores = parseScoresApiResponse(payload);
-    return scores.slice(0, 5) as ScoreEntry[];
-  }, []);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    const controller = new AbortController();
-    void (async () => {
-      try {
-        const topScores = await fetchTopScores(controller.signal);
-        if (!isMountedRef.current || controller.signal.aborted) return;
-        setScores(topScores);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        console.error("Erro ao buscar ranking:", error);
-      } finally {
-        if (!isMountedRef.current || controller.signal.aborted) return;
-        setLoadingScores(false);
-      }
-    })();
-
-    return () => {
-      isMountedRef.current = false;
-      controller.abort();
-    };
-  }, [fetchTopScores]);
-
-  const refreshScores = useCallback(async () => {
-    try {
-      const topScores = await fetchTopScores();
-      if (!isMountedRef.current) return;
-      setScores(topScores);
-    } catch (error) {
-      console.error("Erro ao atualizar ranking:", error);
-    }
-  }, [fetchTopScores]);
 
   function handleClose() {
     setGameOpen(false);
@@ -197,43 +155,10 @@ export function SnakeSection() {
 }
 
 export function HardSnakeSection() {
-  const [hardScores, setHardScores] = useState<ScoreEntry[]>([]);
-  const [loadingHardScores, setLoadingHardScores] = useState(true);
-  const isMountedRef = useRef(false);
+  const { scores: hardScores, loading: loadingHardScores } = useLeaderboardScores("arcade", 5);
   const now = new Date();
   const monthLabel = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
   const hardBestScore: number | null = null;
-
-  const fetchArcadeScores = useCallback(async (signal?: AbortSignal) => {
-    const res = await fetch("/api/scores?game=arcade", { signal });
-    const payload: unknown = await res.json().catch(() => null);
-    const parsedScores = parseScoresApiResponse(payload);
-    return parsedScores.slice(0, 5) as ScoreEntry[];
-  }, []);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    const controller = new AbortController();
-
-    void (async () => {
-      try {
-        const topScores = await fetchArcadeScores(controller.signal);
-        if (!isMountedRef.current || controller.signal.aborted) return;
-        setHardScores(topScores);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        console.error("Erro ao buscar ranking do arcade:", error);
-      } finally {
-        if (!isMountedRef.current || controller.signal.aborted) return;
-        setLoadingHardScores(false);
-      }
-    })();
-
-    return () => {
-      isMountedRef.current = false;
-      controller.abort();
-    };
-  }, [fetchArcadeScores]);
 
   return (
     <section className="w-full bg-radial-[at_20%_20%] bg-[#d2e2ff]/40">

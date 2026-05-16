@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { matrixColumns } from "./config";
 import { ChevronDown } from "lucide-react";
 
@@ -7,10 +8,14 @@ export function HeroSection() {
     <section className="relative flex min-h-[100dvh] items-center overflow-hidden pt-20">
       
       {/* 1. Imagem de Fundo (Preenchendo a tela toda) */}
-      <img
+      <Image
         src="/IMG_1490.PNG"
         alt="Instituto de Informática - UFG"
-        className="absolute inset-0 z-0 h-full w-full object-cover object-top"
+        fill
+        priority
+        quality={82}
+        sizes="100vw"
+        className="absolute inset-0 z-0 object-cover object-top"
       />
 
       {/* 2. Máscaras de Gradiente e Overlay (Escurecimento moderado para integrar texto sem esconder a imagem) */}
