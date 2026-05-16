@@ -1,7 +1,6 @@
 "use client";
 
-import { ARCADE_UPGRADES } from "@/lib/arcadeBalance";
-import type { ArcadeUpgradeId } from "@/lib/arcadeTypes";
+import { ARCADE_UPGRADES, type ArcadeUpgradeId } from "@/features/arcade/domain";
 
 interface Props {
   options: ArcadeUpgradeId[];

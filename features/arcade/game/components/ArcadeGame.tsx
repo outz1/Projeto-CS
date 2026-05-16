@@ -9,7 +9,7 @@ import PauseMenu from "./PauseMenu";
 import UpgradeModal from "./UpgradeModal";
 import { SCANLINE_BACKGROUND } from "./particles/presets";
 import { normalizePlayerName, sanitizePlayerId } from "@/lib/leaderboardSecurity";
-import type { ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId } from "@/lib/arcadeTypes";
+import type { ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId } from "@/features/arcade/domain";
 import { getScoreCooldownSeconds, setScoreCooldown } from "@/features/leaderboard/services/cooldownStorage";
 import { getOrCreateDeviceId, initializeGameSession, submitScore as submitSecureScore } from "@/features/leaderboard/services/scoreSubmissionClient";
 import { useLeaderboardScores } from "@/features/leaderboard/hooks/useLeaderboardScores";

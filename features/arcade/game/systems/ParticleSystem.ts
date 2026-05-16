@@ -1,4 +1,4 @@
-import type { ArcadeParticleState, Vec2 } from "@/lib/arcadeTypes";
+import type { ArcadeParticleState, Vec2 } from "@/features/arcade/domain";
 
 function id() {
   return `pt-${Math.random().toString(36).slice(2, 10)}`;

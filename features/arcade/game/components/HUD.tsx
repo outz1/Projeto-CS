@@ -1,6 +1,6 @@
 "use client";
 
-import type { ArcadeHudSnapshot } from "@/lib/arcadeTypes";
+import type { ArcadeHudSnapshot } from "@/features/arcade/domain";
 
 interface Props {
   snapshot: ArcadeHudSnapshot;

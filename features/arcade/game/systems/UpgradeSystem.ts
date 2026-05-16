@@ -1,5 +1,4 @@
-import { ARCADE_UPGRADE_IDS, ARCADE_UPGRADES } from "@/lib/arcadeBalance";
-import type { ArcadePlayerState, ArcadeUpgradeId } from "@/lib/arcadeTypes";
+import { ARCADE_UPGRADE_IDS, ARCADE_UPGRADES, type ArcadePlayerState, type ArcadeUpgradeId } from "@/features/arcade/domain";
 
 const NON_STACKABLE_UPGRADES = new Set<ArcadeUpgradeId>([
   "piercing",

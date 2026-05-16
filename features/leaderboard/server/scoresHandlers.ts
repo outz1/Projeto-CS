@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { getClientIp, jsonError, jsonSuccess } from "@/lib/api/http";
-import { redis, monthKey } from "../../../lib/redis";
-import { parseArcadeScorePayload } from "@/lib/arcadeSecurity";
+import { redis, monthKey } from "@/lib/redis";
+import { parseArcadeScorePayload } from "@/features/arcade/domain";
 import { isValidGame, parseScoreEntry, parseScoreSubmitPayload, type GameType } from "@/lib/leaderboardSecurity";
 import {
   validateGameSession,

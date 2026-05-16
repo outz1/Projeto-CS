@@ -1,4 +1,4 @@
-import { ArcadeUpgrade, ArcadeUpgradeId } from "@/lib/arcadeTypes";
+import type { ArcadeUpgrade, ArcadeUpgradeId } from "./arcadeTypes";
 
 export const ARCADE_WIDTH = 960;
 export const ARCADE_HEIGHT = 540;

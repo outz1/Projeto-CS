@@ -1,4 +1,4 @@
-import { ARCADE_MAX_SCORE } from "@/lib/arcadeBalance";
+import { ARCADE_MAX_SCORE } from "./arcadeBalance";
 
 interface ScoreParams {
   kills: number;

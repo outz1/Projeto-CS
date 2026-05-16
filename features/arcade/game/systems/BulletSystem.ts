@@ -1,4 +1,4 @@
-import type { ArcadeBulletState, ArcadePlayerState, Vec2 } from "@/lib/arcadeTypes";
+import type { ArcadeBulletState, ArcadePlayerState, Vec2 } from "@/features/arcade/domain";
 
 function id(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;

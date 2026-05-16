@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { ARCADE_HEIGHT, ARCADE_PLAYER_BASE, ARCADE_WIDTH } from "@/lib/arcadeBalance";
-import { computeArcadeScore } from "@/lib/arcadeScore";
-import type { ArcadeEnemyState, ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId, Vec2 } from "@/lib/arcadeTypes";
+import { ARCADE_HEIGHT, ARCADE_PLAYER_BASE, ARCADE_WIDTH, computeArcadeScore, type ArcadeEnemyState, type ArcadeHudSnapshot, type ArcadeRunStats, type ArcadeUpgradeId, type Vec2 } from "@/features/arcade/domain";
 import { updateBullets, createPlayerBullets } from "../systems/BulletSystem";
 import { resolveCollisions } from "../systems/CollisionSystem";
 import { createEnemy, updateEnemies } from "../systems/EnemySystem";

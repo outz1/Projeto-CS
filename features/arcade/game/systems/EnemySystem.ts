@@ -1,5 +1,4 @@
-import { ARCADE_HEIGHT, ARCADE_WIDTH } from "@/lib/arcadeBalance";
-import type { ArcadeBulletState, ArcadeEnemyState, ArcadeEnemyType, Vec2 } from "@/lib/arcadeTypes";
+import { ARCADE_HEIGHT, ARCADE_WIDTH, type ArcadeBulletState, type ArcadeEnemyState, type ArcadeEnemyType, type Vec2 } from "@/features/arcade/domain";
 
 function id(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;

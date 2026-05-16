@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { navItems } from "../../features/home/content";
+import { navItems } from "@/lib/navigation";
 
 export function Footer() {
   const year = new Date().getFullYear();

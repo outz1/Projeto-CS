@@ -5,14 +5,15 @@ import {
   ARCADE_MAX_WAVE,
   ARCADE_UPGRADE_IDS,
 } from "@/lib/arcadeBalance";
-import { estimatedArcadeScoreCeiling } from "@/lib/arcadeScore";
+} from "./arcadeBalance";
+import { estimatedArcadeScoreCeiling } from "./arcadeScore";
 import {
   isValidDurationMs,
   isValidPlayerId,
   normalizePlayerName,
   sanitizePlayerId,
 } from "@/lib/leaderboardSecurity";
-import type { ArcadeScorePayload } from "@/lib/arcadeTypes";
+import type { ArcadeScorePayload } from "./arcadeTypes";
 
 function asObject(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ChevronRight, Menu, X } from "lucide-react";
-import { navItems } from "../content";
+import { navItems } from "@/lib/navigation";
 import { AudioReaderButton } from "./AudioReaderButton";
 
 interface HeaderProps {

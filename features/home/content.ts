@@ -1,12 +1,3 @@
-export const navItems = [
-  { href: "#o-inf", label: "O INF" },
-  { href: "#nosso-curso", label: "NOSSO CURSO" },
-  { href: "#areas-correlatas", label: "ÁREAS CORRELATAS" },
-  { href: "#entidades", label: "ENTIDADES" },
-  { href: "#galeria", label: "GALERIA" },
-  { href: "#faq", label: "FAQ" },
-];
-
 const MATRIX_COLUMN_COUNT = 22;
 const MATRIX_STREAM_LENGTH = 40;
 
