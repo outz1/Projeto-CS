@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { getClientIp, isRecord, jsonError, jsonSuccess } from "@/lib/api/http";
 import { generateGameSession } from "@/lib/scoreSecurity";
 
