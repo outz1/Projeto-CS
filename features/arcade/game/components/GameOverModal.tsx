@@ -1,6 +1,6 @@
 "use client";
 
-import type { ScoreEntry } from "@/lib/leaderboardSecurity";
+import type { ScoreEntry } from "@/features/leaderboard/domain";
 import type { ArcadeRunStats } from "@/features/arcade/domain";
 
 const MEDALS = ["🥇", "🥈", "🥉"];

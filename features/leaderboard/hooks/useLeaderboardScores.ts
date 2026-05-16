@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { GameType, ScoreEntry } from "@/lib/leaderboardSecurity";
+import type { GameType, ScoreEntry } from "@/features/leaderboard/domain";
 import { fetchTopScores } from "@/features/leaderboard/services/scoresClient";
 
 type UseLeaderboardScoresResult = {

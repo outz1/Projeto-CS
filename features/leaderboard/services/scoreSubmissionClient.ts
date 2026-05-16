@@ -1,4 +1,4 @@
-import { extractRetryAfterSeconds } from "@/lib/leaderboardSecurity";
+import { extractRetryAfterSeconds } from "@/features/leaderboard/domain";
 
 const DEVICE_ID_KEY = "device_fingerprint";
 

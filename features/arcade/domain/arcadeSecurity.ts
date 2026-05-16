@@ -11,7 +11,7 @@ import {
   isValidPlayerId,
   normalizePlayerName,
   sanitizePlayerId,
-} from "@/lib/leaderboardSecurity";
+} from "@/features/leaderboard/domain";
 import type { ArcadeScorePayload } from "./arcadeTypes";
 
 function asObject(value: unknown): Record<string, unknown> | null {

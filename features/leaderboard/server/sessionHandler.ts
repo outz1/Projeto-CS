@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { getClientIp, isRecord, jsonError, jsonSuccess } from "@/lib/api/http";
-import { generateGameSession } from "@/lib/scoreSecurity";
+import { generateGameSession } from "./scoreSecurity";
 
 function generateRandomId(): string {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

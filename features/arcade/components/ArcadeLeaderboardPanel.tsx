@@ -1,5 +1,5 @@
 import { Trophy } from "lucide-react";
-import type { ScoreEntry } from "@/lib/leaderboardSecurity";
+import type { ScoreEntry } from "@/features/leaderboard/domain";
 
 type ArcadeLeaderboardPanelProps = {
   scores: ScoreEntry[];

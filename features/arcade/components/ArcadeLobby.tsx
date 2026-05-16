@@ -1,4 +1,4 @@
-import type { ScoreEntry } from "@/lib/leaderboardSecurity";
+import type { ScoreEntry } from "@/features/leaderboard/domain";
 import { ArcadeHero } from "./ArcadeHero";
 import { ArcadeLaunchPanel } from "./ArcadeLaunchPanel";
 import { ArcadeLeaderboardPanel } from "./ArcadeLeaderboardPanel";

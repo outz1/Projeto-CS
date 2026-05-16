@@ -8,7 +8,7 @@ import MobileControls from "./MobileControls";
 import PauseMenu from "./PauseMenu";
 import UpgradeModal from "./UpgradeModal";
 import { SCANLINE_BACKGROUND } from "./particles/presets";
-import { normalizePlayerName, sanitizePlayerId } from "@/lib/leaderboardSecurity";
+import { normalizePlayerName, sanitizePlayerId } from "@/features/leaderboard/domain";
 import type { ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId } from "@/features/arcade/domain";
 import { getScoreCooldownSeconds, setScoreCooldown } from "@/features/leaderboard/services/cooldownStorage";
 import { getOrCreateDeviceId, initializeGameSession, submitScore as submitSecureScore } from "@/features/leaderboard/services/scoreSubmissionClient";

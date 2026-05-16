@@ -2,7 +2,7 @@ import {
   parseScoresApiResponse,
   type GameType,
   type ScoreEntry,
-} from "@/lib/leaderboardSecurity";
+} from "@/features/leaderboard/domain";
 
 type FetchTopScoresInput = {
   game?: GameType;

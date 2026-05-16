@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import {
   normalizePlayerName,
   sanitizePlayerId,
-} from '@/lib/leaderboardSecurity'
+} from '@/features/leaderboard/domain'
 import { getScoreCooldownSeconds, setScoreCooldown } from '@/features/leaderboard/services/cooldownStorage'
 import { getOrCreateDeviceId, initializeGameSession, submitScore } from '@/features/leaderboard/services/scoreSubmissionClient'
 

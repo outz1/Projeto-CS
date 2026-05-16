@@ -2,13 +2,13 @@ import type { NextRequest } from "next/server";
 import { getClientIp, jsonError, jsonSuccess } from "@/lib/api/http";
 import { redis, monthKey } from "@/lib/redis";
 import { parseArcadeScorePayload } from "@/features/arcade/domain";
-import { isValidGame, parseScoreEntry, parseScoreSubmitPayload, type GameType } from "@/lib/leaderboardSecurity";
+import { isValidGame, parseScoreEntry, parseScoreSubmitPayload, type GameType } from "@/features/leaderboard/domain";
 import {
   validateGameSession,
   markSessionAsUsed,
   checkAdvancedRateLimit,
   detectAnomalies,
-} from "@/lib/scoreSecurity";
+} from "./scoreSecurity";
 import { handleInitializeSession, isSessionInitPayload } from "./sessionHandler";
 
 const TTL_SECONDS = 60 * 60 * 24 * 35;

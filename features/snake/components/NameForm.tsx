@@ -8,7 +8,7 @@ import {
   normalizePlayerName,
   sanitizePlayerId,
   sanitizePlayerNameInput,
-} from "@/lib/leaderboardSecurity";
+} from "@/features/leaderboard/domain";
 
 interface Props {
   onStart: (name: string, id: string) => void;

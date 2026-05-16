@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useLeaderboardScores } from "@/features/leaderboard/hooks/useLeaderboardScores";
-import { isValidPlayerId, leaderboardSecurityConfig, normalizePlayerName, sanitizePlayerId, sanitizePlayerNameInput } from "@/lib/leaderboardSecurity";
+import { isValidPlayerId, leaderboardSecurityConfig, normalizePlayerName, sanitizePlayerId, sanitizePlayerNameInput } from "@/features/leaderboard/domain";
 import { generateId } from "@/lib/generateId";
 import { ArcadeBackground } from "./ArcadeBackground";
 import { ArcadeHeader } from "./ArcadeHeader";

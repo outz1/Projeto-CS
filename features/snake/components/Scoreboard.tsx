@@ -6,7 +6,7 @@ import {
   type ScoreEntry,
   normalizePlayerName,
   sanitizePlayerId,
-} from '@/lib/leaderboardSecurity'
+} from '@/features/leaderboard/domain'
 
 interface Props {
   lastScore: number

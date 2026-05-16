@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import NameForm from './NameForm'
 import SnakeGame from './SnakeGame'
 import Scoreboard from './Scoreboard'
-import { normalizePlayerName, sanitizePlayerId } from '@/lib/leaderboardSecurity'
+import { normalizePlayerName, sanitizePlayerId } from '@/features/leaderboard/domain'
 
 type Screen = 'name' | 'game' | 'scores'
 
