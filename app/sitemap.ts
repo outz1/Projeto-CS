@@ -5,7 +5,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     { path: "", priority: 1 },
     { path: "/arcade", priority: 0.8 },
-    { path: "/desenvolvimento-de-jogos", priority: 0.75 },
   ];
 
   return routes.map(({ path, priority }) => ({

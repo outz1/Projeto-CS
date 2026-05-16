@@ -35,7 +35,12 @@ export function ArcadeHero() {
         <a href="#entrar" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-cyan-400 px-6 py-3 text-sm font-black uppercase tracking-widest text-[#071333] shadow-2xl shadow-cyan-950/30 transition hover:-translate-y-0.5 hover:bg-cyan-300 active:scale-95">
           Preparar piloto <ArrowRight size={18} />
         </a>
-        <Link href="/desenvolvimento-de-jogos" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.07] px-6 py-3 text-sm font-black uppercase tracking-widest text-blue-50 backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/[0.12] active:scale-95">
+        <Link
+          href="https://rfunctions.blogspot.com/p/uma-breve-introducao-ao-desenvolvimento.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.07] px-6 py-3 text-sm font-black uppercase tracking-widest text-blue-50 backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/[0.12] active:scale-95"
+        >
           Entender gamedev <GraduationCap size={18} />
         </Link>
       </div>
