@@ -14,7 +14,7 @@ import {
   FAQSection,
   GaleriaSection,
   InfSection,
-} from "./components/home/ContentSections";
+} from "@/features/home/sections";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Espaço das Profissões - Computação e Sociedade",
