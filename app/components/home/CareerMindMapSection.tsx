@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 
 type CompanySlot = {
   id: string;
@@ -22,19 +21,16 @@ const companySlots: CompanySlot[] = [
 
 function CompanyCard({ id, name, logo }: { id: string; name: string; logo: string }) {
   return (
-    <article className="group relative h-28 w-full overflow-hidden rounded-2xl border border-[#005b9f]/70 bg-white shadow-md shadow-[#0b1d4d]/10 transition-transform duration-300 hover:scale-110 sm:h-32">
+    <article className="group relative h-28 w-full overflow-hidden rounded-2xl border border-[#005b9f]/30 bg-white shadow-sm shadow-[#0b1d4d]/8 transition-all duration-300 hover:scale-105 hover:border-[#005b9f]/60 hover:shadow-lg hover:shadow-[#005b9f]/15 sm:h-32">
       <Image
         src={logo}
         alt={`Logo da empresa ${name}`}
         fill
-        className="object-contain object-center p-2 transition-transform duration-300 group-hover:scale-105"
+        className="object-contain object-center p-3 transition-transform duration-300 group-hover:scale-105"
         sizes="(max-width: 768px) 45vw, 232px"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1d4d]/45 via-transparent to-transparent" />
-      <div className="absolute left-2.5 top-2 rounded-md bg-white/85 px-2 py-0.5 text-[10px] font-bold tracking-[0.16em] text-[#005b9f]">
-        EMPRESA {id}
-      </div>
-      <div className="absolute inset-x-0 bottom-0 truncate px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white">
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1d4d]/50 via-transparent to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-x-0 bottom-0 truncate px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white">
         {name}
       </div>
     </article>
@@ -44,12 +40,13 @@ function CompanyCard({ id, name, logo }: { id: string; name: string; logo: strin
 export function CareerMindMapSection() {
   return (
     <section className="mx-auto w-full max-w-[1500px] px-4 py-14 sm:px-6 md:px-8 lg:px-12">
-      <div className="rounded-[2rem] border border-[#8eb1ff]/50 bg-[#d2e2ff]/35 p-6 shadow-lg shadow-[#0b1d4d]/10 sm:p-8">
+      <div className="rounded-[2rem] border border-[#8eb1ff]/40 bg-[#dce8ff]/40 p-6 shadow-md shadow-[#0b1d4d]/8 sm:p-8 lg:p-10">
         <div className="space-y-2">
+          <p className="section-label">Mercado de Trabalho</p>
           <h2 className="text-3xl font-black uppercase tracking-wide text-[#0b1d4d] sm:text-4xl">
             Mapa de <span className="text-[#005b9f]">Carreiras</span>
           </h2>
-          <p className="max-w-3xl text-sm font-medium leading-relaxed text-[#0b1d4d]/75 sm:text-base">
+          <p className="max-w-3xl text-sm font-medium leading-relaxed text-[#0b1d4d]/70 sm:text-base">
             Conheça as empresas onde os profissionais formados em Ciência da Computação atuam, desde gigantes da tecnologia até startups inovadoras, e descubra as diversas oportunidades de carreira que o curso pode oferecer.
           </p>
         </div>
@@ -57,17 +54,14 @@ export function CareerMindMapSection() {
         <div className="mt-8 flex flex-col items-center gap-4 md:hidden">
           <div className="flex w-full max-w-sm items-center justify-center rounded-2xl border border-[#005b9f]/30 bg-[#0b1d4d] px-4 py-5 text-center text-white shadow-lg">
             <div>
-              <p className="text-xs uppercase tracking-[0.16em] text-white/70">CURSO</p>
+              <p className="text-xs uppercase tracking-[0.16em] text-white/60">CURSO</p>
               <p className="mt-1 text-lg font-black uppercase tracking-wide">Ciência da Computação</p>
             </div>
           </div>
 
           <div className="grid w-full max-w-sm grid-cols-2 gap-3">
             {companySlots.map((slot) => (
-              <div key={slot.id} className="flex flex-col items-stretch gap-2">
-                <ArrowUpRight className="mx-auto text-[#005b9f]" size={17} />
-                <CompanyCard id={slot.id} name={slot.name} logo={slot.logo} />
-              </div>
+              <CompanyCard key={slot.id} id={slot.id} name={slot.name} logo={slot.logo} />
             ))}
           </div>
         </div>
@@ -99,10 +93,11 @@ export function CareerMindMapSection() {
             ))}
           </svg>
 
-          <div className="absolute left-1/2 top-1/2 z-10 flex h-44 w-72 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[1.75rem] border border-[#005b9f]/40 bg-[#0b1d4d] p-6 text-center text-white shadow-2xl shadow-[#0b1d4d]/30">
+          <div className="absolute left-1/2 top-1/2 z-10 flex h-44 w-72 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[1.75rem] border border-[#005b9f]/50 bg-[#0b2a67] p-6 text-center text-white shadow-2xl shadow-[#0b1d4d]/40">
             <div>
-              <p className="text-xs uppercase tracking-[0.16em] text-white/70">CURSO</p>
-              <h3 className="mt-2 text-2xl font-black uppercase tracking-wide">Ciência da Computação</h3>
+              <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-white/50">CURSO</p>
+              <h3 className="text-xl font-black uppercase leading-tight tracking-wide">Ciência da Computação</h3>
+              <div className="mx-auto mt-3 h-px w-12 bg-[#60a5fa]/60" />
             </div>
           </div>
 

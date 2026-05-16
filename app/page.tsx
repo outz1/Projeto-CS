@@ -24,7 +24,7 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-white text-[#0b1d4d]">
+    <div className="relative min-h-screen bg-background text-[#0b1d4d]">
       <Header readerTargetId="page-content" />
 
       <div id="page-content">

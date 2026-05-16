@@ -87,13 +87,13 @@ export function EntidadesCarousel() {
         </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
+      <div className="mt-5 flex items-center justify-between gap-3">
         <button
           type="button"
           onClick={goPrev}
           disabled={!canGoPrev}
           aria-label="Entidade anterior"
-          className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#0b1d4d]/25 text-[#0b1d4d] disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#8eb1ff]/50 bg-white text-[#0b1d4d] shadow-sm transition-all duration-200 hover:border-[#005b9f]/40 hover:bg-[#e8f0fe] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-35"
         >
           <ChevronLeft size={18} />
         </button>
@@ -106,10 +106,10 @@ export function EntidadesCarousel() {
               onClick={() => setActiveIndex(index)}
               aria-label={`Ir para ${entity.name}`}
               aria-current={activeIndex === index}
-              className={`h-2.5 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all duration-300 ${
                 activeIndex === index
-                  ? "w-7 bg-[#0b1d4d]"
-                  : "w-2.5 bg-[#0b1d4d]/30"
+                  ? "w-8 bg-[#005b9f]"
+                  : "w-2 bg-[#8eb1ff]/60 hover:bg-[#8eb1ff]"
               }`}
             />
           ))}
@@ -119,8 +119,8 @@ export function EntidadesCarousel() {
           type="button"
           onClick={goNext}
           disabled={!canGoNext}
-          aria-label="Proxima entidade"
-          className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#0b1d4d]/25 text-[#0b1d4d] disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label="Próxima entidade"
+          className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#8eb1ff]/50 bg-white text-[#0b1d4d] shadow-sm transition-all duration-200 hover:border-[#005b9f]/40 hover:bg-[#e8f0fe] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-35"
         >
           <ChevronRight size={18} />
         </button>

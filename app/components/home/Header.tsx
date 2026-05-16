@@ -33,7 +33,7 @@ export function Header({ readerTargetId }: HeaderProps) {
   return (
     <>
       <header className="fixed left-1/2 top-3 z-40 w-full max-w-[min(100%,70rem)] -translate-x-1/2 px-2">
-        <div className="w-full rounded-2xl border border-[#8eb1ff]/45 bg-[#d8e6ff]/92 shadow-lg shadow-[#0b1d4d]/20 backdrop-blur">
+        <div className="w-full rounded-2xl border border-[#8eb1ff]/50 bg-[#dce8ff]/95 shadow-[0_4px_24px_rgba(11,29,77,0.14)] backdrop-blur-md">
           <div className="flex h-14 w-full items-center justify-between gap-3 px-3 sm:h-16 sm:px-5">
             <div className="flex shrink-0 items-center gap-3">
               <Image
@@ -41,17 +41,17 @@ export function Header({ readerTargetId }: HeaderProps) {
                 alt="Instituto de Informática"
                 width={300}
                 height={120}
-                className="h-[5.5rem] w-auto shrink-0 sm:h-16 md:h-[6.5rem]"
+                className="h-9 w-auto shrink-0 sm:h-10 md:h-11"
                 priority
               />
             </div>
 
-            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-3 text-xs font-semibold tracking-wide md:flex lg:gap-6 lg:text-sm">
+            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-3 text-xs font-semibold tracking-wide md:flex lg:gap-7 lg:text-sm">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="whitespace-nowrap text-[#0b1d4d] transition-colors hover:text-[#16367f]"
+                  className="nav-link whitespace-nowrap text-[#0b1d4d]/80 transition-colors duration-200 hover:text-[#0b1d4d]"
                 >
                   {item.label}
                 </a>
@@ -62,7 +62,7 @@ export function Header({ readerTargetId }: HeaderProps) {
               {readerTargetId && (
                 <AudioReaderButton
                   targetElementId={readerTargetId}
-                  className="rounded-lg border border-[#8eb1ff]/60 bg-[#e4eeff]/70 hover:bg-[#f1f6ff]"
+                  className="rounded-lg border border-[#8eb1ff]/60 bg-[#e4eeff]/70 transition-colors hover:bg-[#eaf2ff]"
                 />
               )}
             </div>
@@ -107,22 +107,26 @@ export function Header({ readerTargetId }: HeaderProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Menu lateral"
-        className={`fixed right-0 top-0 z-[85] flex h-full w-[min(84%,26rem)] flex-col border-l border-[#8eb1ff]/60 bg-[#d2e2ff] p-6 shadow-2xl shadow-[#0b1d4d]/25 transition-transform duration-200 md:hidden ${
+        className={`fixed right-0 top-0 z-[85] flex h-full w-[min(84%,26rem)] flex-col border-l border-[#8eb1ff]/40 bg-[#dce8ff] shadow-2xl shadow-[#0b1d4d]/30 transition-transform duration-300 ease-out md:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="mb-6 pt-10 flex items-center justify-between">
-          <span className="text-sm font-semibold uppercase tracking-wide text-[#0b1d4d]">
-            Menu
-          </span>
+        <div className="flex items-center justify-between border-b border-[#8eb1ff]/40 px-6 py-5 pt-16">
+          <Image
+            src="/INF-02.png"
+            alt="Instituto de Informática"
+            width={200}
+            height={80}
+            className="h-7 w-auto"
+          />
         </div>
 
-        <nav className="flex flex-col gap-4 text-sm font-semibold text-[#0b1d4d]">
+        <nav className="flex flex-col gap-1 px-4 pt-4 text-sm font-semibold text-[#0b1d4d]">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="break-words rounded-md border border-[#8eb1ff]/60 bg-[#e4eeff]/70 px-3 py-3 transition-colors hover:bg-[#f1f6ff]"
+              className="break-words rounded-xl px-4 py-3 tracking-wide transition-all duration-150 hover:bg-[#0b1d4d]/8 hover:text-[#0b1d4d] active:scale-[0.98]"
               onClick={() => setIsMenuOpen(false)}
             >
               {item.label}
@@ -130,13 +134,13 @@ export function Header({ readerTargetId }: HeaderProps) {
           ))}
         </nav>
 
-        <div className="mt-auto pt-8 pb-4 w-full">
+        <div className="mt-auto border-t border-[#8eb1ff]/40 px-6 pb-8 pt-6">
           <Image
             src="/logoespaco.png"
             alt="Logo Espaço"
             width={400}
             height={200}
-            className="mx-auto h-32 w-auto rounded-xl object-contain"
+            className="h-24 w-auto rounded-xl object-contain"
           />
         </div>
       </aside>

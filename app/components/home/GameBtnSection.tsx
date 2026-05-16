@@ -356,39 +356,40 @@ const NEUTRAL_GAME_CARD_HREF = "https://rfunctions.blogspot.com/p/uma-breve-intr
 export function NeutralGameCard() {
   return (
     <section className="w-full bg-[#d2e2ff]/40">
-      <div className="mx-auto w-full max-w-[1500px] px-4 py-8 sm:px-6 md:px-8 lg:px-12">
-        <div className="relative mx-auto w-full max-w-[460px] overflow-hidden rounded-2xl border border-slate-300/80 bg-white px-5 py-6 shadow-[0_10px_25px_rgba(15,23,42,0.08)] sm:px-6 sm:py-7">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_15%,rgba(148,163,184,0.15),transparent_45%),radial-gradient(circle_at_85%_85%,rgba(71,85,105,0.12),transparent_42%)]" />
+      <div className="mx-auto w-full max-w-[1500px] px-4 py-10 sm:px-6 md:px-8 lg:px-12">
+        <div className="relative overflow-hidden rounded-2xl border border-[#8eb1ff]/50 bg-white px-6 py-8 shadow-md shadow-[#0b1d4d]/8 sm:px-8 sm:py-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_5%_50%,rgba(0,91,159,0.06),transparent_50%),radial-gradient(circle_at_95%_50%,rgba(96,165,250,0.06),transparent_50%)]" />
 
-          <div className="relative flex flex-col items-center gap-4 text-center">
-            <div className="flex items-center justify-center gap-2.5 text-slate-600">
-              <span className="rounded-full border border-slate-300 bg-slate-100 p-2 animate-[bounce_1.4s_ease-in-out_infinite] [animation-delay:0ms]">
-                <Gamepad2 size={18} />
+          <div className="relative flex flex-col items-center gap-5 text-center sm:flex-row sm:gap-8 sm:text-left">
+            <div className="flex shrink-0 items-center justify-center gap-2.5 text-[#005b9f]">
+              <span className="rounded-full border border-[#8eb1ff]/50 bg-[#e8f0fe] p-3 animate-[bounce_1.4s_ease-in-out_infinite] [animation-delay:0ms]">
+                <Gamepad2 size={22} />
               </span>
-              <span className="rounded-full border border-slate-300 bg-slate-100 p-2 animate-[bounce_1.4s_ease-in-out_infinite] [animation-delay:200ms]">
-                <Trophy size={18} />
+              <span className="rounded-full border border-[#8eb1ff]/50 bg-[#e8f0fe] p-3 animate-[bounce_1.4s_ease-in-out_infinite] [animation-delay:200ms]">
+                <Trophy size={22} />
               </span>
-              <span className="rounded-full border border-slate-300 bg-slate-100 p-2 animate-[bounce_1.4s_ease-in-out_infinite] [animation-delay:400ms]">
-                <Rocket size={18} />
+              <span className="rounded-full border border-[#8eb1ff]/50 bg-[#e8f0fe] p-3 animate-[bounce_1.4s_ease-in-out_infinite] [animation-delay:400ms]">
+                <Rocket size={22} />
               </span>
             </div>
 
-            <h3 className="text-xl font-black uppercase tracking-wide text-slate-800 sm:text-2xl">
-              {NEUTRAL_GAME_CARD_TITLE}
-            </h3>
-
-            <p className="max-w-sm text-xs leading-relaxed text-slate-600 sm:text-sm">
-              QUER SABER MAIS DE COMO FUNCIONA A CRIAÇÃO DE JOGOS? CLIQUE NO BOTÃO ABAIXO E SAIBA MAIS!
-            </p>
+            <div className="flex-1 space-y-2">
+              <h3 className="text-xl font-black uppercase tracking-wide text-[#0b1d4d] sm:text-2xl">
+                {NEUTRAL_GAME_CARD_TITLE}
+              </h3>
+              <p className="text-xs leading-relaxed text-[#0b1d4d]/65 sm:text-sm">
+                QUER SABER MAIS DE COMO FUNCIONA A CRIAÇÃO DE JOGOS? CLIQUE NO BOTÃO ABAIXO E SAIBA MAIS!
+              </p>
+            </div>
 
             <Link
               href={NEUTRAL_GAME_CARD_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-slate-800   px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-slate-600 focus:outline-none focus:ring-4 focudnf list installed | grep codes:ring-slate-300 hover:scale-105 active:scale-95"
+              className="group relative shrink-0 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#0b1d4d] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#16367f] hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-[#005b9f]/40 hover:scale-105 active:scale-95"
             >
               <span className="relative z-10">{NEUTRAL_GAME_CARD_BUTTON_LABEL}</span>
-              <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full" />
+              <div className="absolute inset-0 z-0 bg-linear-to-r from-transparent via-white/15 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full" />
             </Link>
           </div>
         </div>
