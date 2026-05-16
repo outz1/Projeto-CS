@@ -30,7 +30,7 @@ export default function Home() {
 
       <div id="page-content">
         <HeroSection />
-        <main className="pb-16 pt-20">
+        <main className="pt-20">
           <InfSection />
           <CursoSection />
           <AreasSection />
