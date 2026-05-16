@@ -250,7 +250,7 @@ export default function DesenvolvimentoDeJogosPage() {
               </div>
 
               <div className="space-y-5">
-                <h1 className="max-w-5xl text-4xl font-black leading-[1.04] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
+                <h1 className="max-w-5xl text-3xl font-semibold leading-[1.22] tracking-[0.015em] sm:text-5xl lg:text-6xl">
                   Desenvolvimento de Jogos Digitais
                   <span className="block bg-gradient-to-r from-blue-200 via-cyan-100 to-white bg-clip-text text-transparent">
                     da ideia ao protótipo jogável.
@@ -292,7 +292,7 @@ export default function DesenvolvimentoDeJogosPage() {
               <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-5">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.24em] text-blue-200/70">Mapa da jornada</p>
-                  <h2 className="mt-2 text-2xl font-black text-white">O que você vai aprender</h2>
+                  <h2 className="mt-2 text-xl font-semibold leading-snug tracking-[0.015em] text-white sm:text-2xl">O que você vai aprender</h2>
                 </div>
                 <div className="rounded-2xl border border-cyan-200/20 bg-cyan-200/10 p-4 text-cyan-100">
                   <Gamepad2 size={30} />
@@ -317,7 +317,7 @@ export default function DesenvolvimentoDeJogosPage() {
               <Sparkles size={15} />
               Fundamentos
             </span>
-            <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">Jogo digital é um sistema interativo.</h2>
+            <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">Jogo digital é um sistema interativo.</h2>
             <p className="text-base leading-relaxed text-[#0b1d4d]/70">
               O game parece diversão na superfície, mas por baixo dele existem decisões de arquitetura: como representar estado, como processar entrada, como atualizar regras e como entregar feedback visual e sonoro em tempo real.
             </p>
@@ -331,7 +331,7 @@ export default function DesenvolvimentoDeJogosPage() {
                   <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e8f0fe] text-[#005b9f]">
                     <Icon size={24} />
                   </div>
-                  <h3 className="text-lg font-black text-[#071333]">{item.title}</h3>
+                  <h3 className="text-lg font-semibold leading-snug tracking-[0.015em] text-[#071333]">{item.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-[#0b1d4d]/68">{item.text}</p>
                 </article>
               );
@@ -346,7 +346,7 @@ export default function DesenvolvimentoDeJogosPage() {
                 <Code2 size={15} />
                 Linguagens
               </span>
-              <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">A linguagem depende do objetivo.</h2>
+              <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">A linguagem depende do objetivo.</h2>
               <p className="text-base leading-relaxed text-[#0b1d4d]/70">
                 Não existe uma linguagem única para todos os jogos. Projetos educacionais podem começar com ferramentas mais simples; jogos comerciais, multiplataforma ou de alto desempenho exigem decisões técnicas mais rigorosas.
               </p>
@@ -355,8 +355,8 @@ export default function DesenvolvimentoDeJogosPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               {languageCards.map((language) => (
                 <article key={language.name} className="rounded-3xl border border-[#d8e6ff] bg-[#f8fbff] p-6">
-                  <p className="text-3xl font-black text-[#005b9f]">{language.name}</p>
-                  <h3 className="mt-2 text-sm font-black uppercase tracking-widest text-[#071333]">{language.role}</h3>
+                  <p className="text-2xl font-semibold leading-snug tracking-[0.015em] text-[#005b9f] sm:text-3xl">{language.name}</p>
+                  <h3 className="mt-2 text-sm font-semibold uppercase leading-relaxed tracking-[0.14em] text-[#071333]">{language.role}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-[#0b1d4d]/68">{language.description}</p>
                 </article>
               ))}
@@ -371,7 +371,7 @@ export default function DesenvolvimentoDeJogosPage() {
                 <Wrench size={15} />
                 Engines e ferramentas
               </span>
-              <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">A engine acelera o caminho entre ideia e experiência.</h2>
+              <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">A engine acelera o caminho entre ideia e experiência.</h2>
             </div>
             <p className="max-w-xl text-sm leading-relaxed text-[#0b1d4d]/68">
               Engines oferecem editor, física, renderização, animação, áudio, build para plataformas e recursos prontos. Bibliotecas como Raylib ficam mais próximas do código e ajudam a entender a base técnica.
@@ -382,7 +382,7 @@ export default function DesenvolvimentoDeJogosPage() {
             {engineCards.map((engine) => (
               <article key={engine.name} className="flex min-h-64 flex-col rounded-3xl border border-[#c7d9ff] bg-white p-6 shadow-md shadow-[#0b1d4d]/5">
                 <div className="mb-5 h-2 w-16 rounded-full bg-gradient-to-r from-[#005b9f] to-[#60a5fa]" />
-                <h3 className="text-xl font-black text-[#071333]">{engine.name}</h3>
+                <h3 className="text-xl font-semibold leading-snug tracking-[0.015em] text-[#071333]">{engine.name}</h3>
                 <p className="mt-2 text-xs font-black uppercase tracking-widest text-[#005b9f]">{engine.tag}</p>
                 <p className="mt-4 text-sm leading-relaxed text-[#0b1d4d]/68">{engine.text}</p>
               </article>
@@ -397,7 +397,7 @@ export default function DesenvolvimentoDeJogosPage() {
                 <ClipboardList size={15} />
                 Processo profissional
               </span>
-              <h2 className="text-3xl font-black tracking-[-0.03em] sm:text-5xl">Criar um jogo também é gerenciar projeto.</h2>
+              <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] sm:text-4xl">Criar um jogo também é gerenciar projeto.</h2>
               <p className="text-base leading-relaxed text-blue-50/72">
                 Uma boa produção não começa pelo código final. Ela passa por intenção, escopo, documentação, prototipagem, testes, revisão e entrega.
               </p>
@@ -407,7 +407,7 @@ export default function DesenvolvimentoDeJogosPage() {
               {productionFlow.map((step) => (
                 <article key={step.phase} className="rounded-3xl border border-white/10 bg-white/[0.07] p-6 backdrop-blur-md">
                   <p className="text-sm font-black text-cyan-200">{step.phase}</p>
-                  <h3 className="mt-4 text-xl font-black">{step.title}</h3>
+                  <h3 className="mt-4 text-xl font-semibold leading-snug tracking-[0.015em]">{step.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-blue-50/68">{step.text}</p>
                 </article>
               ))}
@@ -423,7 +423,7 @@ export default function DesenvolvimentoDeJogosPage() {
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-[#005b9f]">GDD</p>
-                <h2 className="text-2xl font-black text-[#071333]">Documento de Design de Jogo</h2>
+                <h2 className="text-xl font-semibold leading-snug tracking-[0.015em] text-[#071333] sm:text-2xl">Documento de Design de Jogo</h2>
               </div>
             </div>
             <p className="text-sm leading-relaxed text-[#0b1d4d]/70">
@@ -448,7 +448,7 @@ export default function DesenvolvimentoDeJogosPage() {
                 <Brush size={15} />
                 Produção visual e sonora
               </span>
-              <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">Arte, animação e áudio dão identidade ao sistema.</h2>
+              <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">Arte, animação e áudio dão identidade ao sistema.</h2>
               <p className="text-base leading-relaxed text-[#0b1d4d]/70">
                 A programação estabelece as regras, mas a experiência ganha memória quando imagem, movimento e som comunicam intenção, emoção e feedback.
               </p>
@@ -462,7 +462,7 @@ export default function DesenvolvimentoDeJogosPage() {
                     <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#005b9f] shadow-sm">
                       <Icon size={24} />
                     </div>
-                    <h3 className="text-xl font-black text-[#071333]">{area.title}</h3>
+                    <h3 className="text-xl font-semibold leading-snug tracking-[0.015em] text-[#071333]">{area.title}</h3>
                     <ul className="mt-4 space-y-2">
                       {area.items.map((item) => (
                         <li key={item} className="flex items-center gap-2 text-sm text-[#0b1d4d]/68">
@@ -484,7 +484,7 @@ export default function DesenvolvimentoDeJogosPage() {
               <Rocket size={15} />
               Mão na massa
             </span>
-            <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">Como pensar um primeiro protótipo.</h2>
+            <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">Como pensar um primeiro protótipo.</h2>
             <p className="text-base leading-relaxed text-[#0b1d4d]/70">
               Um jogo simples já permite discutir quase tudo que importa: janela, FPS, input, movimento, tempo, colisões, estado de pausa, derrota e feedback para o jogador. O ponto não é começar grande; é começar observável.
             </p>
@@ -531,7 +531,7 @@ export default function DesenvolvimentoDeJogosPage() {
                 <Users size={15} />
                 Mercado e papéis
               </span>
-              <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">Gamedev é trabalho em equipe.</h2>
+              <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">Gamedev é trabalho em equipe.</h2>
               <p className="text-base leading-relaxed text-[#0b1d4d]/70">
                 Mesmo jogos pequenos podem envolver muitas especialidades. Em projetos maiores, as funções se dividem para acelerar produção, melhorar qualidade e manter coerência entre tecnologia e experiência.
               </p>
@@ -555,7 +555,7 @@ export default function DesenvolvimentoDeJogosPage() {
                   <Trophy size={15} />
                   Próximo passo
                 </span>
-                <h2 className="text-3xl font-black tracking-[-0.03em] text-[#071333] sm:text-5xl">Da leitura para a experimentação.</h2>
+                <h2 className="text-2xl font-semibold leading-[1.3] tracking-[0.015em] text-[#071333] sm:text-4xl">Da leitura para a experimentação.</h2>
                 <p className="text-base leading-relaxed text-[#0b1d4d]/70">
                   Depois de entender os fundamentos, a melhor forma de aprender é jogar criticamente: observe regras, feedback, dificuldade, interfaces e escolhas de design. Depois, tente transformar uma ideia pequena em protótipo.
                 </p>
@@ -567,7 +567,7 @@ export default function DesenvolvimentoDeJogosPage() {
                   className="group rounded-3xl bg-[#071333] p-6 text-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#071333]/20"
                 >
                   <Gamepad2 className="mb-5 text-blue-200" size={30} />
-                  <h3 className="text-xl font-black">Entrar no Arcade</h3>
+                  <h3 className="text-xl font-semibold leading-snug tracking-[0.015em]">Entrar no Arcade</h3>
                   <p className="mt-2 text-sm leading-relaxed text-blue-50/68">Experimente uma atividade gamificada do projeto e observe os conceitos em ação.</p>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-blue-200">
                     Acessar <ArrowRight className="transition group-hover:translate-x-1" size={16} />
@@ -579,7 +579,7 @@ export default function DesenvolvimentoDeJogosPage() {
                   className="group rounded-3xl border border-[#c7d9ff] bg-[#f8fbff] p-6 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#0b1d4d]/10"
                 >
                   <BrainCircuit className="mb-5 text-[#005b9f]" size={30} />
-                  <h3 className="text-xl font-black text-[#071333]">Voltar ao portal</h3>
+                  <h3 className="text-xl font-semibold leading-snug tracking-[0.015em] text-[#071333]">Voltar ao portal</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[#0b1d4d]/68">Continue explorando cursos, áreas, entidades e possibilidades em Computação.</p>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#005b9f]">
                     Voltar <ArrowRight className="transition group-hover:translate-x-1" size={16} />
@@ -598,7 +598,7 @@ export default function DesenvolvimentoDeJogosPage() {
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-[#005b9f]">Curadoria</p>
-                <h2 className="text-2xl font-black text-[#071333]">Referências para aprofundar</h2>
+                <h2 className="text-xl font-semibold leading-snug tracking-[0.015em] text-[#071333] sm:text-2xl">Referências para aprofundar</h2>
               </div>
             </div>
 
