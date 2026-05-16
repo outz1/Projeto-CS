@@ -13,10 +13,10 @@ export function HeroSection() {
         className="absolute inset-0 z-0 h-full w-full object-cover object-center"
       />
 
-      {/* 2. Máscaras de Gradiente e Overlay (Escurecimento para integrar perfeitamente) */}
-      <div className="absolute inset-0 z-0 bg-[#071333]/80 mix-blend-multiply" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#071333] via-[#071333]/80 to-transparent" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#071333] via-[#071333]/50 to-transparent" />
+      {/* 2. Máscaras de Gradiente e Overlay (Escurecimento suave para integrar texto sem esconder a imagem) */}
+      <div className="absolute inset-0 z-0 bg-[#071333]/30" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#071333]/90 via-[#071333]/40 to-transparent" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#071333]/90 via-[#071333]/20 to-transparent" />
 
       {/* 3. Chuva Matrix Criptografada (Na FRENTE da Imagem e com Transparência) */}
       <div
