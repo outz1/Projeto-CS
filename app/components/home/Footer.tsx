@@ -22,10 +22,10 @@ export function Footer() {
               alt="Universidade Federal de Goiás - Instituto de Informática"
               width={400}
               height={140}
-              className="-mb-6 w-56 sm:w-64 h-auto brightness-0 invert opacity-90 drop-shadow-sm"
+              className="-mb-[55px] -mt-[10px] w-56 sm:w-64 h-auto brightness-0 invert opacity-90 drop-shadow-sm"
               priority
             />
-            <div className="flex flex-col space-y-3 px-1 mt-2 text-sm leading-relaxed text-slate-300">
+            <div className="flex flex-col space-y-3 px-1 mt-0 text-sm leading-relaxed text-slate-300">
               <div>
                 <p className="font-semibold text-slate-200">Instituto de Informática · UFG</p>
                 <p>Campus Samambaia — Goiânia, GO</p>
