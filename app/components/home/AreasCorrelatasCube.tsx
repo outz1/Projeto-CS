@@ -124,9 +124,6 @@ function DetailPanel({ area }: { area: Area }) {
 
         {/* Title + badge */}
         <div className="relative z-10 min-w-0">
-          <p className="mb-0.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/45">
-            {area.id} — Área Correlata
-          </p>
           <h3 className="text-xl font-black uppercase leading-tight tracking-wide text-white sm:text-2xl">
             {area.title}
           </h3>
@@ -210,9 +207,6 @@ export function AreasCorrelatasCube() {
 
         {/* Section header */}
         <div className="mb-10 sm:mb-12">
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/40">
-            Instituto de Informática — UFG
-          </p>
           <h2 className="text-3xl font-black uppercase tracking-wide text-white sm:text-4xl">
             ÁREAS CORRELATAS
           </h2>
