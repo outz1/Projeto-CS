@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BackToTop } from "./components/home/BackToTop";
 import { Footer } from "./components/home/Footer";
 import { Header } from "./components/home/Header";
 import { HeroSection } from "./components/home/HeroSection";
@@ -44,6 +45,7 @@ export default function Home() {
       </div>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 }
