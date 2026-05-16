@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 import {
-  extractRetryAfterSeconds,
   normalizePlayerName,
   sanitizePlayerId,
 } from '@/lib/leaderboardSecurity'
+import { getScoreCooldownSeconds, setScoreCooldown } from '@/features/leaderboard/services/cooldownStorage'
+import { getOrCreateDeviceId, initializeGameSession, submitScore } from '@/features/leaderboard/services/scoreSubmissionClient'
 
 const GRID = 20
 const TICK_MS = 130
@@ -18,37 +19,10 @@ interface Props {
   onGameOver: (score: number) => void
 }
 
-// Chave do localStorage para guardar até quando o cooldown dura
-function cooldownKey(id: string) {
-  return `snake:cooldown:${id}`
-}
-
-// Retorna os segundos restantes de cooldown (0 se liberado)
-function getCooldownSeconds(id: string): number {
-  try {
-    const val = localStorage.getItem(cooldownKey(id))
-    if (!val) return 0
-    const endsAt = parseInt(val, 10)
-    const remaining = Math.ceil((endsAt - Date.now()) / 1000)
-    if (remaining <= 0) {
-      localStorage.removeItem(cooldownKey(id))
-      return 0
-    }
-    return remaining
-  } catch {
-    return 0
-  }
-}
-
-function setCooldown(id: string, seconds: number) {
-  try {
-    localStorage.setItem(cooldownKey(id), String(Date.now() + seconds * 1000))
-  } catch {}
-}
-
 export default function SnakeGame({ player, playerId, onGameOver }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameStartedAtRef = useRef<number>(0)
+  const sessionIdRef = useRef<string | null>(null)
 
   const stateRef = useRef({
     snake: [] as Point[],
@@ -122,34 +96,51 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
   const saveScore = useCallback(async (score: number, durationMs: number) => {
     const safeId = sanitizePlayerId(playerId)
     const safeName = normalizePlayerName(player)
-    const remaining = getCooldownSeconds(safeId)
+    const remaining = getScoreCooldownSeconds('snake', safeId)
     if (remaining > 0) {
       console.info(`[snake] cooldown ativo: ${remaining}s restantes`)
       return 
     }
 
     try {
-      const res = await fetch('/api/scores', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: safeName,
-          id: safeId,
-          score,
-          durationMs,
-        }),
+      let sessionId = sessionIdRef.current
+      if (!sessionId) {
+        sessionId = await initializeGameSession('snake')
+        sessionIdRef.current = sessionId
+      }
+
+      if (!sessionId) {
+        console.warn('[snake] não foi possível iniciar sessão segura para envio do score')
+        return
+      }
+
+      const result = await submitScore({
+        sessionId,
+        deviceId: getOrCreateDeviceId(),
+        name: safeName,
+        id: safeId,
+        score,
+        durationMs,
+        game: 'snake',
       })
 
-      const payload: unknown = await res.json().catch(() => null)
+      if (result.ok) {
+        sessionIdRef.current = null
+        return
+      }
 
-      if (res.status === 429) {
-        const retryAfter = extractRetryAfterSeconds(payload) ?? 600
-        setCooldown(safeId, retryAfter)
+      if (result.status === 429) {
+        const retryAfter = result.retryAfter ?? 600
+        setScoreCooldown('snake', safeId, retryAfter)
         console.warn(`[snake] rate limited pelo servidor: ${retryAfter}s`)
         return
       }
 
-      if (!res.ok) {
+      if (result.status === 401) {
+        sessionIdRef.current = null
+      }
+
+      if (!result.ok) {
         console.warn('[snake] score rejeitado pelo servidor')
       }
     } catch (e) {
@@ -175,6 +166,10 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
     s.score = 0
     s.running = true
     gameStartedAtRef.current = Date.now()
+    sessionIdRef.current = null
+    void initializeGameSession('snake').then((sessionId) => {
+      if (s.running) sessionIdRef.current = sessionId
+    })
     placeFood()
     draw()
 
@@ -189,7 +184,7 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
         clearInterval(loop)
         s.running = false
         const durationMs = Date.now() - gameStartedAtRef.current
-        saveScore(s.score, durationMs)
+        void saveScore(s.score, durationMs)
         setTimeout(() => onGameOver(s.score), 250)
         return
       }
@@ -247,6 +242,7 @@ export default function SnakeGame({ player, playerId, onGameOver }: Props) {
       window.removeEventListener('keydown', handleKey)
       canvas.removeEventListener('touchstart', onTouchStart)
       canvas.removeEventListener('touchend', onTouchEnd)
+      sessionIdRef.current = null
     }
   }, [draw, placeFood, saveScore, onGameOver])
 
