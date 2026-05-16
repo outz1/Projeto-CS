@@ -1,4 +1,4 @@
-import { FAQ } from "../legacy";
+import { FAQ } from "../components";
 
 export function FAQSection() {
   return (

@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import { matrixColumns } from "./config";
+import { matrixColumns } from "../content";
 import { ChevronDown } from "lucide-react";
 
 export function HeroSection() {

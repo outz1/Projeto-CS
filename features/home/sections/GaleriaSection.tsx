@@ -1,4 +1,4 @@
-import { GaleriaClient } from "../legacy";
+import { GaleriaClient } from "../components";
 
 export function GaleriaSection() {
   return (

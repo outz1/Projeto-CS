@@ -1,5 +1,5 @@
 import { Footer } from "@/components/layout/Footer";
-import { BackToTop, CareerMindMapSection, HardSnakeSection, Header, HeroSection, NeutralGameCard, SnakeSection } from "./legacy";
+import { BackToTop, CareerMindMapSection, HardSnakeSection, Header, HeroSection, NeutralGameCard, SnakeSection } from "./components";
 import {
   AreasSection,
   CursoSection,

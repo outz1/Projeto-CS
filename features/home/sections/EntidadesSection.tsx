@@ -1,4 +1,4 @@
-import { EntidadesCarouselClient } from "../legacy";
+import { EntidadesCarouselClient } from "../components";
 
 export function EntidadesSection() {
   return (
