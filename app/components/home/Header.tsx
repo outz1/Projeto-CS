@@ -12,7 +12,18 @@ interface HeaderProps {
 
 export function Header({ readerTargetId }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
   const toggleMenu = () => setIsMenuOpen((current) => !current);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -32,44 +43,55 @@ export function Header({ readerTargetId }: HeaderProps) {
 
   return (
     <>
-      <header className="fixed left-1/2 top-3 z-40 w-full max-w-[min(100%,70rem)] -translate-x-1/2 px-2">
-        <div className="w-full rounded-2xl border border-[#8eb1ff]/50 bg-[#dce8ff]/95 shadow-[0_4px_24px_rgba(11,29,77,0.14)] backdrop-blur-md">
-          <div className="flex h-14 w-full items-center justify-between gap-3 px-3 sm:h-16 sm:px-5">
-            <div className="flex shrink-0 items-center gap-3">
-              <Image
-                src="/INF-02.png"
-                alt="Instituto de Informática"
-                width={300}
-                height={120}
-                className="h-9 w-auto shrink-0 sm:h-10 md:h-11"
-                priority
+      <header
+        className={`fixed z-40 transition-all duration-300 ease-in-out ${
+          isScrolled
+            ? "left-1/2 top-3 w-[min(96%,70rem)] -translate-x-1/2 rounded-2xl border border-white/10 bg-[#071333]/90 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-md"
+            : "left-0 top-0 w-full rounded-none border-b border-white/5 bg-[#071333] shadow-md"
+        }`}
+      >
+        <div
+          className={`mx-auto flex w-full max-w-[1500px] items-center justify-between gap-3 transition-all duration-300 ${
+            isScrolled ? "h-14 px-4 sm:h-16 sm:px-6" : "h-20 pt-1.5 px-4 sm:h-24 sm:px-8 lg:px-12"
+          }`}
+        >
+          <div className="flex shrink-0 items-center">
+            <Image
+              src="/INF_INT_ART_PRETA2.png"
+              alt="Instituto de Informática"
+              width={350}
+              height={120}
+              className={`h-auto brightness-0 invert transition-all duration-300 ${
+                isScrolled ? "w-40 sm:w-44" : "w-48 sm:w-60"
+              }`}
+              priority
+            />
+          </div>
+
+          <nav className="hidden min-w-0 flex-1 items-center justify-end gap-3 px-8 text-xs font-semibold tracking-wide md:flex lg:gap-7 lg:text-sm">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="nav-link whitespace-nowrap text-slate-300 transition-all duration-200 hover:text-white hover:underline hover:underline-offset-4 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60a5fa] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071333]"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="hidden shrink-0 items-center md:flex">
+            {readerTargetId && (
+              <AudioReaderButton
+                targetElementId={readerTargetId}
+                className="rounded-lg border border-white/20 bg-white/10 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60a5fa] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071333]"
               />
-            </div>
-
-            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-3 text-xs font-semibold tracking-wide md:flex lg:gap-7 lg:text-sm">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="nav-link whitespace-nowrap text-[#0b1d4d]/80 transition-colors duration-200 hover:text-[#0b1d4d]"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-
-            <div className="hidden shrink-0 items-center md:flex">
-              {readerTargetId && (
-                <AudioReaderButton
-                  targetElementId={readerTargetId}
-                  className="rounded-lg border border-[#8eb1ff]/60 bg-[#e4eeff]/70 transition-colors hover:bg-[#eaf2ff]"
-                />
-              )}
-            </div>
+            )}
           </div>
         </div>
       </header>
 
+      {/* Mobile Buttons */}
       <div className="fixed right-4 top-5 z-[90] flex items-center gap-2 md:hidden">
         {readerTargetId && (
           <AudioReaderButton
@@ -113,11 +135,11 @@ export function Header({ readerTargetId }: HeaderProps) {
       >
         <div className="flex items-center justify-between border-b border-[#8eb1ff]/40 px-6 py-5 pt-16">
           <Image
-            src="/INF-02.png"
+            src="/INF_INT_ART_PRETA2.png"
             alt="Instituto de Informática"
             width={200}
             height={80}
-            className="h-7 w-auto"
+            className="w-40 sm:w-48 h-auto"
           />
         </div>
 

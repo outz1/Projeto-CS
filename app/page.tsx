@@ -14,7 +14,7 @@ import {
   FAQSection,
   GaleriaSection,
   InfSection,
-} from "./components/home/ContentSections";
+} from "@/features/home/sections";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Espaço das Profissões - Computação e Sociedade",
@@ -30,7 +30,7 @@ export default function Home() {
 
       <div id="page-content">
         <HeroSection />
-        <main className="pb-16 pt-20">
+        <main className="pt-20">
           <InfSection />
           <CursoSection />
           <AreasSection />

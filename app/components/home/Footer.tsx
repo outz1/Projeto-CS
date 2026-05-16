@@ -7,40 +7,53 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#16367f]">
-      {/* Wrapper centralizador */}
-      <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-        
-        {/* Main grid */}
-        <div className="grid gap-10 border-b border-white/10 py-12 sm:grid-cols-2 md:py-14 lg:grid-cols-[1.6fr_1fr_1fr]">
+    <footer className="relative bg-[#071333] pt-16 text-white sm:pt-20">
+      {/* Faixa decorativa com as cores institucionais (Gov/UFG) */}
+      <div className="absolute inset-x-0 top-0 h-1.5 w-full bg-gradient-to-r from-[#005b9f] via-[#60a5fa] to-[#005b9f]"></div>
 
-          {/* Col 1 — Branding */}
-          <div className="space-y-5">
-            <div className="space-y-1 text-sm text-white/45">
-              <p>Instituto de Informática · UFG</p>
-              <p>Campus Samambaia — Goiânia, GO</p>
+      <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-12">
+        {/* Main Grid Institucional */}
+        <div className="grid gap-12 pb-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1.5fr]">
+          
+          {/* Brand/Localização */}
+          <div className="flex flex-col items-start">
+            <Image
+              src="/INF_INT_ART_PRETA2.png"
+              alt="Universidade Federal de Goiás - Instituto de Informática"
+              width={400}
+              height={140}
+              className="-mb-[55px] -mt-[10px] w-56 sm:w-64 h-auto brightness-0 invert opacity-90 drop-shadow-sm"
+              priority
+            />
+            <div className="flex flex-col space-y-3 px-1 mt-0 text-sm leading-relaxed text-slate-300">
+              <div>
+                <p className="font-semibold text-slate-200">Instituto de Informática · UFG</p>
+                <p>Campus Samambaia — Goiânia, GO</p>
+              </div>
+              <a
+                href="https://inf.ufg.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-[#60a5fa] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#60a5fa] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071333] rounded-sm"
+              >
+                <span>inf.ufg.br</span>
+                <span className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+              </a>
             </div>
-            <a
-              href="https://inf.ufg.br"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-xs font-semibold tracking-wide text-[#60a5fa]/70 transition-colors hover:text-[#60a5fa]"
-            >
-              inf.ufg.br ↗
-            </a>
           </div>
 
-          {/* Col 2 — Navigation */}
-          <div>
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
+          {/* Navegação Institucional */}
+          <div className="flex flex-col">
+            <h3 className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#60a5fa]">
+              <span className="h-px w-4 bg-[#60a5fa]"></span>
               Navegação
-            </p>
-            <nav className="flex flex-col gap-2.5">
+            </h3>
+            <nav className="flex flex-col gap-3">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-sm font-medium text-white/55 transition-colors duration-200 hover:text-white"
+                  className="w-fit text-sm font-medium text-slate-300 outline-none transition-all duration-200 hover:text-white hover:underline hover:underline-offset-4 focus-visible:ring-2 focus-visible:ring-[#60a5fa] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071333] rounded-sm"
                 >
                   {item.label}
                 </a>
@@ -48,32 +61,35 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Col 3 — Projeto */}
-          <div>
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
+          {/* Informações do Projeto */}
+          <div className="flex flex-col">
+            <h3 className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#60a5fa]">
+              <span className="h-px w-4 bg-[#60a5fa]"></span>
               Sobre o Projeto
-            </p>
-            <div className="space-y-2.5 text-sm text-white/55">
-              <p>Computação e Sociedade</p>
+            </h3>
+            <div className="flex flex-col space-y-2 text-sm text-slate-300">
+              <p className="font-medium text-slate-200">Computação e Sociedade</p>
               <p>Instituto de Informática</p>
-              <p>Universidade Federal de Goiás</p>
+              <p className="border-l-2 border-[#005b9f] pl-3 mt-1 py-1">Universidade Federal de Goiás</p>
             </div>
           </div>
+
         </div>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col items-center gap-3 py-5 text-xs text-white/30 sm:flex-row sm:justify-between">
-          <p>© {year} Espaço das Profissões — UFG · INF</p>
+        {/* Linha de Separação e Base do Rodapé */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-xs text-slate-400 sm:flex-row">
+          <p className="text-center sm:text-left">
+            © {year} Espaço das Profissões — UFG · INF
+          </p>
           <a
             href="https://www.linkedin.com/in/duebrits-dev/"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors duration-200 hover:text-white/60"
+            className="rounded-sm outline-none transition-colors duration-200 hover:text-white focus-visible:ring-2 focus-visible:ring-[#60a5fa] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071333]"
           >
-            desenvolvido por outz.dev
+            desenvolvido por <span className="font-semibold text-slate-300 hover:text-white">outz.dev</span>
           </a>
         </div>
-        
       </div>
     </footer>
   );
