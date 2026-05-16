@@ -1,4 +1,4 @@
-import FAQ from "@/app/components/home/FAQ";
+import { FAQ } from "../components";
 
 export function FAQSection() {
   return (

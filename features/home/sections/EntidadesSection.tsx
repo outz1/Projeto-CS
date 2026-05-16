@@ -1,4 +1,4 @@
-import { EntidadesCarouselClient } from "@/app/components/home/EntidadesCarouselClient";
+import { EntidadesCarouselClient } from "../components";
 
 export function EntidadesSection() {
   return (

@@ -1,4 +1,4 @@
-import { AreasCorrelatasCube } from "@/app/components/home/AreasCorrelatasCube";
+import { AreasCorrelatasCube } from "../components";
 
 export function AreasSection() {
   return <AreasCorrelatasCube />;
