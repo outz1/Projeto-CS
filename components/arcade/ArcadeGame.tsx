@@ -169,20 +169,21 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
   const loadingMessage = useMemo(() => LOADING_MESSAGES[loadingMessageIndex], [loadingMessageIndex]);
 
   return (
-    <div className="arcade-mobile-no-select relative mx-auto w-full max-w-5xl">
-      <div className="mb-3 flex items-center justify-between">
-        <p className="font-mono text-xs tracking-widest text-violet-200/80">
+    <div className="arcade-mobile-no-select relative mx-auto w-full max-w-6xl">
+      <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-cyan-200/15 bg-white/[0.06] p-3 shadow-lg shadow-black/10 backdrop-blur-xl">
+        <p className="font-mono text-xs font-black uppercase tracking-[0.18em] text-cyan-100/80">
           ARCADE MODE · <span className="text-fuchsia-300">#{playerId}</span>
         </p>
-        <button onClick={onQuit} className="rounded-md border border-violet-400/40 px-2 py-1 font-mono text-xs text-violet-100 hover:bg-violet-900/30">
+        <button onClick={onQuit} className="rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-blue-50 transition hover:border-fuchsia-200/40 hover:bg-fuchsia-200/10">
           FECHAR
         </button>
       </div>
 
       <HUD snapshot={{ ...snapshot, isPaused: paused }} playerName={playerName} playerId={playerId} onPauseToggle={() => setPaused((p) => !p)} />
 
-      <div className="relative mt-3 rounded-2xl border border-violet-400/40 bg-[#07040f] p-3 shadow-[0_0_16px_rgba(139,92,246,0.22)]">
-        <div className="pointer-events-none absolute inset-0 opacity-15" style={{ backgroundImage: SCANLINE_BACKGROUND }} />
+      <div className="relative mt-4 overflow-hidden rounded-[2rem] border border-cyan-200/20 bg-gradient-to-br from-[#050816] via-[#07040f] to-[#130a2a] p-3 shadow-[0_0_45px_rgba(34,211,238,0.14)] sm:p-4">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(34,211,238,0.16),transparent_30%),radial-gradient(circle_at_90%_0%,rgba(217,70,239,0.15),transparent_32%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundImage: SCANLINE_BACKGROUND }} />
         <GameCanvas
           paused={effectivePaused}
           restartSignal={restartSignal}
@@ -196,13 +197,13 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
         />
 
         {loading && (
-          <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#090513]/95">
-            <div className="w-full max-w-sm rounded-xl border border-violet-300/30 bg-violet-950/40 p-5 text-center">
-              <p className="font-mono text-sm tracking-widest text-fuchsia-300">{loadingMessage}</p>
-              <div className="mt-3 h-2 overflow-hidden rounded bg-violet-900/50">
-                <div className="h-full bg-fuchsia-400 transition-all" style={{ width: `${loadingProgress}%` }} />
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#040816]/95 backdrop-blur-xl">
+            <div className="w-full max-w-sm rounded-3xl border border-cyan-200/20 bg-white/[0.08] p-6 text-center shadow-2xl shadow-cyan-950/25">
+              <p className="font-mono text-sm font-black uppercase tracking-[0.2em] text-fuchsia-200">{loadingMessage}</p>
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-blue-300 to-fuchsia-300 transition-all" style={{ width: `${loadingProgress}%` }} />
               </div>
-              <p className="mt-2 font-mono text-xs text-violet-200/70">{loadingProgress}%</p>
+              <p className="mt-3 font-mono text-xs font-bold text-blue-100/70">{loadingProgress}%</p>
             </div>
           </div>
         )}

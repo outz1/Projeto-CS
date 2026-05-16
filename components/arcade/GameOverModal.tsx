@@ -18,7 +18,7 @@ export default function GameOverModal({ stats, scores, playerId, loadingScores, 
   return (
     <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/80 p-4">
       <div className="w-full max-w-lg rounded-2xl border border-fuchsia-400/40 bg-[#130a26] p-5 text-violet-100 shadow-[0_0_22px_rgba(217,70,239,0.3)]">
-        <h3 className="text-center font-mono text-xl font-bold tracking-widest text-fuchsia-300">GAME OVER</h3>
+        <h3 className="text-center font-sans text-2xl font-extrabold tracking-[-0.01em] text-fuchsia-200">Game over</h3>
         <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-mono sm:grid-cols-4">
           <Stat label="Score" value={stats.score} />
           <Stat label="Kills" value={stats.kills} />
