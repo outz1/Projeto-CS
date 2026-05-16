@@ -57,12 +57,12 @@ export function Header({ readerTargetId }: HeaderProps) {
         >
           <div className="flex shrink-0 items-center">
             <Image
-              src="/INF_INT_ART_PRETA2.png"
+              src="/INF-02.png"
               alt="Instituto de Informática"
-              width={350}
+              width={300}
               height={120}
               className={`h-auto brightness-0 invert transition-all duration-300 ${
-                isScrolled ? "w-40 sm:w-44" : "w-48 sm:w-60"
+                isScrolled ? "w-40 sm:w-44" : "w-36 sm:w-42"
               }`}
               priority
             />

@@ -17,14 +17,6 @@ export function Footer() {
           
           {/* Brand/Localização */}
           <div className="flex flex-col items-start">
-            <Image
-              src="/INF_INT_ART_PRETA2.png"
-              alt="Universidade Federal de Goiás - Instituto de Informática"
-              width={400}
-              height={140}
-              className="-mb-[55px] -mt-[10px] w-56 sm:w-64 h-auto brightness-0 invert opacity-90 drop-shadow-sm"
-              priority
-            />
             <div className="flex flex-col space-y-3 px-1 mt-0 text-sm leading-relaxed text-slate-300">
               <div>
                 <p className="font-semibold text-slate-200">Instituto de Informática · UFG</p>
