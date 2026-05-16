@@ -13,7 +13,6 @@ import { redis } from "@/lib/redis";
 // Chave secreta - DEVE ser carregada de uma variável de ambiente
 const SIGNING_SECRET = process.env.SIGNING_SECRET || "dev-secret-change-in-production";
 const SESSION_TTL = 60 * 60; // 1 hora
-const DEVICE_TTL = 60 * 60 * 24 * 7; // 7 dias
 
 /**
  * Interface para sessão de jogo
@@ -69,6 +68,13 @@ export async function validateGameSession(
   ipAddress: string
 ): Promise<GameSession | null> {
   const key = `game:session:${sessionId}`;
+  const usedKey = `game:session:used:${sessionId}`;
+
+  if (await redis.exists(usedKey)) {
+    console.warn("[security] Attempt to reuse consumed session", { sessionId });
+    return null;
+  }
+
   const raw = await redis.get<string>(key);
 
   if (!raw) return null;
@@ -111,6 +117,7 @@ export async function markSessionAsUsed(sessionId: string): Promise<void> {
 
   // Marcar como usada
   await redis.set(usedKey, "1", { ex: SESSION_TTL });
+  await redis.del(key);
 }
 
 /**
@@ -194,6 +201,10 @@ export async function checkAdvancedRateLimit(
  */
 export async function detectAnomalies(playerId: string, score: number, durationMs: number): Promise<string[]> {
   const flags: string[] = [];
+
+  if (score > 0 && durationMs < 500) {
+    flags.push("suspicious_duration_under_500ms");
+  }
 
   // Verificar histórico de scores
   const playerKey = `anomaly:player:${playerId}`;
