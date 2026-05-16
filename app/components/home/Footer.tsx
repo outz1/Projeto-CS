@@ -7,8 +7,23 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#091530] text-white">
-      <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-8 lg:px-12">
+    <footer className="flex flex-col bg-[#d2e2ff]">
+      {/* Container Principal do Footer */}
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 border-t border-[#8eb1ff]/60 px-4 pb-8 pt-6 text-xs sm:px-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-12">
+        <div className="flex flex-wrap items-center gap-2 text-[#0b1d4d] sm:gap-3">
+        </div>ESPAÇO DAS PROFISSÕES
+        <nav className="flex flex-wrap items-center gap-3 font-bold tracking-wide sm:gap-5">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-[#0b1d4d] transition-colors hover:text-[#16367f]"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
 
         {/* Main grid */}
         <div className="grid gap-10 border-b border-white/10 py-12 sm:grid-cols-2 md:py-14 lg:grid-cols-[1.6fr_1fr_1fr]">
