@@ -113,7 +113,7 @@ export default function ArcadePage() {
                 </div>
 
                 <div className="space-y-5">
-                  <h1 className="max-w-5xl font-sans text-4xl font-extrabold leading-[1.06] tracking-[-0.025em] text-white sm:text-6xl lg:text-7xl">
+                  <h1 className="arcade-readable-title max-w-5xl text-4xl font-extrabold leading-[1.06] tracking-[-0.025em] text-white sm:text-6xl lg:text-7xl">
                     Space Arcade
                     <span className="block bg-gradient-to-r from-cyan-200 via-blue-100 to-fuchsia-200 bg-clip-text text-transparent">
                       um laboratório jogável.
@@ -160,7 +160,7 @@ export default function ArcadePage() {
                   <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-5">
                     <div>
                       <p className="text-xs font-black uppercase tracking-[0.22em] text-cyan-200/70">Central de lançamento</p>
-                      <h2 className="mt-2 font-sans text-3xl font-extrabold leading-tight tracking-[-0.015em] text-white">Entrar no Arcade</h2>
+                      <h2 className="arcade-readable-title mt-2 text-3xl font-extrabold leading-tight tracking-[-0.015em] text-white">Entrar no Arcade</h2>
                     </div>
                     <div className="rounded-3xl border border-fuchsia-200/20 bg-fuchsia-200/10 p-4 text-fuchsia-100 shadow-lg shadow-fuchsia-950/20">
                       <Gamepad2 size={30} />
@@ -233,7 +233,7 @@ export default function ArcadePage() {
                       <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-200/10 text-cyan-100">
                         <Icon size={24} />
                       </div>
-                      <h3 className="font-sans text-xl font-extrabold leading-snug tracking-[-0.01em] text-white">{card.title}</h3>
+                      <h3 className="arcade-readable-title text-xl font-extrabold leading-snug tracking-[-0.01em] text-white">{card.title}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-blue-50/68">{card.text}</p>
                     </article>
                   );
@@ -244,7 +244,7 @@ export default function ArcadePage() {
                 <div className="mb-5 flex items-center justify-between gap-4">
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.22em] text-fuchsia-200/70">Leaderboard</p>
-                    <h2 className="mt-2 font-sans text-2xl font-extrabold leading-tight tracking-[-0.01em] text-white">Top pilotos</h2>
+                    <h2 className="arcade-readable-title mt-2 text-2xl font-extrabold leading-tight tracking-[-0.01em] text-white">Top pilotos</h2>
                   </div>
                   <Trophy className="text-fuchsia-200" size={30} />
                 </div>
@@ -279,7 +279,7 @@ export default function ArcadePage() {
                   </div>
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.22em] text-cyan-200/70">Sessão ativa</p>
-                    <h1 className="mt-1 font-sans text-2xl font-extrabold leading-tight tracking-[-0.01em] text-white">Boa missão, {playerName}</h1>
+                    <h1 className="arcade-readable-title mt-1 text-2xl font-extrabold leading-tight tracking-[-0.01em] text-white">Boa missão, {playerName}</h1>
                   </div>
                 </div>
                 <p className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 font-mono text-xs font-bold tracking-widest text-blue-100/70">
