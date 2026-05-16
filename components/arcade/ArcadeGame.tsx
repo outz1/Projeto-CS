@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GameCanvas from "@/components/arcade/GameCanvas";
 import GameOverModal from "@/components/arcade/GameOverModal";
 import HUD from "@/components/arcade/HUD";
@@ -8,8 +8,11 @@ import MobileControls from "@/components/arcade/MobileControls";
 import PauseMenu from "@/components/arcade/PauseMenu";
 import UpgradeModal from "@/components/arcade/UpgradeModal";
 import { SCANLINE_BACKGROUND } from "@/components/arcade/particles/presets";
-import { extractRetryAfterSeconds, normalizePlayerName, parseScoresApiResponse, sanitizePlayerId, type ScoreEntry } from "@/lib/leaderboardSecurity";
+import { normalizePlayerName, sanitizePlayerId } from "@/lib/leaderboardSecurity";
 import type { ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId } from "@/lib/arcadeTypes";
+import { getScoreCooldownSeconds, setScoreCooldown } from "@/features/leaderboard/services/cooldownStorage";
+import { getOrCreateDeviceId, initializeGameSession, submitScore as submitSecureScore } from "@/features/leaderboard/services/scoreSubmissionClient";
+import { useLeaderboardScores } from "@/features/leaderboard/hooks/useLeaderboardScores";
 
 interface Props {
   playerName: string;
@@ -24,27 +27,8 @@ const LOADING_MESSAGES = [
   "Sincronizando HUD...",
 ];
 
-function cooldownKey(id: string) {
-  return `arcade:cooldown:${id}`;
-}
-
-function setCooldown(id: string, seconds: number) {
-  localStorage.setItem(cooldownKey(id), String(Date.now() + seconds * 1000));
-}
-
-function getCooldownSeconds(id: string): number {
-  const value = localStorage.getItem(cooldownKey(id));
-  if (!value) return 0;
-  const endsAt = parseInt(value, 10);
-  const remaining = Math.ceil((endsAt - Date.now()) / 1000);
-  if (remaining <= 0) {
-    localStorage.removeItem(cooldownKey(id));
-    return 0;
-  }
-  return remaining;
-}
-
 export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
+  const sessionIdRef = useRef<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
@@ -62,8 +46,7 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
   const [selectedUpgradeId, setSelectedUpgradeId] = useState<ArcadeUpgradeId | null>(null);
   const [upgradeOptions, setUpgradeOptions] = useState<ArcadeUpgradeId[]>([]);
   const [gameOverStats, setGameOverStats] = useState<ArcadeRunStats | null>(null);
-  const [ranking, setRanking] = useState<ScoreEntry[]>([]);
-  const [loadingScores, setLoadingScores] = useState(false);
+  const { scores: ranking, loading: loadingScores, refresh: refreshArcadeScores } = useLeaderboardScores("arcade", 5);
 
   const [snapshot, setSnapshot] = useState<ArcadeHudSnapshot>({
     hp: 100,
@@ -104,44 +87,64 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
     return () => media.removeEventListener("change", updateAutoShoot);
   }, []);
 
-  const fetchArcadeScores = useCallback(async () => {
-    setLoadingScores(true);
-    try {
-      const res = await fetch("/api/scores?game=arcade");
-      const payload: unknown = await res.json().catch(() => null);
-      const parsed = parseScoresApiResponse(payload);
-      setRanking(parsed.slice(0, 5));
-    } finally {
-      setLoadingScores(false);
-    }
-  }, []);
+  useEffect(() => {
+    let active = true;
+    sessionIdRef.current = null;
+
+    void initializeGameSession("arcade").then((sessionId) => {
+      if (active) sessionIdRef.current = sessionId;
+    });
+
+    return () => {
+      active = false;
+      sessionIdRef.current = null;
+    };
+  }, [restartSignal]);
 
   const submitScore = useCallback(
     async (stats: ArcadeRunStats) => {
       const safeName = normalizePlayerName(playerName);
       const safeId = sanitizePlayerId(playerId);
-      if (getCooldownSeconds(safeId) > 0) return;
+      if (getScoreCooldownSeconds("arcade", safeId) > 0) return;
 
       try {
-        const res = await fetch("/api/scores", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: safeName,
-            id: safeId,
-            score: stats.score,
-            durationMs: stats.durationMs,
-            kills: stats.kills,
-            wave: stats.wave,
-            upgrades: stats.upgrades,
-            game: "arcade",
-          }),
+        let sessionId = sessionIdRef.current;
+        if (!sessionId) {
+          sessionId = await initializeGameSession("arcade");
+          sessionIdRef.current = sessionId;
+        }
+
+        if (!sessionId) {
+          console.warn("[arcade] não foi possível iniciar sessão segura para envio do score");
+          return;
+        }
+
+        const result = await submitSecureScore({
+          sessionId,
+          deviceId: getOrCreateDeviceId(),
+          name: safeName,
+          id: safeId,
+          score: stats.score,
+          durationMs: stats.durationMs,
+          kills: stats.kills,
+          wave: stats.wave,
+          upgrades: stats.upgrades,
+          game: "arcade",
         });
 
-        const payload: unknown = await res.json().catch(() => null);
-        if (res.status === 429) {
-          const retryAfter = extractRetryAfterSeconds(payload) ?? 600;
-          setCooldown(safeId, retryAfter);
+        if (result.ok) {
+          sessionIdRef.current = null;
+          return;
+        }
+
+        if (result.status === 429) {
+          const retryAfter = result.retryAfter ?? 600;
+          setScoreCooldown("arcade", safeId, retryAfter);
+          return;
+        }
+
+        if (result.status === 401) {
+          sessionIdRef.current = null;
         }
       } catch (error) {
         console.error("Erro ao enviar score do arcade:", error);
@@ -154,9 +157,9 @@ export default function ArcadeGame({ playerName, playerId, onQuit }: Props) {
     (stats: ArcadeRunStats) => {
       setGameOverStats(stats);
       setPaused(false);
-      void submitScore(stats).then(fetchArcadeScores);
+      void submitScore(stats).then(refreshArcadeScores);
     },
-    [fetchArcadeScores, submitScore],
+    [refreshArcadeScores, submitScore],
   );
 
   const showUpgradeModal = upgradeOptions.length > 0;
