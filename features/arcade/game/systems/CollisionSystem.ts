@@ -3,7 +3,6 @@ import type {
   ArcadeEnemyState,
   ArcadeParticleState,
   ArcadePlayerState,
-} from "@/lib/arcadeTypes";
 } from "@/features/arcade/domain";
 import { createBurst } from "./ParticleSystem";
 

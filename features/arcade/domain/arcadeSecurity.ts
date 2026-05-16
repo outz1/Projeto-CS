@@ -4,7 +4,6 @@ import {
   ARCADE_MAX_UPGRADES_RECORDED,
   ARCADE_MAX_WAVE,
   ARCADE_UPGRADE_IDS,
-} from "@/lib/arcadeBalance";
 } from "./arcadeBalance";
 import { estimatedArcadeScoreCeiling } from "./arcadeScore";
 import {
