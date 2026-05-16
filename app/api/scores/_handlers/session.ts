@@ -1,47 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { getClientIp, isRecord, jsonError, jsonSuccess } from "@/lib/api/http";
 import { generateGameSession } from "@/lib/scoreSecurity";
-
-const CACHE_HEADERS = {
-  "Cache-Control": "no-store, max-age=0",
-};
-
-function isValidIp(ip: string): boolean {
-  const parts = ip.split(".");
-  if (parts.length !== 4) return false;
-  return parts.every((p) => {
-    const num = parseInt(p, 10);
-    return num >= 0 && num <= 255;
-  });
-}
-
-function getClientIp(req: NextRequest): string {
-  const forwardedFor = req.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    const ips = forwardedFor.split(",");
-    const first = ips[0]?.trim();
-    if (first && isValidIp(first)) return first;
-  }
-
-  const realIp = req.headers.get("x-real-ip")?.trim();
-  if (realIp && isValidIp(realIp)) return realIp;
-
-  return "unknown";
-}
 
 function generateRandomId(): string {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-}
-
-function jsonError(status: number, error: { code: string; message: string }) {
-  return NextResponse.json({ ok: false, error }, { status, headers: CACHE_HEADERS });
-}
-
-function jsonSuccess<T>(data: T, status = 200) {
-  return NextResponse.json({ ok: true, data }, { status, headers: CACHE_HEADERS });
 }
 
 export function isSessionInitPayload(value: unknown): boolean {

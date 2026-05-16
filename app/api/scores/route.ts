@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { getClientIp, jsonError, jsonSuccess } from "@/lib/api/http";
 import { redis, monthKey } from "@/lib/redis";
 import { parseArcadeScorePayload } from "@/lib/arcadeSecurity";
 import { isValidGame, parseScoreEntry, parseScoreSubmitPayload, type GameType } from "@/lib/leaderboardSecurity";
@@ -13,24 +14,7 @@ import {
 const TTL_SECONDS = 60 * 60 * 24 * 35; // 35 dias
 const TOP_LIMIT = 10;
 
-const CACHE_HEADERS = {
-  "Cache-Control": "no-store, max-age=0",
-};
-
-type ApiErrorCode =
-  | "invalid_json"
-  | "invalid_payload"
-  | "rate_limited"
-  | "storage_error"
-  | "invalid_session"
-  | "anomaly_detected";
-
-interface ApiError {
-  code: ApiErrorCode;
-  message: string;
-  retryAfter?: number;
-  anomalies?: string[];
-}
+type ParsedScoreEntry = NonNullable<ReturnType<typeof parseScoreEntry>>;
 
 interface StoredScore {
   name: string;
@@ -49,29 +33,6 @@ interface StoredScore {
 // HELPER FUNCTIONS
 // ============================================================================
 
-function getClientIp(req: NextRequest): string {
-  const forwardedFor = req.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    const ips = forwardedFor.split(",");
-    const first = ips[0]?.trim();
-    if (first && isValidIp(first)) return first;
-  }
-
-  const realIp = req.headers.get("x-real-ip")?.trim();
-  if (realIp && isValidIp(realIp)) return realIp;
-
-  return "unknown";
-}
-
-function isValidIp(ip: string): boolean {
-  const parts = ip.split(".");
-  if (parts.length !== 4) return false;
-  return parts.every((p) => {
-    const num = parseInt(p, 10);
-    return num >= 0 && num <= 255;
-  });
-}
-
 function scoresPattern(game: GameType): string {
   if (game === "snake") return `${monthKey()}:player:*`;
   return `${monthKey()}:${game}:player:*`;
@@ -80,14 +41,6 @@ function scoresPattern(game: GameType): string {
 function playerKey(game: GameType, id: string): string {
   if (game === "snake") return `${monthKey()}:player:${id}`;
   return `${monthKey()}:${game}:player:${id}`;
-}
-
-function jsonError(status: number, error: ApiError) {
-  return NextResponse.json({ ok: false, error }, { status, headers: CACHE_HEADERS });
-}
-
-function jsonSuccess<T>(data: T, status = 200) {
-  return NextResponse.json({ ok: true, data }, { status, headers: CACHE_HEADERS });
 }
 
 // ============================================================================
@@ -104,13 +57,13 @@ async function handleGetScores(req: NextRequest) {
       });
     }
 
-    const keys = await redis.keys(scoresPattern(gameRaw));
+    const keys: string[] = await redis.keys(scoresPattern(gameRaw));
     if (!keys.length) return jsonSuccess([]);
 
-    const entries = await Promise.all(keys.map((k) => redis.get(k)));
+    const entries: unknown[] = await Promise.all(keys.map((key: string) => redis.get(key)));
     const scores = entries
       .map(parseScoreEntry)
-      .filter((entry): entry is NonNullable<ReturnType<typeof parseScoreEntry>> => entry !== null)
+      .filter((entry): entry is ParsedScoreEntry => entry !== null)
       .filter((entry) => (entry.game ?? "snake") === gameRaw)
       .sort((a, b) => b.score - a.score)
       .slice(0, TOP_LIMIT);
