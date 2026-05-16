@@ -4,13 +4,13 @@ import { useEffect, useMemo, useRef } from "react";
 import { ARCADE_HEIGHT, ARCADE_PLAYER_BASE, ARCADE_WIDTH } from "@/lib/arcadeBalance";
 import { computeArcadeScore } from "@/lib/arcadeScore";
 import type { ArcadeEnemyState, ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId, Vec2 } from "@/lib/arcadeTypes";
-import { updateBullets, createPlayerBullets } from "@/systems/BulletSystem";
-import { resolveCollisions } from "@/systems/CollisionSystem";
-import { createEnemy, updateEnemies } from "@/systems/EnemySystem";
-import { createBurst, updateParticles } from "@/systems/ParticleSystem";
-import { getSpawnBatchSize, getSpawnIntervalMs } from "@/systems/SpawnSystem";
-import { applyUpgrade, getUpgradeChoices } from "@/systems/UpgradeSystem";
-import { getWave, xpToNextLevel } from "@/systems/WaveSystem";
+import { updateBullets, createPlayerBullets } from "../systems/BulletSystem";
+import { resolveCollisions } from "../systems/CollisionSystem";
+import { createEnemy, updateEnemies } from "../systems/EnemySystem";
+import { createBurst, updateParticles } from "../systems/ParticleSystem";
+import { getSpawnBatchSize, getSpawnIntervalMs } from "../systems/SpawnSystem";
+import { applyUpgrade, getUpgradeChoices } from "../systems/UpgradeSystem";
+import { getWave, xpToNextLevel } from "../systems/WaveSystem";
 
 interface InputState {
   up: boolean;

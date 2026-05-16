@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Trophy, Gamepad2, Rocket } from "lucide-react";
-import GameModal from "@/SnakeGame/GameModal";
+import { GameModal } from "@/features/snake";
 import { useLeaderboardScores } from "@/features/leaderboard/hooks/useLeaderboardScores";
 import Link from "next/link";
 

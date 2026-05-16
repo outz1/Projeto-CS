@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import GameCanvas from "@/components/arcade/GameCanvas";
-import GameOverModal from "@/components/arcade/GameOverModal";
-import HUD from "@/components/arcade/HUD";
-import MobileControls from "@/components/arcade/MobileControls";
-import PauseMenu from "@/components/arcade/PauseMenu";
-import UpgradeModal from "@/components/arcade/UpgradeModal";
-import { SCANLINE_BACKGROUND } from "@/components/arcade/particles/presets";
+import GameCanvas from "./GameCanvas";
+import GameOverModal from "./GameOverModal";
+import HUD from "./HUD";
+import MobileControls from "./MobileControls";
+import PauseMenu from "./PauseMenu";
+import UpgradeModal from "./UpgradeModal";
+import { SCANLINE_BACKGROUND } from "./particles/presets";
 import { normalizePlayerName, sanitizePlayerId } from "@/lib/leaderboardSecurity";
 import type { ArcadeHudSnapshot, ArcadeRunStats, ArcadeUpgradeId } from "@/lib/arcadeTypes";
 import { getScoreCooldownSeconds, setScoreCooldown } from "@/features/leaderboard/services/cooldownStorage";

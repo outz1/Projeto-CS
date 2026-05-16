@@ -4,7 +4,7 @@ import type {
   ArcadeParticleState,
   ArcadePlayerState,
 } from "@/lib/arcadeTypes";
-import { createBurst } from "@/systems/ParticleSystem";
+import { createBurst } from "./ParticleSystem";
 
 export interface CollisionResult {
   enemies: ArcadeEnemyState[];

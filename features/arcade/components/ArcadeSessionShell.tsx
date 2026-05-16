@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { BadgeCheck } from "lucide-react";
 
-const ArcadeGame = dynamic(() => import("@/components/arcade/ArcadeGame"), {
+const ArcadeGame = dynamic(() => import("@/features/arcade/game").then((module) => module.ArcadeGame), {
   ssr: false,
   loading: () => (
     <div className="rounded-3xl border border-cyan-300/25 bg-[#071333]/85 p-6 text-center text-sm font-black uppercase tracking-[0.22em] text-cyan-100 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl">
