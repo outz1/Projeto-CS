@@ -9,9 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        // Substitui a fonte padrão de textos pela JetBrains Mono
-        sans: ["var(--font-jetbrains-mono)", "monospace"],
-        // Mantém a classe específica para os títulos
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         minecraft: ["var(--font-minecraft)", "sans-serif"],
       },
     },

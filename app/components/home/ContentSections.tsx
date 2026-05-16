@@ -1,6 +1,7 @@
 import { AreasCorrelatasCube } from "./AreasCorrelatasCube";
 import Image from "next/image";
 import { EntidadesCarouselClient } from "./EntidadesCarouselClient";
+import { GaleriaClient } from "./GaleriaClient";
 import FAQ from "./FAQ";
 
 // Componente isolado para o efeito de borda Neon Animada
@@ -33,12 +34,13 @@ export function InfSection() {
   return (
     <section
       id="o-inf"
-      className="scroll-mt-24 mx-auto grid min-h-[85svh] w-full max-w-[1500px] gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:items-center md:px-8 lg:px-12 lg:gap-16"
+      className="scroll-mt-24 mx-auto grid w-full max-w-[1500px] gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center md:px-8 md:py-20 lg:px-12 lg:gap-20"
     >
       <div className="p-4">
         <AnimatedNeonImage src="/photo2.jpg" alt="O INF" />
       </div>
       <div className="space-y-5 text-base leading-relaxed text-[#0b1d4d]/90 sm:text-lg">
+        <p className="section-label">Instituto de Informática — UFG</p>
         <h2 className="text-3xl font-black uppercase tracking-wide sm:text-4xl">
           O <span className="text-[#005b9f]">INF</span>
         </h2>
@@ -63,9 +65,10 @@ export function CursoSection() {
   return (
     <section
       id="nosso-curso"
-      className="scroll-mt-24 mx-auto grid min-h-[85svh] w-full max-w-[1500px] gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:items-center md:px-8 lg:px-12 lg:gap-16"
+      className="scroll-mt-24 mx-auto grid w-full max-w-[1500px] gap-10 bg-[#dce8ff]/50 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center md:px-8 md:py-20 lg:px-12 lg:gap-20"
     >
       <div className="space-y-5 text-base leading-relaxed text-[#0b1d4d]/90 sm:text-lg">
+        <p className="section-label">Bacharelado — Ciências da Computação</p>
         <h2 className="text-3xl font-black uppercase tracking-wide sm:text-4xl">
           NOSSO <span className="text-[#005b9f]">CURSO</span>
         </h2>
@@ -96,9 +99,10 @@ export function EntidadesSection() {
   return (
     <section
       id="entidades"
-      className="scroll-mt-24 mx-auto min-h-[68svh] w-full max-w-[1500px] overflow-x-hidden px-4 py-10 sm:px-6 sm:py-12 md:px-8 lg:px-12"
+      className="scroll-mt-24 mx-auto w-full max-w-[1500px] px-4 py-16 sm:px-6 sm:py-20 md:px-8 lg:px-12"
     >
-      <h2 className="mb-6 pt-2 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:pt-0 sm:text-4xl">
+      <p className="section-label">Comunidade Acadêmica</p>
+      <h2 className="mb-8 text-3xl font-black uppercase tracking-wide sm:text-4xl">
         ENTIDADES
       </h2>
       <EntidadesCarouselClient />
@@ -107,38 +111,19 @@ export function EntidadesSection() {
 }
 
 export function GaleriaSection() {
-  const galleryImages = ["p1.jpg", "p2.jpg", "p3.jpg", "p4.jpg", "p5.jpg", "p6.jpg", "p7.jpg", "p8.jpg"];
-
   return (
     <section
       id="galeria"
-      className="scroll-mt-24 mx-auto min-h-[70svh] w-full max-w-[1500px] px-4 pb-14 pt-6 sm:px-6 sm:pb-16 sm:pt-8 md:px-8 lg:px-12"
+      className="scroll-mt-24 mx-auto w-full max-w-[1500px] px-4 py-16 sm:px-6 sm:py-20 md:px-8 lg:px-12"
     >
-      <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
+      <p className="section-label">Instituto de Informática</p>
+      <h2 className="mb-4 text-3xl font-black uppercase tracking-wide sm:text-4xl">
         GALERIA
       </h2>
-      <p className="mb-8 max-w-5xl text-base leading-relaxed text-[#0b1d4d]/90 sm:mb-10 sm:text-lg">
+      <p className="mb-10 max-w-3xl text-base leading-relaxed text-[#0b1d4d]/75 sm:text-lg">
         Veja alguns momentos capturados em nossos eventos, laboratórios e atividades. Cada foto é um fragmento da nossa história, mostrando a energia, a inovação e a paixão que definem o Instituto de Informática. Explore nossa galeria e sinta-se parte dessa jornada incrível!
       </p>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
-        {galleryImages.map((imageName, index) => (
-          <div
-            key={imageName}
-            className="group relative overflow-hidden rounded-2xl bg-[#005b9f] shadow-sm transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-[#005b9f]/30"
-          >
-            <Image
-              width={800}
-              height={600}
-              src={`/galery/${imageName}`}
-              alt={`Galeria ${index + 1}`}
-              className="h-32 w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 sm:h-40 md:h-48"
-              quality={85}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#005b9f]/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          </div>
-        ))}
-      </div>
+      <GaleriaClient />
     </section>
   );
 }
@@ -147,12 +132,18 @@ export function FAQSection() {
   return (
     <section
       id="faq"
-      className="scroll-mt-24 mx-auto min-h-[70svh] w-full max-w-[1500px] px-4 pb-14 pt-6 sm:px-6 sm:pb-16 sm:pt-8 md:px-8 lg:px-12 bg-[#d9e7ff]/80"
+      className="scroll-mt-24 w-full bg-[#dce8ff]/60"
     >
-      <h2 className="mb-6 text-3xl font-black uppercase tracking-wide sm:mb-8 sm:text-4xl">
-        FAQ
-      </h2>
-      <FAQ />
+      <div className="mx-auto w-full max-w-[1500px] px-4 py-16 sm:px-6 sm:py-20 md:px-8 lg:px-12">
+        <p className="section-label">Perguntas Frequentes</p>
+        <h2 className="mb-3 text-3xl font-black uppercase tracking-wide sm:text-4xl">
+          FAQ
+        </h2>
+        <p className="mb-10 max-w-2xl text-sm leading-relaxed text-[#0b1d4d]/65 sm:text-base">
+          Encontre respostas para as dúvidas mais comuns sobre o curso, ingresso e vida acadêmica no INF.
+        </p>
+        <FAQ />
+      </div>
     </section>
   );
 }

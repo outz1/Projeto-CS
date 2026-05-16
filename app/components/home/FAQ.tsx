@@ -88,55 +88,75 @@ const FAQ: React.FC = () => {
   ];
 
   return (
-    <div className="faq-section space-y-4 ">
-      {faqs.map((faq, index) => (
-        <article key={index} className="flex w-full flex-col overflow-hidden rounded-xl border border-[#8eb1ff]/55 bg-white p-6 transition-all">
-          <button
-            onClick={() => toggleAccordion(index)}
-            className="flex w-full items-center justify-between text-left focus:outline-none"
-          >
-            <h3 className="text-lg font-black uppercase tracking-wide text-[#0b1d4d] sm:text-xl">
-              {faq.question}
-            </h3>
-            <ChevronDown
-              size={24}
-              className={`text-[#0b1d4d] transition-transform duration-300 ease-out ${
-                openIndex === index ? "rotate-180" : "rotate-0"
-              }`}
-            />
-          </button>
-
-          <div
-            className={`overflow-hidden transition-[max-height,opacity,transform,margin] duration-500 ease-out ${
-              openIndex === index
-                ? "max-h-[520px] mt-5 opacity-100 translate-y-0"
-                : "max-h-0 mt-0 opacity-0 -translate-y-1"
+    <div className="faq-section space-y-3">
+      {faqs.map((faq, index) => {
+        const isOpen = openIndex === index;
+        return (
+          <article
+            key={index}
+            className={`flex w-full flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-300 ${
+              isOpen
+                ? "border-[#005b9f]/40 shadow-md shadow-[#005b9f]/8"
+                : "border-[#8eb1ff]/40 hover:border-[#8eb1ff]/70"
             }`}
           >
-            <div className="pb-1">
-              <p className="text-sm leading-relaxed text-[#0b1d4d]/90 sm:text-base">
-                {faq.answer}
-              </p>
-              {faq.links && faq.links.length > 0 && (
-                <div className="mt-2 flex flex-col gap-1">
-                  {faq.links.map((link) => (
-                    <a
-                      key={link.url}
-                      href={link.url}
-                      title={link.title}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-semibold text-[#0b1d4d] underline underline-offset-2 hover:text-[#14327e] sm:text-base"
-                    >
-                      {link.title}
-                    </a>
-                  ))}
+            <button
+              onClick={() => toggleAccordion(index)}
+              className={`flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors duration-200 focus:outline-none sm:px-6 ${
+                isOpen ? "bg-[#f0f6ff]" : "hover:bg-[#f8fbff]"
+              }`}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <span
+                  className={`h-5 w-1 shrink-0 rounded-full transition-all duration-300 ${
+                    isOpen ? "bg-[#005b9f]" : "bg-[#8eb1ff]/60"
+                  }`}
+                  aria-hidden="true"
+                />
+                <h3 className="text-sm font-bold tracking-wide text-[#0b1d4d] sm:text-base">
+                  {faq.question}
+                </h3>
+              </div>
+              <ChevronDown
+                size={20}
+                className={`shrink-0 text-[#005b9f] transition-transform duration-300 ease-out ${
+                  isOpen ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
+
+            <div
+              className={`grid transition-all duration-300 ease-out ${
+                isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="border-t border-[#8eb1ff]/30 px-5 py-4 sm:px-6 sm:py-5">
+                  <p className="text-sm leading-relaxed text-[#0b1d4d]/80 sm:text-base">
+                    {faq.answer}
+                  </p>
+                  {faq.links && faq.links.length > 0 && (
+                    <div className="mt-3 flex flex-col gap-1.5">
+                      {faq.links.map((link) => (
+                        <a
+                          key={link.url}
+                          href={link.url}
+                          title={link.title}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex w-fit items-center gap-1 text-sm font-semibold text-[#005b9f] underline underline-offset-2 transition-colors hover:text-[#0b1d4d] sm:text-base"
+                        >
+                          {link.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-        </article>
-      ))}
+          </article>
+        );
+      })}
     </div>
   );
 };
