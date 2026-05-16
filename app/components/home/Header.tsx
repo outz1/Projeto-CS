@@ -51,12 +51,6 @@ export function Header({ readerTargetId }: HeaderProps) {
         }`}
       >
         <div
-          className={`absolute inset-x-0 top-0 h-1.5 w-full bg-gradient-to-r from-[#005b9f] via-[#60a5fa] to-[#005b9f] transition-opacity duration-300 ${
-            isScrolled ? "opacity-0" : "opacity-100"
-          }`}
-        />
-
-        <div
           className={`mx-auto flex w-full max-w-[1500px] items-center justify-between gap-3 transition-all duration-300 ${
             isScrolled ? "h-14 px-4 sm:h-16 sm:px-6" : "h-20 pt-1.5 px-4 sm:h-24 sm:px-8 lg:px-12"
           }`}
