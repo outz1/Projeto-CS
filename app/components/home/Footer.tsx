@@ -9,13 +9,7 @@ export function Footer() {
       {/* Container Principal do Footer */}
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 border-t border-[#8eb1ff]/60 px-4 pb-8 pt-6 text-xs sm:px-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-12">
         <div className="flex flex-wrap items-center gap-2 text-[#0b1d4d] sm:gap-3">
-          <Image
-          width = {200}
-          height = {200}
-          src="/logoespaco.png" 
-          alt="Logo" 
-          className="h-28 w-36 rounded-lg" />
-        </div>
+        </div>ESPAÇO DAS PROFISSÕES
         <nav className="flex flex-wrap items-center gap-3 font-bold tracking-wide sm:gap-5">
           {navItems.map((item) => (
             <a
