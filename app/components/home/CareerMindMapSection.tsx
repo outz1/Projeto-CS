@@ -242,7 +242,7 @@ export function CareerMindMapSection() {
                   />
                 </linearGradient>
               ))}
-              <filter id="cm-line-glow">
+              <filter id="cm-line-glow" filterUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
                 <feGaussianBlur stdDeviation="0.5" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
