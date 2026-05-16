@@ -146,7 +146,7 @@ export function CareerMindMapSection() {
 
   return (
     <section className="mx-auto w-full max-w-[1500px] px-4 py-14 sm:px-6 md:px-8 lg:px-12">
-      <div className="rounded-[2rem] border border-[#8eb1ff]/40 bg-gradient-to-br from-[#dce8ff]/70 to-[#e8f0fe] p-6 shadow-lg shadow-[#0b1d4d]/10 sm:p-8 lg:p-10">
+      <div>
 
         {/* Header */}
         <div className="space-y-2">
