@@ -111,8 +111,6 @@ export function EntidadesSection() {
 }
 
 export function GaleriaSection() {
-  const galleryImages = ["p1.jpg", "p2.jpg", "p3.jpg", "p4.jpg", "p5.jpg", "p6.jpg", "p7.jpg", "p8.jpg"];
-
   return (
     <section
       id="galeria"
@@ -125,28 +123,7 @@ export function GaleriaSection() {
       <p className="mb-10 max-w-3xl text-base leading-relaxed text-[#0b1d4d]/75 sm:text-lg">
         Veja alguns momentos capturados em nossos eventos, laboratórios e atividades. Cada foto é um fragmento da nossa história, mostrando a energia, a inovação e a paixão que definem o Instituto de Informática. Explore nossa galeria e sinta-se parte dessa jornada incrível!
       </p>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-        {galleryImages.map((imageName, index) => (
-          <div
-            key={imageName}
-            className="group relative overflow-hidden rounded-2xl bg-[#0b2a67] shadow-md shadow-[#0b1d4d]/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-xl hover:shadow-[#005b9f]/25"
-          >
-            <Image
-              width={800}
-              height={600}
-              src={`/galery/${imageName}`}
-              alt={`Galeria ${index + 1}`}
-              className="h-44 w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 sm:h-52 md:h-56 lg:h-60"
-              quality={85}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b1d4d]/55 via-[#0b1d4d]/10 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-90" />
-            <div className="absolute bottom-3 left-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <div className="h-px w-8 bg-white/70" />
-            </div>
-          </div>
-        ))}
-      </div>
+      <GaleriaClient />
     </section>
   );
 }
