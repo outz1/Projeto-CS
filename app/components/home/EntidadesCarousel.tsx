@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react";
 
 type Entity = {
   name: string;
@@ -107,31 +107,33 @@ const entities: Entity[] = [
   },
 ];
 
+/* ── Individual card ─────────────────────────────────────────────── */
 function EntityCard({ entity }: { entity: Entity }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[#8eb1ff]/25 bg-white shadow-sm shadow-[#0b1d4d]/8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-[#0b1d4d]/12">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#8eb1ff]/25 bg-white shadow-sm shadow-[#0b1d4d]/8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-[#0b1d4d]/12">
 
-      {/* ── Gradient header ── */}
+      {/* Gradient header */}
       <div
-        className="relative flex h-36 flex-col items-center justify-center gap-3"
+        className="relative flex h-36 shrink-0 flex-col items-center justify-center gap-3"
         style={{
           background: `linear-gradient(135deg, ${entity.gradientFrom} 0%, ${entity.gradientTo} 100%)`,
         }}
       >
-        {/* Decorative grid pattern overlay */}
+        {/* Subtle grid pattern overlay */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
+          className="pointer-events-none absolute inset-0 opacity-[0.055]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(255,255,255,1) 24px,rgba(255,255,255,1) 25px),repeating-linear-gradient(90deg,transparent,transparent 24px,rgba(255,255,255,1) 24px,rgba(255,255,255,1) 25px)",
+              "repeating-linear-gradient(0deg,transparent,transparent 23px,rgba(255,255,255,1) 23px,rgba(255,255,255,1) 24px)," +
+              "repeating-linear-gradient(90deg,transparent,transparent 23px,rgba(255,255,255,1) 23px,rgba(255,255,255,1) 24px)",
           }}
           aria-hidden="true"
         />
 
         {/* Logo */}
-        <div className="relative h-16 w-16 overflow-hidden rounded-2xl bg-white shadow-lg shadow-black/25 ring-2 ring-white/30 transition-transform duration-300 group-hover:scale-105">
+        <div className="relative z-10 h-16 w-16 overflow-hidden rounded-2xl bg-white shadow-lg shadow-black/30 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
           <Image
             src={entity.logo}
             alt={`Logo ${entity.name}`}
@@ -143,24 +145,25 @@ function EntityCard({ entity }: { entity: Entity }) {
 
         {/* Badge pill */}
         <span
-          className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest"
+          className="relative z-10 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest"
           style={{
-            background: "rgba(255,255,255,0.14)",
-            color: "rgba(255,255,255,0.85)",
-            border: "1px solid rgba(255,255,255,0.18)",
+            background: "rgba(255,255,255,0.13)",
+            color: "rgba(255,255,255,0.88)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            backdropFilter: "blur(4px)",
           }}
         >
           {entity.badge}
         </span>
       </div>
 
-      {/* ── Content area ── */}
+      {/* Content */}
       <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
         <h3 className="text-lg font-black uppercase tracking-wide text-[#0b1d4d]">
           {entity.name}
         </h3>
 
-        {/* Accent bar */}
+        {/* Accent bar — grows on hover */}
         <div
           className="mb-3 mt-2 h-1 w-10 rounded-full transition-all duration-300 group-hover:w-16"
           style={{ backgroundColor: entity.accentBar }}
@@ -169,18 +172,18 @@ function EntityCard({ entity }: { entity: Entity }) {
 
         {/* Description */}
         <p
-          className={`text-sm leading-relaxed text-[#0b1d4d]/70 transition-all duration-300 ${
+          className={`flex-1 text-sm leading-relaxed text-[#0b1d4d]/70 transition-all duration-300 ${
             expanded ? "" : "line-clamp-3"
           }`}
         >
           {entity.description}
         </p>
 
-        {/* Expand / collapse */}
+        {/* Toggle button */}
         <button
           type="button"
-          onClick={() => setExpanded(!expanded)}
-          className="mt-4 flex items-center gap-1.5 self-start text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:gap-2"
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-4 flex items-center gap-1.5 self-start text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:gap-2.5"
           style={{ color: entity.accentBar }}
           aria-expanded={expanded}
         >
@@ -199,12 +202,199 @@ function EntityCard({ entity }: { entity: Entity }) {
   );
 }
 
+/* ── Swiper container ────────────────────────────────────────────── */
 export function EntidadesCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragScrollLeft = useRef(0);
+
+  /* Sync nav state with scroll position */
+  const syncState = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < maxScroll - 4);
+
+    // Infer active index from first card's width
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    if (firstCard) {
+      const cardStep = firstCard.offsetWidth + 20; // 20 = gap-5
+      const idx = Math.round(el.scrollLeft / cardStep);
+      setActiveIndex(Math.max(0, Math.min(idx, entities.length - 1)));
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    syncState();
+    el.addEventListener("scroll", syncState, { passive: true });
+    const ro = new ResizeObserver(syncState);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", syncState);
+      ro.disconnect();
+    };
+  }, [syncState]);
+
+  /* Scroll helpers */
+  const scrollByCard = useCallback((dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    const step = firstCard ? firstCard.offsetWidth + 20 : el.clientWidth;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  }, []);
+
+  const scrollToIndex = useCallback((idx: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    const step = firstCard ? firstCard.offsetWidth + 20 : el.clientWidth;
+    el.scrollTo({ left: idx * step, behavior: "smooth" });
+  }, []);
+
+  /* Mouse drag — desktop */
+  const onMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el) return;
+    isDragging.current = true;
+    dragStartX.current = e.pageX - el.offsetLeft;
+    dragScrollLeft.current = el.scrollLeft;
+    el.style.scrollSnapType = "none";
+    el.style.cursor = "grabbing";
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    const el = trackRef.current;
+    if (!el) return;
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - dragStartX.current) * 1.6;
+    el.scrollLeft = dragScrollLeft.current - walk;
+  }, []);
+
+  const stopDrag = useCallback(() => {
+    const el = trackRef.current;
+    if (!el || !isDragging.current) return;
+    isDragging.current = false;
+    el.style.cursor = "grab";
+    // Snap to nearest card after drag ends
+    el.style.scrollSnapType = "x mandatory";
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    if (firstCard) {
+      const step = firstCard.offsetWidth + 20;
+      const nearest = Math.round(el.scrollLeft / step);
+      el.scrollTo({ left: nearest * step, behavior: "smooth" });
+    }
+  }, []);
+
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {entities.map((entity) => (
-        <EntityCard key={entity.name} entity={entity} />
-      ))}
+    <div className="relative select-none">
+
+      {/* ── Track ── */}
+      <div className="relative overflow-hidden">
+        <div
+          ref={trackRef}
+          role="region"
+          aria-label="Entidades estudantis do INF"
+          className="swiper-track flex cursor-grab gap-5 overflow-x-auto pb-3 active:cursor-grabbing"
+          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={stopDrag}
+          onMouseLeave={stopDrag}
+        >
+          {entities.map((entity) => (
+            <div
+              key={entity.name}
+              className="h-auto w-[82%] shrink-0 sm:w-[46%] lg:w-[30%]"
+              style={{ scrollSnapAlign: "start" }}
+            >
+              <EntityCard entity={entity} />
+            </div>
+          ))}
+          {/* Trailing spacer so the last card isn't flush against the edge */}
+          <div className="w-2 shrink-0" aria-hidden="true" />
+        </div>
+
+        {/* Left fade — visible when scrolled past start */}
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 w-16 transition-opacity duration-300"
+          style={{
+            opacity: canScrollLeft ? 1 : 0,
+            background: "linear-gradient(to right, var(--background) 10%, transparent 100%)",
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Right fade — visible when more content exists on the right */}
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 w-16 transition-opacity duration-300"
+          style={{
+            opacity: canScrollRight ? 1 : 0,
+            background: "linear-gradient(to left, var(--background) 10%, transparent 100%)",
+          }}
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* ── Navigation bar ── */}
+      <div className="mt-6 flex items-center justify-between gap-4">
+
+        {/* Prev */}
+        <button
+          type="button"
+          onClick={() => scrollByCard(-1)}
+          disabled={!canScrollLeft}
+          aria-label="Entidade anterior"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#8eb1ff]/50 bg-white text-[#0b1d4d] shadow-sm transition-all duration-200 hover:border-[#005b9f]/50 hover:bg-[#e8f0fe] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-25"
+        >
+          <ChevronLeft size={18} />
+        </button>
+
+        {/* Dots */}
+        <div
+          className="flex flex-wrap items-center justify-center gap-1.5"
+          role="tablist"
+          aria-label="Navegação de entidades"
+        >
+          {entities.map((entity, i) => (
+            <button
+              key={entity.name}
+              type="button"
+              role="tab"
+              aria-selected={activeIndex === i}
+              aria-label={`Ir para ${entity.name}`}
+              onClick={() => scrollToIndex(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                activeIndex === i
+                  ? "w-7 bg-[#005b9f]"
+                  : "w-2 bg-[#8eb1ff]/50 hover:bg-[#8eb1ff] hover:w-4"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Next */}
+        <button
+          type="button"
+          onClick={() => scrollByCard(1)}
+          disabled={!canScrollRight}
+          aria-label="Próxima entidade"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#8eb1ff]/50 bg-white text-[#0b1d4d] shadow-sm transition-all duration-200 hover:border-[#005b9f]/50 hover:bg-[#e8f0fe] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-25"
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
     </div>
   );
 }

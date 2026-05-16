@@ -96,6 +96,15 @@ img {
   left: 0;
 }
 
+/* ─── Swiper — hide native scrollbar ─── */
+.swiper-track {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE / Edge legacy */
+}
+.swiper-track::-webkit-scrollbar {
+  display: none;                /* Chrome / Safari / Edge */
+}
+
 /* ─── Section label utility ─── */
 .section-label {
   display: inline-block;
