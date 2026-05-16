@@ -276,7 +276,7 @@ export function HardSnakeSection() {
 
 const NEUTRAL_GAME_CARD_TITLE = "GOSTA DE JOGOS?";
 const NEUTRAL_GAME_CARD_BUTTON_LABEL = "SAIBA MAIS";
-const NEUTRAL_GAME_CARD_HREF = "https://rfunctions.blogspot.com/p/uma-breve-introducao-ao-desenvolvimento.html";
+const NEUTRAL_GAME_CARD_HREF = "/desenvolvimento-de-jogos";
 
 export function NeutralGameCard() {
   return (
@@ -309,8 +309,6 @@ export function NeutralGameCard() {
 
             <Link
               href={NEUTRAL_GAME_CARD_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
               className="group relative shrink-0 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#0b1d4d] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#16367f] hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-[#005b9f]/40 hover:scale-105 active:scale-95"
             >
               <span className="relative z-10">{NEUTRAL_GAME_CARD_BUTTON_LABEL}</span>
