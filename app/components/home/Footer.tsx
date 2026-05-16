@@ -7,36 +7,15 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="flex flex-col bg-[#d2e2ff]">
-      {/* Container Principal do Footer */}
-      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 border-t border-[#8eb1ff]/60 px-4 pb-8 pt-6 text-xs sm:px-6 md:flex-row md:items-center md:justify-between md:px-8 lg:px-12">
-        <div className="flex flex-wrap items-center gap-2 text-[#0b1d4d] sm:gap-3">
-        </div>ESPAÇO DAS PROFISSÕES
-        <nav className="flex flex-wrap items-center gap-3 font-bold tracking-wide sm:gap-5">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-[#0b1d4d] transition-colors hover:text-[#16367f]"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-
+    <footer className="bg-[#16367f]">
+      {/* Wrapper centralizador */}
+      <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
+        
         {/* Main grid */}
         <div className="grid gap-10 border-b border-white/10 py-12 sm:grid-cols-2 md:py-14 lg:grid-cols-[1.6fr_1fr_1fr]">
 
           {/* Col 1 — Branding */}
           <div className="space-y-5">
-            <Image
-              src="/logoespaco.png"
-              alt="Espaço das Profissões UFG"
-              width={220}
-              height={110}
-              className="h-16 w-auto brightness-0 invert opacity-85"
-            />
             <div className="space-y-1 text-sm text-white/45">
               <p>Instituto de Informática · UFG</p>
               <p>Campus Samambaia — Goiânia, GO</p>
@@ -94,7 +73,7 @@ export function Footer() {
             desenvolvido por outz.dev
           </a>
         </div>
-
+        
       </div>
     </footer>
   );
